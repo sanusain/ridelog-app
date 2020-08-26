@@ -14,7 +14,7 @@ export class Action<T> {
   }
 
   updateState(state: AppState) {
-    console.log("ERROR: update state from child")
+    console.warn("ERROR: update state from child")
   }
 
   plainObj() {

@@ -1,15 +1,20 @@
+import { NavigationContainer } from "@react-navigation/native"
 import React from "react"
 import { Provider } from "react-redux"
-import CounterPresentation from "../Screens/counter"
+import SafeAreaView from "../Components/SafeAreaView"
+import BottomTabsNavigator from "../Navigation/BottomTabs"
 import { getStore } from "../State-management"
 
 export default function Providers() {
   const store = getStore()
-  console.log("state", store.getState())
 
   return (
-    <Provider store={store}>
-      <CounterPresentation />
-    </Provider>
+    <NavigationContainer>
+      <Provider store={store}>
+        <SafeAreaView>
+          <BottomTabsNavigator />
+        </SafeAreaView>
+      </Provider>
+    </NavigationContainer>
   )
 }

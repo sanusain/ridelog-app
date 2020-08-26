@@ -1,0 +1,27 @@
+Dash-
+vehicle selector
+total logged vehicle
+mileage graph
+refulling graph
+money spent hollow piechart(both for refulling/servicing)
+bike maintainance tips(carousel)
+
+fuel-
+card (left total fuel consumed /right total money spent on fuel)
+fuel records(roundish border)
+bottom right corner (+) button, to add new record
+
+service - 
+services done sofar
+bar graph(x-axis=no of service, y=amount in respective currency)
+service records (roundish border)
+add button bottomright
+- add service page / add reminder page(add reminder based on time period or odometer)
+
+purchases : Using multiple Slots, Add two slots
+
+Accounts
+- 1/4 screen user round avatar in center(as of fk)
+- update details
+- settings(Notifications, dark mode)
+- signout
