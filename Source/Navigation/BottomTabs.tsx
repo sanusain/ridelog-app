@@ -1,48 +1,136 @@
-import {
-  Entypo,
-  MaterialCommunityIcons,
-  SimpleLineIcons,
-} from "@expo/vector-icons"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { AntDesign, Entypo, Feather, SimpleLineIcons } from "@expo/vector-icons"
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import React from "react"
+import { Text } from "react-native"
+import Colors from "../Config/Colors"
 import UserAccount from "../Screens/Account/userAccount"
 import Dashboard from "../Screens/Dashboard/userDashboard"
 import RefuelLog from "../Screens/Refuel/userRefuelLog"
 import ServiceLog from "../Screens/Service/userServiceLog"
 
 const BottomTabsNavigator = () => {
-  const TabsComponent = createBottomTabNavigator()
+  const TabsComponent = createMaterialTopTabNavigator()
 
   return (
     <TabsComponent.Navigator
+      tabBarPosition={"bottom"}
+      tabBarOptions={{
+        showIcon: true,
+        showLabel: true,
+        labelStyle: { fontSize: 8 },
+        indicatorStyle: { backgroundColor: Colors.default_red },
+        activeTintColor: Colors.default_red,
+      }}
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, size, color }) => {
+        tabBarLabel: ({ focused }) => {
           switch (route.name) {
             case "dashboard":
               return (
-                <MaterialCommunityIcons
-                  name="view-dashboard"
-                  color={color}
-                  size={size}
+                <Text
+                  style={{
+                    color: focused ? Colors.default_red : Colors.default_grey,
+                  }}
+                >
+                  Dash
+                </Text>
+              )
+            case "refuel":
+              return (
+                <Text
+                  style={{
+                    color: focused ? Colors.default_red : Colors.default_grey,
+                  }}
+                >
+                  Fuel
+                </Text>
+              )
+            case "unassigned":
+              return (
+                <Text
+                  style={{
+                    color: focused ? Colors.default_red : Colors.default_grey,
+                  }}
+                >
+                  Unass
+                </Text>
+              )
+            case "service":
+              return (
+                <Text
+                  style={{
+                    color: focused ? Colors.default_red : Colors.default_grey,
+                  }}
+                >
+                  Service
+                </Text>
+              )
+            case "account":
+              return (
+                <Text
+                  style={{
+                    color: focused ? Colors.default_red : Colors.default_grey,
+                  }}
+                >
+                  User
+                </Text>
+              )
+
+            default:
+              return <Text>null</Text>
+          }
+        },
+
+        tabBarIcon: ({ focused }) => {
+          switch (route.name) {
+            case "dashboard":
+              return (
+                <AntDesign
+                  name="dashboard"
+                  color={focused ? Colors.default_red : Colors.default_grey}
+                  size={22}
                 />
               )
             case "refuel":
               return (
-                <MaterialCommunityIcons name="fuel" color={color} size={size} />
+                <SimpleLineIcons
+                  name="drop"
+                  color={focused ? Colors.default_red : Colors.default_grey}
+                  size={22}
+                />
               )
             case "unassigned":
-              return focused ? (
-                <Entypo name="circle-with-cross" color={color} size={size} />
-              ) : (
-                <Entypo name="circle" color={color} size={size} />
+              return (
+                <Entypo
+                  name="circle-with-cross"
+                  color={focused ? Colors.default_red : Colors.default_grey}
+                  size={22}
+                />
               )
             case "service":
-              return <Entypo name="clipboard" color={color} size={size} />
+              return (
+                <Feather
+                  name="clipboard"
+                  color={focused ? Colors.default_red : Colors.default_grey}
+                  size={22}
+                />
+              )
             case "account":
-              return <SimpleLineIcons name="user" color={color} size={size} />
+              return (
+                <SimpleLineIcons
+                  name="user"
+                  color={focused ? Colors.default_red : Colors.default_grey}
+                  size={22}
+                />
+              )
 
             default:
-              return <SimpleLineIcons name="user" color={color} size={size} />
+              return (
+                <SimpleLineIcons
+                  name="user"
+                  color={focused ? Colors.default_red : Colors.default_grey}
+                  //   size={size}
+                />
+              )
           }
         },
       })}

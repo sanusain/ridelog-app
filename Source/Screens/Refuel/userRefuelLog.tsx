@@ -6,7 +6,7 @@ import { dispatchHandler } from "../../State-management"
 type Props = {}
 const userRefuelLog: React.FunctionComponent<Props> = (props) => {
   return (
-    <View style={{ borderWidth: 1, borderColor: "red", flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <Text>REFUEL LOG</Text>
     </View>
   )

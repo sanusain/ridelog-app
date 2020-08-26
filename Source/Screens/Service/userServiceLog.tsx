@@ -7,7 +7,7 @@ type Props = {}
 
 const userServiceLog: React.FunctionComponent<Props> = (props) => {
   return (
-    <View style={{ borderWidth: 1, borderColor: "red", flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <Text>SERVICE LOG</Text>
     </View>
   )

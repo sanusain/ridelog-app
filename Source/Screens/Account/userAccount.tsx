@@ -7,7 +7,7 @@ type Props = {}
 
 const userAccount: React.FunctionComponent<Props> = (props) => {
   return (
-    <View style={{ borderWidth: 1, borderColor: "red", flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <Text>ACCOUNTS</Text>
     </View>
   )
@@ -18,4 +18,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(userAccount) // if not working store in varr and return
+export default connect(mapStateToProps, mapDispatchToProps)(userAccount)
