@@ -11,6 +11,7 @@ type Props = {
   borderRadius?: number
   width?: number
   textOpacity?: number
+  icon?: () => void
 }
 
 const SquareButton: React.FunctionComponent<Props> = (props) => {

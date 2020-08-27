@@ -11,4 +11,5 @@ export default {
   lightGreen: "#22A45D",
   tGrey: "#010F07", // set opacity .67
   googleBlue: "#4285F4",
+  facebookBlue: "#395998",
 }

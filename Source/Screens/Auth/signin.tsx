@@ -16,6 +16,9 @@ const SignIn = () => {
   const handleSignInWithGoogle = () => {
     console.log("signinwith google")
   }
+  const handleSignInWithFacebook = () => {
+    console.log("signinwith facebook")
+  }
 
   return (
     <View
@@ -88,10 +91,22 @@ const SignIn = () => {
         <SquareButton
           title={"Sign In with Google"}
           onPress={handleSignInWithGoogle}
-          buttonBackgroundColor={Colors.white}
+          buttonBackgroundColor={Colors.googleBlue}
           style={{
             alignSelf: "center",
             marginTop: 24,
+            borderWidth: 1,
+            borderColor: Colors.googleBlue,
+          }}
+        />
+        <SquareButton
+          title={"Sign In with Facebook"}
+          onPress={handleSignInWithFacebook}
+          buttonBackgroundColor={Colors.facebookBlue}
+          style={{
+            alignSelf: "center",
+            marginTop: 24,
+            borderWidth: 1,
             borderColor: Colors.googleBlue,
           }}
         />
