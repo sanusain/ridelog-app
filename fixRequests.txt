@@ -1,2 +1,3 @@
  [] ridelogg logo centerd as per screen - signin
  [] create new account should give visual feedback - signin
+ [] input fields jumps up, unusual visual, need smooth transistion - signin

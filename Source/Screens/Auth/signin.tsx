@@ -40,21 +40,6 @@ const SignIn = () => {
         Sign In - remove later
       </Text>
 
-      <Text
-        style={{
-          borderWidth: 1,
-          alignSelf: "center",
-          justifyContent: "center",
-          fontSize: 70,
-          //   fontFamily: "Open Sans",
-          // adding custom fonts pending, make size bigger and bolder
-          //   fontWeight: "bold",
-          color: Colors.imperialRed,
-        }}
-      >
-        Ridelogg
-      </Text>
-
       <View
         style={{
           borderWidth: 1,
@@ -63,6 +48,17 @@ const SignIn = () => {
           justifyContent: "center",
         }}
       >
+        <Text
+          style={{
+            borderWidth: 1,
+            alignSelf: "center",
+            justifyContent: "center",
+            fontSize: 70,
+            color: Colors.imperialRed,
+          }}
+        >
+          Ridelogg
+        </Text>
         <LightTextInput
           style={{ alignSelf: "center", borderColor: Colors.imperialRed }}
           placeholder={"Email"}
