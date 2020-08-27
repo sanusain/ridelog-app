@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import React from "react"
 import { Provider } from "react-redux"
 import SafeAreaView from "../Components/SafeAreaView"
-import GetStarted from "../Screens/Auth/get-started"
+import SignIn from "../Screens/Auth/signin"
 import { getStore } from "../State-management"
 
 export default function Providers() {
@@ -13,7 +13,8 @@ export default function Providers() {
       <Provider store={store}>
         <SafeAreaView>
           {/* <BottomTabsNavigator /> */}
-          <GetStarted />
+          {/* <GetStarted /> */}
+          <SignIn />
         </SafeAreaView>
       </Provider>
     </NavigationContainer>

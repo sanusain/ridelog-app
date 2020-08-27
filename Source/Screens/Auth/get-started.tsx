@@ -1,6 +1,7 @@
 import React from "react"
 import { View } from "react-native"
 import SquareButton from "../../Components/SquareButton"
+import Colors from "../../Config/Colors"
 
 const GetStarted = () => {
   const handleGetstarted = () => {
@@ -19,8 +20,9 @@ const GetStarted = () => {
       <SquareButton
         title="Get started"
         onPress={handleGetstarted}
-        paddingHorizontal={90}
+        style={{ paddingHorizontal: 90 }}
         borderRadius={8}
+        buttonBackgroundColor={Colors.imperialRed}
       />
     </View>
   )
