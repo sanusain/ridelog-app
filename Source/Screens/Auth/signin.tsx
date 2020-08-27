@@ -24,8 +24,6 @@ const SignIn = () => {
     <View
       style={{
         flex: 1,
-        borderWidth: 1,
-        borderColor: "blue",
       }}
     >
       <Text
@@ -36,10 +34,24 @@ const SignIn = () => {
           letterSpacing: 0.4,
         }}
       >
-        Sign In
+        Sign In - remove later
       </Text>
 
-      <View style={{ marginTop: 138, flex: 1 }}>
+      <Text
+        style={{
+          alignSelf: "center",
+          justifyContent: "center",
+          fontSize: 70,
+          //   fontFamily: "Open Sans",
+          // adding custom fonts pending, make size bigger and bolder
+          //   fontWeight: "bold",
+          color: Colors.imperialRed,
+        }}
+      >
+        Ridelogg
+      </Text>
+
+      <View style={{ marginTop: 40, flex: 1 }}>
         <LightTextInput
           style={{ alignSelf: "center", borderColor: Colors.imperialRed }}
           placeholder={"Email"}

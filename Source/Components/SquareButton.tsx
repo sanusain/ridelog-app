@@ -20,7 +20,7 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
       style={{
         ...props.style,
         height: 48,
-        borderRadius: props.borderRadius ? props.borderRadius : 5,
+        borderRadius: props.borderRadius ? props.borderRadius : 7,
         paddingHorizontal: 30,
         justifyContent: "center",
         backgroundColor: props.buttonBackgroundColor
