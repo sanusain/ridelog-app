@@ -1,0 +1,2 @@
+ [] ridelogg logo centerd as per screen - signin
+ [] create new account should give visual feedback - signin

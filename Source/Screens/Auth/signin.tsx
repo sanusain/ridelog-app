@@ -13,6 +13,9 @@ const SignIn = () => {
   const handleSignIn = () => {
     console.log("signin")
   }
+  const handleSignUp = () => {
+    console.log("signup")
+  }
   const handleSignInWithGoogle = () => {
     console.log("signinwith google")
   }
@@ -39,6 +42,7 @@ const SignIn = () => {
 
       <Text
         style={{
+          borderWidth: 1,
           alignSelf: "center",
           justifyContent: "center",
           fontSize: 70,
@@ -51,7 +55,14 @@ const SignIn = () => {
         Ridelogg
       </Text>
 
-      <View style={{ marginTop: 40, flex: 1 }}>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: "red",
+          flex: 1,
+          justifyContent: "center",
+        }}
+      >
         <LightTextInput
           style={{ alignSelf: "center", borderColor: Colors.imperialRed }}
           placeholder={"Email"}
@@ -89,6 +100,22 @@ const SignIn = () => {
           title={"Sign In"}
           onPress={handleSignIn}
         />
+
+        <Text
+          style={{
+            color: Colors.tGrey,
+            opacity: 0.67,
+            alignSelf: "center",
+            marginTop: 15,
+          }}
+        >
+          Don't have an account?
+          <Text style={{ color: Colors.imperialRed }} onPress={handleSignUp}>
+            {" "}
+            Create new account
+          </Text>
+        </Text>
+
         <Text
           style={{
             alignSelf: "center",
