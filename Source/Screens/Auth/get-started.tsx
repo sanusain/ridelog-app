@@ -6,8 +6,6 @@ import Colors from "../../Config/Colors"
 type Props = { navigation?: any }
 
 const GetStarted: React.FunctionComponent<Props> = (props) => {
-  console.log("props", props)
-
   const handleGetstarted = () => {
     console.log("handle getstarted")
     props.navigation.navigate("signIn")
