@@ -1,6 +1,7 @@
 import React from "react"
-import { Text, TouchableOpacity } from "react-native"
+import { TouchableOpacity } from "react-native"
 import Colors from "../Config/Colors"
+import TextMontserrat from "./TextMontserrat"
 
 type Props = {
   title: string
@@ -30,16 +31,17 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
       }}
       onPress={props.onPress}
     >
-      <Text
+      <TextMontserrat
+        fontSize={16}
+        type={"semibold"}
         style={{
           alignSelf: "center",
-          fontSize: 16,
           color: props.textColor ? props.textColor : Colors.white,
           letterSpacing: 0.8,
         }}
       >
         {props.title}
-      </Text>
+      </TextMontserrat>
     </TouchableOpacity>
   )
 }

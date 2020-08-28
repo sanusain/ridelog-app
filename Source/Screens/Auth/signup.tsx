@@ -112,12 +112,12 @@ const SignUp = () => {
       </TextMontserrat>
 
       <SquareButton
-        title={"Connect with Google"}
+        title={"CONNECT WITH GOOGLE"}
         onPress={handleSignUpWithGoogle}
         style={{ width: "100%" }}
       />
       <SquareButton
-        title={"Connect With Facebook"}
+        title={"CONNECT WITH FACEBOOK"}
         onPress={handleSignUpWithFacebook}
         buttonBackgroundColor={Colors.facebookBlue}
         style={{ marginTop: 10, marginBottom: 20, width: "100%" }}
