@@ -11,11 +11,7 @@ import { getStore } from "../State-management"
 export default function Providers() {
   const store = getStore()
 
-  let [fontsLoaded, error] = useFonts(appFonts)
-
-  console.log("====================================")
-  console.log(fontsLoaded, error)
-  console.log("====================================")
+  let [fontsLoaded] = useFonts(appFonts)
 
   return fontsLoaded ? (
     <NavigationContainer>
