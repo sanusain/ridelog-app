@@ -32,6 +32,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
     <View
       style={{
         flex: 1,
+        backgroundColor: Colors.white,
       }}
     >
       <Text

@@ -19,6 +19,7 @@ const GetStarted: React.FunctionComponent<Props> = (props) => {
         justifyContent: "flex-end",
         alignItems: "center",
         marginBottom: 25,
+        backgroundColor: Colors.white,
       }}
     >
       <SquareButton

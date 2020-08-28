@@ -27,7 +27,12 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
-      style={{ flex: 1, marginHorizontal: 20, marginTop: 40 }}
+      style={{
+        flex: 1,
+        marginHorizontal: 20,
+        marginTop: 40,
+        backgroundColor: Colors.white,
+      }}
     >
       <TextMontserrat type={"semibold"} fontSize={30}>
         Create Account
@@ -102,13 +107,10 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
 
       <TextMontserrat
         fontSize={16}
-        style={{ textAlign: "center", marginTop: 20 }}
-      >
-        By Signing up you agree to our Terms Conditions & Privacy Policy.
-      </TextMontserrat>
-      <TextMontserrat
-        fontSize={16}
-        style={{ textAlign: "center", marginVertical: 20 }}
+        style={{
+          textAlign: "center",
+          marginVertical: 20,
+        }}
       >
         {" "}
         OR
@@ -123,8 +125,19 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
         title={"CONNECT WITH FACEBOOK"}
         onPress={handleSignUpWithFacebook}
         buttonBackgroundColor={Colors.facebookBlue}
-        style={{ marginTop: 10, marginBottom: 20, width: "100%" }}
+        style={{ marginTop: 20, width: "100%" }}
       />
+      <TextMontserrat
+        fontSize={12}
+        style={{
+          textAlign: "center",
+          marginVertical: 10,
+          color: Colors.tGrey,
+          opacity: 0.67,
+        }}
+      >
+        By Signing up you agree to our Terms Conditions & Privacy Policy.
+      </TextMontserrat>
     </ScrollView>
   )
 }

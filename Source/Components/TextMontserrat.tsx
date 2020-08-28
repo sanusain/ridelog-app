@@ -28,9 +28,9 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Bold",
+          ...props.style,
         }}
         onPress={props.onPress}
       >
@@ -41,9 +41,9 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Medium",
+          ...props.style,
         }}
         onPress={props.onPress}
       >
@@ -54,9 +54,9 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Light",
+          ...props.style,
         }}
         onPress={props.onPress}
       >
@@ -67,9 +67,9 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "Montserrat-SemiBold",
+          ...props.style,
         }}
         onPress={props.onPress}
       >

@@ -28,9 +28,9 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "OpenSans-Bold",
+          ...props.style,
         }}
         onPress={props.onPress}
       >
@@ -41,9 +41,9 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "OpenSans-Light",
+          ...props.style,
         }}
         onPress={props.onPress}
       >
@@ -54,9 +54,9 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "OpenSans-SemiBold",
+          ...props.style,
         }}
         onPress={props.onPress}
       >
@@ -67,9 +67,9 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "OpenSans-SemiBoldItalic",
+          ...props.style,
         }}
         onPress={props.onPress}
       >
