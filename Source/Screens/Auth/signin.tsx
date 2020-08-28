@@ -3,6 +3,7 @@ import { Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
+import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 
 const SignIn = () => {
@@ -42,23 +43,21 @@ const SignIn = () => {
 
       <View
         style={{
-          borderWidth: 1,
-          borderColor: "red",
           flex: 1,
           justifyContent: "center",
         }}
       >
-        <Text
+        <TextMontserrat
           style={{
-            borderWidth: 1,
             alignSelf: "center",
             justifyContent: "center",
-            fontSize: 70,
             color: Colors.imperialRed,
           }}
+          type={"bold"}
+          fontSize={60}
         >
-          Ridelogg
-        </Text>
+          R
+        </TextMontserrat>
         <LightTextInput
           style={{ alignSelf: "center", borderColor: Colors.imperialRed }}
           placeholder={"Email"}
