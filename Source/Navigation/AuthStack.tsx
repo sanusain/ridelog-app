@@ -6,7 +6,6 @@ import SignUp from "../Screens/Auth/signup"
 
 const AuthStack = () => {
   const AuthComponent = createStackNavigator()
-
   return (
     <AuthComponent.Navigator>
       <AuthComponent.Screen name={"getStarted"} component={GetStarted} />
