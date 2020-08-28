@@ -18,7 +18,6 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
   return (
     <TouchableOpacity
       style={{
-        ...props.style,
         height: 48,
         borderRadius: props.borderRadius ? props.borderRadius : 7,
         paddingHorizontal: 30,
@@ -27,6 +26,7 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
           ? props.buttonBackgroundColor
           : Colors.lightGreen,
         width: props.width ? props.width : "90%",
+        ...props.style,
       }}
       onPress={props.onPress}
     >

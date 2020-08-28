@@ -29,7 +29,6 @@ const LightTextInput: React.FunctionComponent<Props> = (props) => {
       textContentType={props.textContentType}
       secureTextEntry={props.secureTextEntry}
       style={{
-        ...props.style,
         borderWidth: 1, // remove later
         width: "90%",
         height: 54,
@@ -38,6 +37,7 @@ const LightTextInput: React.FunctionComponent<Props> = (props) => {
         fontSize: 18,
         flexDirection: "column",
         backgroundColor: Colors.inputBackGroundWhite,
+        ...props.style,
       }}
       placeholder={props.placeholder}
       onChangeText={props.onChangeText}
