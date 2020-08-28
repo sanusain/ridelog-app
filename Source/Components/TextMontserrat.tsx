@@ -14,9 +14,9 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Regular",
+          ...props.style,
         }}
         onPress={props.onPress}
       >

@@ -1,5 +1,5 @@
 import React from "react"
-import { View } from "react-native"
+import { ScrollView } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
@@ -14,18 +14,24 @@ const SignUp = () => {
   const handleSignUp = () => {
     console.log("handle signup")
   }
+  const handleSignUpWithGoogle = () => {
+    console.log("handle signup with google")
+  }
+  const handleSignUpWithFacebook = () => {
+    console.log("handle signup with facebook")
+  }
 
   return (
-    <View
-      style={{ borderWidth: 1, flex: 1, marginHorizontal: 20, marginTop: 20 }}
+    <ScrollView
+      style={{ borderWidth: 1, flex: 1, marginHorizontal: 20, marginTop: 40 }}
     >
       <TextMontserrat type={"semibold"} fontSize={30}>
         Create Account
       </TextMontserrat>
-      <TextOpenSans fontSize={20} style={{ marginTop: 10 }}>
+      <TextOpenSans fontSize={16} style={{ marginTop: 10, textAlign: "left" }}>
         Enter your Name, Email and Password for sign up.
         <TextOpenSans
-          fontSize={20}
+          fontSize={16}
           style={{ color: Colors.imperialRed }}
           onPress={handleSignInRedirection}
         >
@@ -89,10 +95,37 @@ const SignUp = () => {
 
       <SquareButton
         title={"SIGN UP"}
+        buttonBackgroundColor={Colors.imperialRed}
         style={{ width: "100%", marginTop: 20 }}
         onPress={handleSignUp}
       />
-    </View>
+
+      <TextMontserrat
+        fontSize={16}
+        style={{ borderWidth: 1, textAlign: "center", marginTop: 20 }}
+      >
+        By Signing up you agree to our Terms Conditions & Privacy Policy.
+      </TextMontserrat>
+      <TextMontserrat
+        fontSize={16}
+        style={{ borderWidth: 1, textAlign: "center", marginVertical: 20 }}
+      >
+        {" "}
+        OR
+      </TextMontserrat>
+
+      <SquareButton
+        title={"Connect with Google"}
+        onPress={handleSignUpWithGoogle}
+        style={{ width: "100%" }}
+      />
+      <SquareButton
+        title={"Connect With Facebook"}
+        onPress={handleSignUpWithFacebook}
+        buttonBackgroundColor={Colors.facebookBlue}
+        style={{ marginTop: 10, marginBottom: 20, width: "100%" }}
+      />
+    </ScrollView>
   )
 }
 

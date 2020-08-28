@@ -14,9 +14,9 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
     return (
       <Text
         style={{
-          ...props.style,
           fontSize: props.fontSize,
           fontFamily: "OpenSans-Regular",
+          ...props.style,
         }}
         onPress={props.onPress}
       >

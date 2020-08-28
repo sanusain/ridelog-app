@@ -24,7 +24,7 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
         justifyContent: "center",
         backgroundColor: props.buttonBackgroundColor
           ? props.buttonBackgroundColor
-          : Colors.lightGreen,
+          : Colors.googleBlue,
         width: props.width ? props.width : "90%",
         ...props.style,
       }}
