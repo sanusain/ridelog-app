@@ -5,6 +5,7 @@ import { ActivityIndicator } from "react-native"
 import { Provider } from "react-redux"
 import { appFonts } from "../Assets/Fonts/index"
 import SafeAreaView from "../Components/SafeAreaView"
+import AuthStack from "../Navigation/AuthStack"
 import { getStore } from "../State-management"
 
 export default function Providers() {
@@ -28,6 +29,7 @@ export default function Providers() {
           {/* <GetStarted /> */}
           {/* <SignIn /> */}
           {/* <SignUp /> */}
+          <AuthStack />
         </SafeAreaView>
       </Provider>
     </NavigationContainer>

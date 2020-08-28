@@ -12,7 +12,6 @@ const GetStarted: React.FunctionComponent<Props> = (props) => {
     console.log("handle getstarted")
     props.navigation.navigate("signIn")
   }
-
   return (
     <View
       style={{

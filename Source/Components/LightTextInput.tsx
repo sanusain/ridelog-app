@@ -21,11 +21,26 @@ type Props = {
     | "password"
     | undefined
   secureTextEntry?: boolean
+  keyboardType?:
+    | "email-address"
+    | "default"
+    | "numeric"
+    | "phone-pad"
+    | "number-pad"
+    | "decimal-pad"
+    | "visible-password"
+    | "ascii-capable"
+    | "numbers-and-punctuation"
+    | "url"
+    | "name-phone-pad"
+    | "twitter"
+    | "web-search"
 }
 
 const LightTextInput: React.FunctionComponent<Props> = (props) => {
   return (
     <TextInput
+      keyboardType={props.keyboardType ? props.keyboardType : "default"}
       textContentType={props.textContentType}
       secureTextEntry={props.secureTextEntry}
       style={{

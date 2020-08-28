@@ -12,3 +12,4 @@
  [x]  using text components sets the loaded fonts to false sometimes,
         which leads to state update on unmounted component error. fixes
         when only text is render instead of text components
+        - removed hooks using loadAsync directly

@@ -6,9 +6,12 @@ import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 
-const SignUp = () => {
+type Props = { navigation: any }
+
+const SignUp: React.FunctionComponent<Props> = (props) => {
   const handleSignInRedirection = () => {
     console.log("redirect to signIn")
+    props.navigation.navigate("signIn")
   }
 
   const handleSignUp = () => {

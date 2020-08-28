@@ -4,9 +4,12 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
+import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 
-const SignIn = () => {
+type Props = { navigation: any }
+
+const SignIn: React.FunctionComponent<Props> = (props) => {
   const handleForgotPass = () => {
     console.log("forgot password")
   }
@@ -14,8 +17,9 @@ const SignIn = () => {
   const handleSignIn = () => {
     console.log("signin")
   }
-  const handleSignUp = () => {
+  const handleSignUpRedirection = () => {
     console.log("signup")
+    props.navigation.navigate("signUp")
   }
   const handleSignInWithGoogle = () => {
     console.log("signinwith google")
@@ -62,6 +66,7 @@ const SignIn = () => {
           style={{ alignSelf: "center", borderColor: Colors.imperialRed }}
           placeholder={"Email"}
           textContentType={"emailAddress"}
+          keyboardType={"email-address"}
           onChangeText={(text) => {
             console.log(text)
           }}
@@ -84,9 +89,12 @@ const SignIn = () => {
           style={{ alignSelf: "center", marginTop: 15 }}
           onPress={handleForgotPass}
         >
-          <Text style={{ color: Colors.tGrey, opacity: 0.67 }}>
+          <TextOpenSans
+            fontSize={16}
+            style={{ color: Colors.tGrey, opacity: 0.67 }}
+          >
             Forgot Password?
-          </Text>
+          </TextOpenSans>
         </TouchableOpacity>
 
         <SquareButton
@@ -96,7 +104,8 @@ const SignIn = () => {
           onPress={handleSignIn}
         />
 
-        <Text
+        <TextOpenSans
+          fontSize={16}
           style={{
             color: Colors.tGrey,
             opacity: 0.67,
@@ -105,11 +114,15 @@ const SignIn = () => {
           }}
         >
           Don't have an account?
-          <Text style={{ color: Colors.imperialRed }} onPress={handleSignUp}>
+          <TextOpenSans
+            fontSize={16}
+            style={{ color: Colors.imperialRed }}
+            onPress={handleSignUpRedirection}
+          >
             {" "}
             Create new account
-          </Text>
-        </Text>
+          </TextOpenSans>
+        </TextOpenSans>
 
         <Text
           style={{
