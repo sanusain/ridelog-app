@@ -32,7 +32,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
         style={{
           flex: 1,
           marginHorizontal: 20,
-          marginTop: 40,
+          marginTop: 20,
           backgroundColor: Colors.white,
         }}
       >

@@ -35,17 +35,6 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
         backgroundColor: Colors.white,
       }}
     >
-      <Text
-        style={{
-          alignSelf: "center",
-          fontSize: 16,
-          lineHeight: 24,
-          letterSpacing: 0.4,
-        }}
-      >
-        Sign In - remove later
-      </Text>
-
       <View
         style={{
           flex: 1,

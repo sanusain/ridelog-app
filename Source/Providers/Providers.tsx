@@ -12,6 +12,7 @@ export default function Providers() {
   const [fontsLoaded, setFontsLoaded] = useState(false)
   const store = getStore()
 
+  // setting fonts
   useEffect(() => {
     getFonts()
   }, [])
