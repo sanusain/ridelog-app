@@ -3,9 +3,14 @@ import { View } from "react-native"
 import SquareButton from "../../Components/SquareButton"
 import Colors from "../../Config/Colors"
 
-const GetStarted = () => {
+type Props = { navigation?: any }
+
+const GetStarted: React.FunctionComponent<Props> = (props) => {
+  console.log("props", props)
+
   const handleGetstarted = () => {
-    console.log("test")
+    console.log("handle getstarted")
+    props.navigation.navigate("signIn")
   }
 
   return (

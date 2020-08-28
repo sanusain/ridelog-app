@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native"
 import { Provider } from "react-redux"
 import { appFonts } from "../Assets/Fonts/index"
 import SafeAreaView from "../Components/SafeAreaView"
-import SignUp from "../Screens/Auth/signup"
+import GetStarted from "../Screens/Auth/get-started"
 import { getStore } from "../State-management"
 
 export default function Providers() {
@@ -13,14 +13,16 @@ export default function Providers() {
 
   let [fontsLoaded] = useFonts(appFonts)
 
+  console.warn("fontsloaded", fontsLoaded)
+
   return fontsLoaded ? (
     <NavigationContainer>
       <Provider store={store}>
         <SafeAreaView>
           {/* <BottomTabsNavigator /> */}
-          {/* <GetStarted /> */}
+          <GetStarted />
           {/* <SignIn /> */}
-          <SignUp />
+          {/* <SignUp /> */}
         </SafeAreaView>
       </Provider>
     </NavigationContainer>
