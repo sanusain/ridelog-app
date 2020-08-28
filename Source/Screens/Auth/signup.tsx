@@ -23,7 +23,8 @@ const SignUp = () => {
 
   return (
     <ScrollView
-      style={{ borderWidth: 1, flex: 1, marginHorizontal: 20, marginTop: 40 }}
+      showsVerticalScrollIndicator={false}
+      style={{ flex: 1, marginHorizontal: 20, marginTop: 40 }}
     >
       <TextMontserrat type={"semibold"} fontSize={30}>
         Create Account
@@ -44,7 +45,6 @@ const SignUp = () => {
         placeholder={"Call Sign"}
         textContentType={"givenName"}
         style={{
-          borderWidth: 1,
           alignSelf: "center",
           marginTop: 20,
           width: "100%",
@@ -57,7 +57,6 @@ const SignUp = () => {
         placeholder={"Email Address"}
         textContentType={"emailAddress"}
         style={{
-          borderWidth: 1,
           alignSelf: "center",
           marginTop: 20,
           width: "100%",
@@ -70,7 +69,6 @@ const SignUp = () => {
         placeholder={"Password"}
         textContentType={"password"}
         style={{
-          borderWidth: 1,
           alignSelf: "center",
           marginTop: 20,
           width: "100%",
@@ -83,7 +81,6 @@ const SignUp = () => {
         placeholder={"Confirm Password"}
         textContentType={"password"}
         style={{
-          borderWidth: 1,
           alignSelf: "center",
           marginTop: 20,
           width: "100%",
@@ -102,13 +99,13 @@ const SignUp = () => {
 
       <TextMontserrat
         fontSize={16}
-        style={{ borderWidth: 1, textAlign: "center", marginTop: 20 }}
+        style={{ textAlign: "center", marginTop: 20 }}
       >
         By Signing up you agree to our Terms Conditions & Privacy Policy.
       </TextMontserrat>
       <TextMontserrat
         fontSize={16}
-        style={{ borderWidth: 1, textAlign: "center", marginVertical: 20 }}
+        style={{ textAlign: "center", marginVertical: 20 }}
       >
         {" "}
         OR

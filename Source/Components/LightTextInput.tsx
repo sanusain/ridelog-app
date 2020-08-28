@@ -29,7 +29,8 @@ const LightTextInput: React.FunctionComponent<Props> = (props) => {
       textContentType={props.textContentType}
       secureTextEntry={props.secureTextEntry}
       style={{
-        borderWidth: 1, // remove later
+        borderBottomWidth: 1, // experimental
+        borderColor: Colors.imperialRed, // experimental
         width: "90%",
         height: 54,
         borderRadius: 6,
