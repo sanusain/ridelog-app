@@ -5,6 +5,7 @@ type Props = {
   fontSize: number
   style?: any
   type?: "light" | "regular" | "bold" | "semibold" | "semibolditalic"
+  onPress?: () => any
 }
 
 //@ts-ignore
@@ -17,6 +18,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
           fontSize: props.fontSize,
           fontFamily: "OpenSans-Regular",
         }}
+        onPress={props.onPress}
       >
         {props.children}
       </Text>
@@ -30,6 +32,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
           fontSize: props.fontSize,
           fontFamily: "OpenSans-Bold",
         }}
+        onPress={props.onPress}
       >
         {props.children}
       </Text>
@@ -42,6 +45,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
           fontSize: props.fontSize,
           fontFamily: "OpenSans-Light",
         }}
+        onPress={props.onPress}
       >
         {props.children}
       </Text>
@@ -54,6 +58,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
           fontSize: props.fontSize,
           fontFamily: "OpenSans-SemiBold",
         }}
+        onPress={props.onPress}
       >
         {props.children}
       </Text>
@@ -66,6 +71,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
           fontSize: props.fontSize,
           fontFamily: "OpenSans-SemiBoldItalic",
         }}
+        onPress={props.onPress}
       >
         {props.children}
       </Text>

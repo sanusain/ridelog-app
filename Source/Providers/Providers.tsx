@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native"
 import { Provider } from "react-redux"
 import { appFonts } from "../Assets/Fonts/index"
 import SafeAreaView from "../Components/SafeAreaView"
-import SignIn from "../Screens/Auth/signin"
+import SignUp from "../Screens/Auth/signup"
 import { getStore } from "../State-management"
 
 export default function Providers() {
@@ -19,7 +19,8 @@ export default function Providers() {
         <SafeAreaView>
           {/* <BottomTabsNavigator /> */}
           {/* <GetStarted /> */}
-          <SignIn />
+          {/* <SignIn /> */}
+          <SignUp />
         </SafeAreaView>
       </Provider>
     </NavigationContainer>
