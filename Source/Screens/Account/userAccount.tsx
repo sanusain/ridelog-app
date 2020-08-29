@@ -1,14 +1,23 @@
-import React from "react"
-import { Text, View } from "react-native"
+import React, { useContext } from "react"
+import { View } from "react-native"
 import { connect } from "react-redux"
+import SquareButton from "../../Components/SquareButton"
+import { AuthContext } from "../../Contexts/AuthProvider"
 import { AppState, dispatchHandler } from "../../State-management"
 
 type Props = {}
 
 const userAccount: React.FunctionComponent<Props> = (props) => {
+  const Auth = useContext(AuthContext)
+
+  const handleLogout = () => {
+    Auth.logout()
+    console.log("user logged out")
+  }
+
   return (
     <View style={{ flex: 1 }}>
-      <Text>ACCOUNTS</Text>
+      <SquareButton title={"LOGOUT"} onPress={handleLogout} />
     </View>
   )
 }

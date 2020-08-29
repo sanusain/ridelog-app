@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
@@ -6,15 +6,27 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { AuthContext, User } from "../../Contexts/AuthProvider"
 
 type Props = { navigation: any }
 
 const SignIn: React.FunctionComponent<Props> = (props) => {
+  const Auth = useContext(AuthContext)
+
   const handleForgotPass = () => {
     console.log("forgot password")
   }
 
   const handleSignIn = () => {
+    const sampleUser: User = {
+      uid: "23jk234hi2i2hb4oi2bh5ibh5",
+      callsign: "Storm0171",
+      emailId: "test@storm.com",
+      avatar: "https://randomuser.me/api/portraits/men/62.jpg",
+    }
+
+    Auth.login(sampleUser)
+
     console.log("signin")
   }
   const handleSignUpRedirection = () => {
