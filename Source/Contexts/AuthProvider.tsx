@@ -3,6 +3,7 @@ import React, { useState } from "react"
 
 export type User = {
   uid: string
+  // accessToken: string  // not setting it for now
   callsign: string
   emailId: string
   avatar?: string

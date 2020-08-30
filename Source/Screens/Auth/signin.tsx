@@ -6,26 +6,46 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { firebase } from "../../Config/firebase"
 import { AuthContext, User } from "../../Contexts/AuthProvider"
 
 type Props = { navigation: any }
 
 const SignIn: React.FunctionComponent<Props> = (props) => {
-  const Auth = useContext(AuthContext)
+  const { login } = useContext(AuthContext)
 
   const handleForgotPass = () => {
     console.log("forgot password")
   }
 
   const handleSignIn = () => {
-    const sampleUser: User = {
-      uid: "23jk234hi2i2hb4oi2bh5ibh5",
-      callsign: "Storm0171",
-      emailId: "test@storm.com",
-      avatar: "https://randomuser.me/api/portraits/men/62.jpg",
-    }
+    // const sampleUser: User = {
+    //   uid: "23jk234hi2i2hb4oi2bh5ibh5",
+    //   callsign: "Storm0171",
+    //   emailId: "test@storm.com",
+    //   avatar: "https://randomuser.me/api/portraits/men/62.jpg",
+    // }
 
-    Auth.login(sampleUser)
+    const { email, password } = { email: "test@123.com", password: "test123" }
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userData) => {
+        const signInUserData: User = {
+          uid: userData.user ? userData.user.uid : "",
+          callsign: userData.user
+            ? userData.user.displayName
+              ? userData.user.displayName
+              : ""
+            : "",
+          emailId: email,
+          avatar: "",
+        }
+        console.log("signinuser data", signInUserData)
+ 
+        login(signInUserData)
+      })
 
     console.log("signin")
   }

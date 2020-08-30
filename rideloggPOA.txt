@@ -1,5 +1,6 @@
 Dash-
 vehicle selector
+welcome, username
 total logged vehicle
 mileage graph
 refulling graph

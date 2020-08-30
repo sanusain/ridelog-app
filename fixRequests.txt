@@ -16,3 +16,11 @@ Code:
         which leads to state update on unmounted component error. fixes
         when only text is render instead of text components
         - removed hooks using loadAsync directly
+
+
+
+
+
+
+Abbreviations:
+DR:Dont remove

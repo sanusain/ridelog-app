@@ -1,14 +1,16 @@
-import React from "react"
+import React, { useContext } from "react"
 import { AppState, Text, View } from "react-native"
 import { connect } from "react-redux"
+import { AuthContext } from "../../Contexts/AuthProvider"
 import { dispatchHandler } from "../../State-management"
 
 type Props = {}
 
 const userDashboard: React.FunctionComponent<Props> = (props) => {
+  const { user } = useContext(AuthContext)
   return (
     <View style={{ flex: 1 }}>
-      <Text>DASH BOARD</Text>
+      <Text>Welcome, {user?.callsign}</Text>
     </View>
   )
 }

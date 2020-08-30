@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext, useState } from "react"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
@@ -6,18 +6,48 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { firebase } from "../../Config/firebase"
+import { AuthContext, User } from "../../Contexts/AuthProvider"
 
 type Props = { navigation: any }
 
 const SignUp: React.FunctionComponent<Props> = (props) => {
+  const [callSign, setCallSign] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const { login } = useContext(AuthContext)
+
   const handleSignInRedirection = () => {
     console.log("redirect to signIn")
     props.navigation.navigate("signIn")
   }
 
   const handleSignUp = () => {
-    console.log("handle signup")
+    if (!callSign || !email || !password) {
+      console.log("any value cannot be empty")
+      return
+    }
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userData) => {
+        const newUserData: User = {
+          uid: userData.user ? userData.user.uid : "",
+          callsign: callSign,
+          emailId: email,
+          avatar: "", // DR:dont set avatar now, let the user set it in accounts, if they want.
+        }
+
+        const usersRef = firebase.firestore().collection("users")
+        usersRef
+          .doc(userData.user?.uid)
+          .set(newUserData)
+          .then(() => {
+            login(newUserData)
+          })
+      })
   }
+
   const handleSignUpWithGoogle = () => {
     console.log("handle signup with google")
   }
@@ -63,7 +93,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
             width: "100%",
           }}
           onChangeText={(text) => {
-            console.log(text)
+            setCallSign(text)
           }}
         />
         <LightTextInput
@@ -74,8 +104,8 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
             marginTop: 20,
             width: "100%",
           }}
-          onChangeText={(text) => {
-            console.log(text)
+          onChangeText={(email) => {
+            setEmail(email)
           }}
         />
         <LightTextInput
@@ -86,30 +116,16 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
             marginTop: 20,
             width: "100%",
           }}
-          onChangeText={(text) => {
-            console.log(text)
+          onChangeText={(password) => {
+            setPassword(password)
           }}
         />
-        <LightTextInput
-          placeholder={"Confirm Password"}
-          textContentType={"password"}
-          style={{
-            alignSelf: "center",
-            marginTop: 20,
-            width: "100%",
-          }}
-          onChangeText={(text) => {
-            console.log(text)
-          }}
-        />
-
         <SquareButton
           title={"SIGN UP"}
           buttonBackgroundColor={Colors.imperialRed}
           style={{ width: "100%", marginTop: 20 }}
           onPress={handleSignUp}
         />
-
         <TextMontserrat
           fontSize={16}
           style={{
