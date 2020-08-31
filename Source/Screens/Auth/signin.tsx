@@ -42,8 +42,6 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           emailId: email,
           avatar: "",
         }
-        console.log("signinuser data", signInUserData)
- 
         login(signInUserData)
       })
 

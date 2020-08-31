@@ -22,17 +22,17 @@ export default function Providers() {
     if (!user) getUser()
   }, [])
 
+  const getFonts = async () => {
+    await Font.loadAsync(appFonts)
+    setFontsLoaded(true)
+  }
+
   const getUser = async () => {
     SecureStore.getItemAsync("user")
       .then((data) => {
         if (data) login(JSON.parse(data))
       })
-      .catch((error) => console.log("error", error))
-  }
-
-  const getFonts = async () => {
-    await Font.loadAsync(appFonts)
-    setFontsLoaded(true)
+      .catch((error) => console.log("couldnt log user in", error))
   }
 
   return fontsLoaded ? (
