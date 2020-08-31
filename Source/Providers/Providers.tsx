@@ -19,7 +19,7 @@ export default function Providers() {
   // initializing App
   useEffect(() => {
     getFonts()
-    if (user) getUser()
+    if (!user) getUser()
   }, [])
 
   const getUser = async () => {
