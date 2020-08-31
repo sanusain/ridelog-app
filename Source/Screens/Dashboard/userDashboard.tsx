@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { AuthContext } from "../../Contexts/AuthProvider"
 import { dispatchHandler } from "../../State-management"
 
-type Props = { naviation: any }
+type Props = { navigation: any }
 
 const userDashboard: React.FunctionComponent<Props> = (props) => {
   const { user, logout } = useContext(AuthContext)
@@ -18,14 +18,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           "Youre logged out of cloud, Please relogin",
           [
             {
-              text: "Login",
-              onPress: () => {
-                props.naviation.navigate("signIn")
-                console.log("loginscreen")
-              },
-            },
-            {
-              text: "Exit",
+              text: "Re login",
               onPress: () => {
                 logout()
               },
