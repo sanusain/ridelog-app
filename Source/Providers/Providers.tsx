@@ -14,18 +14,18 @@ import { getStore } from "../State-management"
 export default function Providers() {
   const store = getStore()
   const [fontsLoaded, setFontsLoaded] = useState(false)
-  const Auth = useContext(AuthContext)
+  const { user, login } = useContext(AuthContext)
 
   // initializing App
   useEffect(() => {
     getFonts()
-    if (Auth.user) getUser()
+    if (user) getUser()
   }, [])
 
   const getUser = async () => {
     SecureStore.getItemAsync("user")
       .then((data) => {
-        if (data) Auth.login(JSON.parse(data))
+        if (data) login(JSON.parse(data))
       })
       .catch((error) => console.log("error", error))
   }
@@ -39,11 +39,11 @@ export default function Providers() {
     <NavigationContainer>
       <Provider store={store}>
         <SafeAreaView>
-          {Auth.user ? <BottomTabsNavigator /> : <AuthStack />}
+          {user ? <BottomTabsNavigator /> : <AuthStack />}
         </SafeAreaView>
       </Provider>
     </NavigationContainer>
   ) : (
-    <ActivityIndicator />
+    <ActivityIndicator size={"large"} />
   )
 }
