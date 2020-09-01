@@ -26,3 +26,26 @@ Accounts
 - update details
 - settings(Notifications, dark mode)
 - signout
+
+
+
+
+
+DATA TO BE KEPT:
+
+IN LOCAL:
+uid
+accessToken
+callsign(name)
+avatar
+email
+
+IN FIREBASE:
+uid
+accessToken
+callsign(name)
+avatar
+email
+userlastlogin
+createdate
+phonenumber

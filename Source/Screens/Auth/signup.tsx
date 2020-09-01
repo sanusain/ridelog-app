@@ -1,3 +1,4 @@
+import * as Google from "expo-google-app-auth"
 import React, { useContext, useState } from "react"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
@@ -33,7 +34,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
       .then((userData) => {
         const newUserData: User = {
           uid: userData.user ? userData.user.uid : "",
-          callsign: callSign,
+          callSign: callSign,
           emailId: email,
           avatar: "", // DR:dont set avatar now, let the user set it in accounts, if they want.
         }
@@ -48,9 +49,75 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
       })
   }
 
-  const handleSignUpWithGoogle = () => {
-    console.log("handle signup with google")
+  const onSignIn = (googleUser: {
+    type?: "success"
+    accessToken: any
+    idToken: any
+    refreshToken?: string | null
+    user?: Google.GoogleUser
+  }) => {
+    console.log("Google Auth Response", googleUser)
+    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
+    firebase.auth().onAuthStateChanged((firebaseUser) => {
+      const credential = firebase.auth.GoogleAuthProvider.credential(
+        googleUser.idToken,
+        googleUser.accessToken
+      )
+      console.log("credentials", credential)
+
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then((retrievedData) => {
+          console.log("user signed in ")
+          const usersRef = firebase.firestore().collection("users")
+
+          if (retrievedData && retrievedData.additionalUserInfo?.isNewUser) {
+            usersRef.doc(retrievedData.user?.uid).set({
+              gmail: retrievedData.user?.email,
+              avatar: retrievedData.additionalUserInfo.profile?.picture,
+              callSign: retrievedData.additionalUserInfo.profile?.given_name,
+              created_at: Date.now(),
+            })
+          } else {
+            usersRef.doc(retrievedData.user?.uid).update({
+              last_logged_in: Date.now(),
+            })
+          }
+          if (retrievedData && retrievedData.additionalUserInfo) {
+            const logUser: User = {
+              uid: retrievedData.user?.uid,
+              callSign: retrievedData.additionalUserInfo.profile?.given_name,
+              emailId: retrievedData.user?.email,
+              avatar: retrievedData.additionalUserInfo.profile?.picture,
+            }
+            login(logUser)
+          }
+        })
+        .catch((error) => {
+          console.log("could not log into firebase", error)
+        })
+    })
   }
+  const handleSignInWithGoogleAsync = async () => {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:
+          "931489511293-l561q0pdj13eppsqavsehc3e3tm8pje8.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+      })
+
+      if (result.type === "success") {
+        onSignIn(result)
+        // return result.accessToken
+      } else {
+        return { cancelled: true }
+      }
+    } catch (e) {
+      return { error: true }
+    }
+  }
+
   const handleSignUpWithFacebook = () => {
     console.log("handle signup with facebook")
   }
@@ -139,7 +206,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
 
         <SquareButton
           title={"CONNECT WITH GOOGLE"}
-          onPress={handleSignUpWithGoogle}
+          onPress={handleSignInWithGoogleAsync}
           style={{ width: "100%" }}
         />
         <SquareButton

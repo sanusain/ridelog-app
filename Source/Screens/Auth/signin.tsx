@@ -1,3 +1,4 @@
+import * as Google from "expo-google-app-auth"
 import React, { useContext } from "react"
 import { Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
@@ -19,22 +20,14 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
   }
 
   const handleSignIn = () => {
-    // const sampleUser: User = {
-    //   uid: "23jk234hi2i2hb4oi2bh5ibh5",
-    //   callsign: "Storm0171",
-    //   emailId: "test@storm.com",
-    //   avatar: "https://randomuser.me/api/portraits/men/62.jpg",
-    // }
-
     const { email, password } = { email: "test@123.com", password: "test123" }
-
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((userData) => {
         const signInUserData: User = {
           uid: userData.user ? userData.user.uid : "",
-          callsign: userData.user
+          callSign: userData.user
             ? userData.user.displayName
               ? userData.user.displayName
               : ""
@@ -51,8 +44,41 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
     console.log("signup")
     props.navigation.navigate("signUp")
   }
-  const handleSignInWithGoogle = () => {
+  const handleSignInWithGoogleAsync = async () => {
     console.log("signinwith google")
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:
+          "931489511293-l561q0pdj13eppsqavsehc3e3tm8pje8.apps.googleusercontent.com",
+        scopes: ["profile", "email"],
+      })
+
+      if (result.type === "success") {
+        // return result.accessToken
+
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          result.idToken,
+          result.accessToken
+        )
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then(() => {
+            const logUser: User = {
+              uid: result.user.id ? result.user.id : "",
+              avatar: result.user.photoUrl,
+              callSign: result.user.givenName ? result.user.givenName : "",
+              emailId: result.user.email ? result.user.email : "",
+            }
+
+            login(logUser)
+          })
+      } else {
+        return { cancelled: true }
+      }
+    } catch (e) {
+      return { error: true }
+    }
   }
   const handleSignInWithFacebook = () => {
     console.log("signinwith facebook")
@@ -157,7 +183,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
 
         <SquareButton
           title={"Sign In with Google"}
-          onPress={handleSignInWithGoogle}
+          onPress={handleSignInWithGoogleAsync}
           buttonBackgroundColor={Colors.googleBlue}
           style={{
             alignSelf: "center",
