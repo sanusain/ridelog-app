@@ -1,0 +1,26 @@
+
+Design/ui/ux :
+ [] ridelogg logo centerd as per screen - signin
+ [] create new account should give visual feedback - signin
+ [] input fields jumps up, unusual visual, need smooth transistion - signin
+ 
+Code:
+[] save firebase credentials as env 
+ 
+ 
+ 
+ 
+ 
+ 
+ [x]  using text components sets the loaded fonts to false sometimes,
+        which leads to state update on unmounted component error. fixes
+        when only text is render instead of text components
+        - removed hooks using loadAsync directly
+
+
+
+
+
+
+Abbreviations:
+DR:Dont remove

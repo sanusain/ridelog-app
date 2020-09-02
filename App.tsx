@@ -1,3 +1,3 @@
-import Providers from "./Source/Providers/Providers"
+import InitialProvider from "./Source/Providers"
 
-export default Providers
+export default InitialProvider
