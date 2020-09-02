@@ -1,5 +1,5 @@
 import * as Google from "expo-google-app-auth"
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
@@ -13,6 +13,8 @@ import { AuthContext, User } from "../../Contexts/AuthProvider"
 type Props = { navigation: any }
 
 const SignIn: React.FunctionComponent<Props> = (props) => {
+  const [inputEmail, setInputEmail] = useState("")
+  const [inputPassword, setInputPassword] = useState("")
   const { login } = useContext(AuthContext)
 
   const handleForgotPass = () => {
@@ -20,10 +22,9 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
   }
 
   const handleSignIn = () => {
-    const { email, password } = { email: "test@123.com", password: "test123" }
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(inputEmail, inputPassword)
       .then((userData) => {
         const signInUserData: User = {
           uid: userData.user ? userData.user.uid : "",
@@ -32,7 +33,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
               ? userData.user.displayName
               : ""
             : "",
-          emailId: email,
+          emailId: inputEmail,
           avatar: "",
         }
         login(signInUserData)
@@ -113,8 +114,8 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           placeholder={"Email"}
           textContentType={"emailAddress"}
           keyboardType={"email-address"}
-          onChangeText={(text) => {
-            console.log(text)
+          onChangeText={(email) => {
+            setInputEmail(email)
           }}
         />
         <LightTextInput
@@ -126,8 +127,8 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           secureTextEntry
           textContentType={"password"}
           placeholder={"Password"}
-          onChangeText={(text) => {
-            console.log(text)
+          onChangeText={(password) => {
+            setInputPassword(password)
           }}
         />
 
