@@ -1,6 +1,6 @@
 import * as Google from "expo-google-app-auth"
-import React, { useContext, useState } from "react"
-import { Alert, Text, View } from "react-native"
+import React, { useContext, useEffect, useState } from "react"
+import { ActivityIndicator, Alert, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
@@ -15,7 +15,14 @@ type Props = { navigation: any }
 const SignIn: React.FunctionComponent<Props> = (props) => {
   const [inputEmail, setInputEmail] = useState("")
   const [inputPassword, setInputPassword] = useState("")
-  const { login } = useContext(AuthContext)
+  const [loginSpinner, setloginSpinner] = useState(false)
+  const { user, login } = useContext(AuthContext)
+
+  useEffect(() => {
+    return () => {
+      setloginSpinner(false)
+    }
+  }, [])
 
   const handleForgotPass = () => {
     console.log("forgot password")
@@ -64,6 +71,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
     props.navigation.navigate("signUp")
   }
   const handleSignInWithGoogleAsync = async () => {
+    setloginSpinner(true)
     try {
       const result = await Google.logInAsync({
         androidClientId:
@@ -99,7 +107,16 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
   const handleSignInWithFacebook = () => {
     console.log("signinwith facebook")
   }
-
+  if (!user && loginSpinner) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator
+          size={"large"}
+          style={{ borderColor: Colors.imperialRed }}
+        />
+      </View>
+    )
+  }
   return (
     <View
       style={{
