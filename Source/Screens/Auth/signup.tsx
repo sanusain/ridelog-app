@@ -1,6 +1,6 @@
 import * as Google from "expo-google-app-auth"
 import React, { useContext, useState } from "react"
-import { View } from "react-native"
+import { Alert, View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
@@ -25,7 +25,9 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
 
   const handleSignUp = () => {
     if (!callSign || !email || !password) {
-      console.log("any value cannot be empty")
+      Alert.alert("Error", "Required fields are missing", [{ text: "ok" }], {
+        cancelable: true,
+      })
       return
     }
     firebase
@@ -46,6 +48,9 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
           .then(() => {
             login(newUserData)
           })
+      })
+      .catch((error) => {
+        console.error(error)
       })
   }
 

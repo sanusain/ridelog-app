@@ -1,6 +1,6 @@
 import * as Google from "expo-google-app-auth"
 import React, { useContext, useState } from "react"
-import { Text, View } from "react-native"
+import { Alert, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
@@ -22,6 +22,12 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
   }
 
   const handleSignIn = () => {
+    if (!inputEmail || !inputPassword) {
+      Alert.alert("Error", "Required fields are missing", [{ text: "ok" }], {
+        cancelable: true,
+      })
+      return
+    }
     firebase
       .auth()
       .signInWithEmailAndPassword(inputEmail, inputPassword)
@@ -38,6 +44,18 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
         }
         login(signInUserData)
       })
+      .catch((error) => {
+        Alert.alert(
+          "Login",
+          "Invalid pass or social login enabled",
+          [
+            {
+              text: "OK",
+            },
+          ],
+          { cancelable: true }
+        )
+      })
 
     console.log("signin")
   }
@@ -46,7 +64,6 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
     props.navigation.navigate("signUp")
   }
   const handleSignInWithGoogleAsync = async () => {
-    console.log("signinwith google")
     try {
       const result = await Google.logInAsync({
         androidClientId:
@@ -55,8 +72,6 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
       })
 
       if (result.type === "success") {
-        // return result.accessToken
-
         const credential = firebase.auth.GoogleAuthProvider.credential(
           result.idToken,
           result.accessToken
