@@ -56,9 +56,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
     refreshToken?: string | null
     user?: Google.GoogleUser
   }) => {
-    console.log("Google Auth Response", googleUser)
-    // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-    firebase.auth().onAuthStateChanged((firebaseUser) => {
+    firebase.auth().onAuthStateChanged(() => {
       const credential = firebase.auth.GoogleAuthProvider.credential(
         googleUser.idToken,
         googleUser.accessToken
@@ -69,15 +67,17 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
         .auth()
         .signInWithCredential(credential)
         .then((retrievedData) => {
-          console.log("user signed in ")
           const usersRef = firebase.firestore().collection("users")
 
           if (retrievedData && retrievedData.additionalUserInfo?.isNewUser) {
             usersRef.doc(retrievedData.user?.uid).set({
               gmail: retrievedData.user?.email,
+              //@ts-ignore
               avatar: retrievedData.additionalUserInfo.profile?.picture,
+              //@ts-ignore
               callSign: retrievedData.additionalUserInfo.profile?.given_name,
               created_at: Date.now(),
+              last_logged_in: Date.now(),
             })
           } else {
             usersRef.doc(retrievedData.user?.uid).update({
@@ -86,10 +86,14 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
           }
           if (retrievedData && retrievedData.additionalUserInfo) {
             const logUser: User = {
-              uid: retrievedData.user?.uid,
+              uid: retrievedData.user?.uid ? retrievedData.user.uid : "",
+              //@ts-ignore
               callSign: retrievedData.additionalUserInfo.profile?.given_name,
-              emailId: retrievedData.user?.email,
+              //@ts-ignore
               avatar: retrievedData.additionalUserInfo.profile?.picture,
+              emailId: retrievedData.user?.email
+                ? retrievedData.user.email
+                : "",
             }
             login(logUser)
           }
@@ -109,7 +113,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
 
       if (result.type === "success") {
         onSignIn(result)
-        // return result.accessToken
+        return
       } else {
         return { cancelled: true }
       }
