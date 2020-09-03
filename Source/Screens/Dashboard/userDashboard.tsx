@@ -70,6 +70,9 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
             justifyContent: "center",
             alignItems: "center",
           }}
+          onPress={() => {
+            props.navigation.navigate("addVehicle")
+          }}
         >
           <Ionicons
             name="ios-add-circle"

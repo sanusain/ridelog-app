@@ -7,9 +7,11 @@ import UserAccount from "../Screens/Account/userAccount"
 import Dashboard from "../Screens/Dashboard/userDashboard"
 import RefuelLog from "../Screens/Refuel/userRefuelLog"
 import ServiceLog from "../Screens/Service/userServiceLog"
+import DashBoardStack from "./dashBoardStack"
+import { BottomTabsParamList } from "./types"
 
 const BottomTabsNavigator = () => {
-  const TabsComponent = createMaterialTopTabNavigator()
+  const TabsComponent = createMaterialTopTabNavigator<BottomTabsParamList>()
 
   return (
     <TabsComponent.Navigator
@@ -23,66 +25,37 @@ const BottomTabsNavigator = () => {
       }}
       screenOptions={({ route }) => ({
         tabBarLabel: ({ focused }) => {
+          let tabName
           switch (route.name) {
             case "dashboard":
-              return (
-                <TextMontserrat
-                  fontSize={15}
-                  style={{
-                    color: focused ? Colors.default_red : Colors.default_grey,
-                  }}
-                >
-                  Dash
-                </TextMontserrat>
-              )
+              tabName = "Dash"
+              break
             case "refuel":
-              return (
-                <TextMontserrat
-                  fontSize={15}
-                  style={{
-                    color: focused ? Colors.default_red : Colors.default_grey,
-                  }}
-                >
-                  Fuel
-                </TextMontserrat>
-              )
+              tabName = "Fuel"
+              break
             case "unassigned":
-              return (
-                <TextMontserrat
-                  fontSize={15}
-                  style={{
-                    color: focused ? Colors.default_red : Colors.default_grey,
-                  }}
-                >
-                  Unass
-                </TextMontserrat>
-              )
+              tabName = "Unass"
+              break
             case "service":
-              return (
-                <TextMontserrat
-                  fontSize={15}
-                  style={{
-                    color: focused ? Colors.default_red : Colors.default_grey,
-                  }}
-                >
-                  Service
-                </TextMontserrat>
-              )
+              tabName = "Service"
+              break
             case "account":
-              return (
-                <TextMontserrat
-                  fontSize={15}
-                  style={{
-                    color: focused ? Colors.default_red : Colors.default_grey,
-                  }}
-                >
-                  User
-                </TextMontserrat>
-              )
-
+              tabName = "User"
+              break
             default:
-              return <TextMontserrat fontSize={15}> null</TextMontserrat>
+              tabName = "Null"
           }
+
+          return (
+            <TextMontserrat
+              fontSize={13}
+              style={{
+                color: focused ? Colors.default_red : Colors.default_grey,
+              }}
+            >
+              {tabName}
+            </TextMontserrat>
+          )
         },
 
         tabBarIcon: ({ focused }) => {
@@ -133,14 +106,13 @@ const BottomTabsNavigator = () => {
                 <SimpleLineIcons
                   name="user"
                   color={focused ? Colors.default_red : Colors.default_grey}
-                  //   size={size}
                 />
               )
           }
         },
       })}
     >
-      <TabsComponent.Screen name={"dashboard"} component={Dashboard} />
+      <TabsComponent.Screen name={"dashboard"} component={DashBoardStack} />
       <TabsComponent.Screen name={"refuel"} component={RefuelLog} />
       <TabsComponent.Screen name={"unassigned"} component={Dashboard} />
       <TabsComponent.Screen name={"service"} component={ServiceLog} />
