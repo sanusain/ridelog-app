@@ -67,7 +67,6 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
         <TouchableOpacity
           style={{
             height: "100%",
-            borderWidth: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
