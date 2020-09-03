@@ -1,12 +1,18 @@
-import React, { useContext } from "react"
-import { AppState, Image, Text, View } from "react-native"
+import { Ionicons } from "@expo/vector-icons"
+import React, { useContext, useState } from "react"
+import { View } from "react-native"
+import { TouchableOpacity } from "react-native-gesture-handler"
 import { connect } from "react-redux"
+import TextMontserrat from "../../Components/TextMontserrat"
+import TextOpenSans from "../../Components/TextOpenSans"
+import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
-import { dispatchHandler } from "../../State-management"
+import { AppState, dispatchHandler } from "../../State-management"
 
 type Props = { navigation: any }
 
 const userDashboard: React.FunctionComponent<Props> = (props) => {
+  const [userData, setuserData] = useState(true)
   const { user, logout } = useContext(AuthContext)
 
   // useEffect(() => {
@@ -31,9 +37,54 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
   // }, [])
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
-      <Image source={{ uri: user?.avatar }} style={{ height: 50, width: 50 }} />
-      <Text>Welcome, {user?.callSign}</Text>
+    <View
+      style={{
+        flex: 1,
+        width: "100%",
+        backgroundColor: Colors.white,
+      }}
+    >
+      <TextOpenSans
+        fontSize={20}
+        style={{
+          alignSelf: "flex-start",
+          marginTop: 20,
+          marginLeft: 10,
+          opacity: 0.87,
+          color: Colors.imperialRed,
+        }}
+      >
+        Welcome, {user?.callSign}
+      </TextOpenSans>
+      <View
+        style={{
+          borderTopWidth: 1, //intentional
+          borderColor: Colors.imperialRed, //intentional
+          marginRight: 100,
+        }}
+      />
+      {userData ? (
+        <TouchableOpacity
+          style={{
+            height: "100%",
+            borderWidth: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Ionicons
+            name="ios-add-circle"
+            size={70}
+            color={Colors.imperialRed}
+            style={{ opacity: 0.85 }}
+          />
+          <TextMontserrat fontSize={20} style={{ color: Colors.manateeGrey }}>
+            Add new ride
+          </TextMontserrat>
+        </TouchableOpacity>
+      ) : (
+        <View />
+      )}
     </View>
   )
 }

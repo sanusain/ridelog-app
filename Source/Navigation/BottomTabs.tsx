@@ -1,7 +1,7 @@
 import { AntDesign, Entypo, Feather, SimpleLineIcons } from "@expo/vector-icons"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import React from "react"
-import { Text } from "react-native"
+import TextMontserrat from "../Components/TextMontserrat"
 import Colors from "../Config/Colors"
 import UserAccount from "../Screens/Account/userAccount"
 import Dashboard from "../Screens/Dashboard/userDashboard"
@@ -26,57 +26,62 @@ const BottomTabsNavigator = () => {
           switch (route.name) {
             case "dashboard":
               return (
-                <Text
+                <TextMontserrat
+                  fontSize={15}
                   style={{
                     color: focused ? Colors.default_red : Colors.default_grey,
                   }}
                 >
                   Dash
-                </Text>
+                </TextMontserrat>
               )
             case "refuel":
               return (
-                <Text
+                <TextMontserrat
+                  fontSize={15}
                   style={{
                     color: focused ? Colors.default_red : Colors.default_grey,
                   }}
                 >
                   Fuel
-                </Text>
+                </TextMontserrat>
               )
             case "unassigned":
               return (
-                <Text
+                <TextMontserrat
+                  fontSize={15}
                   style={{
                     color: focused ? Colors.default_red : Colors.default_grey,
                   }}
                 >
                   Unass
-                </Text>
+                </TextMontserrat>
               )
             case "service":
               return (
-                <Text
+                <TextMontserrat
+                  fontSize={15}
                   style={{
                     color: focused ? Colors.default_red : Colors.default_grey,
                   }}
                 >
                   Service
-                </Text>
+                </TextMontserrat>
               )
             case "account":
               return (
-                <Text
+                <TextMontserrat
+                  fontSize={15}
                   style={{
                     color: focused ? Colors.default_red : Colors.default_grey,
                   }}
                 >
                   User
-                </Text>
+                </TextMontserrat>
               )
 
             default:
-              return <Text>null</Text>
+              return <TextMontserrat fontSize={15}> null</TextMontserrat>
           }
         },
 
