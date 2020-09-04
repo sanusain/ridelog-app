@@ -33,7 +33,7 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
     >
       <TextMontserrat
         fontSize={16}
-        type={"semibold"}
+        weight={"semibold"}
         style={{
           alignSelf: "center",
           color: props.textColor ? props.textColor : Colors.white,

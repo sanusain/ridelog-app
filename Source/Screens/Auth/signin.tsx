@@ -136,7 +136,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
             justifyContent: "center",
             color: Colors.imperialRed,
           }}
-          type={"bold"}
+          weight={"bold"}
           fontSize={60}
         >
           R

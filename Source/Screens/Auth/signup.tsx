@@ -142,7 +142,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
           backgroundColor: Colors.white,
         }}
       >
-        <TextMontserrat type={"semibold"} fontSize={30}>
+        <TextMontserrat weight={"semibold"} fontSize={30}>
           Create Account
         </TextMontserrat>
         <TextOpenSans
