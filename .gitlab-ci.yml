@@ -1,0 +1,27 @@
+---
+image: node:12.18.3-alpine3.9
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - ~/.yarn
+    - .jest
+stages:
+  # - build
+  - Test
+  # - deploy
+
+before_script:
+  - npm install yarn@1.22.4
+  - npm install expo-cli
+  - yarn add jest
+
+Test:
+  stage: Test
+  script:
+    - yarn jest --ci
+# expo-deployments:
+#   stage: deploy
+#   script:
+#     - npx expo login -u Storm0171
+#     - npx expo-optimize
+#     - npx expo publish --release-channel staging
