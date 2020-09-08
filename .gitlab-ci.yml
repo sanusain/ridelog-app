@@ -7,7 +7,7 @@ cache:
     - .jest
 stages:
   # - build
-  - test
+  - Test
   # - deploy
 
 before_script:
@@ -16,8 +16,7 @@ before_script:
   - yarn add jest
 
 Test:
-  name: Test with jest
-  stage: test
+  stage: Test
   script:
     - yarn jest --ci
 # expo-deployments:
