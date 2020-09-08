@@ -16,7 +16,6 @@ before_script:
   - yarn add jest
 
 Test:
-  name: Test with jest
   stage: test
   script:
     - yarn jest --ci
