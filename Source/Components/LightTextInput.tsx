@@ -7,7 +7,7 @@ type Props = {
   placeholder: string
   onChangeText: (input: string) => void
   style?: any
-  onBlur: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
+  onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void
   textContentType:
     | "none"
     | "URL"
