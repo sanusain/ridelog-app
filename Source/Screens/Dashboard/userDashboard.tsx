@@ -1,11 +1,12 @@
 import { Ionicons } from "@expo/vector-icons"
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { connect } from "react-redux"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { firebase } from "../../Config/firebase"
 import { AuthContext } from "../../Contexts/AuthProvider"
 import { AppState, dispatchHandler } from "../../State-management"
 
@@ -35,6 +36,23 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
   //       )
   //   })
   // }, [])
+  async function somethign() {
+    const data = await firebase
+      .firestore()
+      .collection("vehicleInfo")
+      .doc(user?.uid)
+      .collection("vehicles")
+      .get()
+    const vehicleList: firebase.firestore.DocumentData[] = []
+    data.forEach((collectiondata) => {
+      vehicleList.push(collectiondata.data())
+    })
+    console.log("vehicle list", vehicleList)
+  }
+
+  useEffect(() => {
+    somethign()
+  }, [])
 
   return (
     <View

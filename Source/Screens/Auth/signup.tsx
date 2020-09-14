@@ -73,7 +73,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
         .signInWithCredential(credential)
         .then((retrievedData) => {
           const usersRef = firebase.firestore().collection("users")
-
+          // this data is being set in firebase
           if (retrievedData && retrievedData.additionalUserInfo?.isNewUser) {
             usersRef.doc(retrievedData.user?.uid).set({
               gmail: retrievedData.user?.email,
@@ -89,6 +89,7 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
               last_logged_in: Date.now(),
             })
           }
+          // this data is being set in local storage
           if (retrievedData && retrievedData.additionalUserInfo) {
             const logUser: User = {
               uid: retrievedData.user?.uid ? retrievedData.user.uid : "",

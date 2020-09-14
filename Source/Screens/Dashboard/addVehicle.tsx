@@ -7,6 +7,7 @@ import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
+import { firebase } from "../../Config/firebase"
 import {
   AddVehicleNavigationProp,
   AddVehicleRouteProp,
@@ -32,6 +33,42 @@ const addVehicleSchema = yup.object({
 })
 
 const AddVehicle: React.FunctionComponent<Props> = (props) => {
+  const handleSubmit = (inputValues: {
+    vcallsign: string
+    year: string
+    maker: string
+    model: string
+    odo: string
+    plate: string
+    vin: string
+  }) => {
+    const validatedInputData = {
+      vcallsign: inputValues.vcallsign,
+      year: inputValues.year,
+      maker: inputValues.maker,
+      model: inputValues.model,
+      odo: inputValues.odo,
+      plate: inputValues.plate,
+      vin: inputValues.vin,
+    }
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const vehicleInfoRef = firebase
+          .firestore()
+          .collection("vehicleInfo")
+          .doc(user.uid)
+          .collection("vehicles")
+          .doc(validatedInputData.vcallsign)
+
+        vehicleInfoRef.set(validatedInputData).then(() => {
+          console.log("data set in firebase")
+          props.navigation.navigate("dashboard")
+        })
+      }
+    })
+  }
+
   return (
     <ScrollView
       style={{
@@ -51,7 +88,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
           vin: "",
         }}
         onSubmit={(values, actions) => {
-          console.log("values", values)
+          handleSubmit(values)
           actions.resetForm()
         }}
         validationSchema={addVehicleSchema}

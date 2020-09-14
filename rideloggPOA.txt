@@ -43,6 +43,7 @@ email
 IN FIREBASE:
 uid
 accessToken
+isPremium
 callsign(name)
 avatar
 email
