@@ -87,9 +87,9 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
         firebase
           .auth()
           .signInWithCredential(credential)
-          .then(() => {
+          .then((firebaseAuthUser) => {
             const logUser: User = {
-              uid: result.user.id ? result.user.id : "",
+              uid: firebaseAuthUser.user?.uid ? firebaseAuthUser.user?.uid : "",
               avatar: result.user.photoUrl,
               callSign: result.user.givenName ? result.user.givenName : "",
               emailId: result.user.email ? result.user.email : "",
@@ -136,7 +136,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
             justifyContent: "center",
             color: Colors.imperialRed,
           }}
-          type={"bold"}
+          weight={"bold"}
           fontSize={60}
         >
           R

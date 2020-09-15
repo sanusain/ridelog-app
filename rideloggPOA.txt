@@ -1,6 +1,6 @@
 Dash-
-vehicle selector
 welcome, username
+vehicle selector
 total logged vehicle
 mileage graph
 refulling graph
@@ -43,6 +43,7 @@ email
 IN FIREBASE:
 uid
 accessToken
+isPremium
 callsign(name)
 avatar
 email
