@@ -6,6 +6,7 @@ import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
+import { getOAuthClientId } from "../../Config"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
 import { AuthContext, User } from "../../Contexts/AuthProvider"
@@ -110,10 +111,11 @@ const SignUp: React.FunctionComponent<Props> = (props) => {
     })
   }
   const handleSignInWithGoogleAsync = async () => {
+    // set infrastructure so that automatically test or prod client id is set, here
+    // only need to mention the androidclient ID
     try {
       const result = await Google.logInAsync({
-        androidClientId:
-          "931489511293-l561q0pdj13eppsqavsehc3e3tm8pje8.apps.googleusercontent.com",
+        androidClientId: getOAuthClientId(),
         scopes: ["profile", "email"],
       })
 
