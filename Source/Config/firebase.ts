@@ -3,7 +3,8 @@ import "@firebase/firestore"
 import * as firebase from "firebase"
 
 // Initialize Firebase
-const firebaseConfig = {
+
+const prodFirebaseConfig = {
   apiKey: "AIzaSyCQM-npgyWNNYM9K5FlbjdTDrmfEf4fZjw",
   authDomain: "https://ridelogg.firebaseio.com",
   databaseURL: "https://ridelogg.firebaseio.com",
@@ -13,7 +14,7 @@ const firebaseConfig = {
 }
 
 if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig)
+  firebase.initializeApp(prodFirebaseConfig)
 }
 
 export { firebase }

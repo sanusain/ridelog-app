@@ -6,6 +6,7 @@ import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
+import { getOAuthClientId } from "../../Config"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
 import { AuthContext, User } from "../../Contexts/AuthProvider"
@@ -74,8 +75,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
     setloginSpinner(true)
     try {
       const result = await Google.logInAsync({
-        androidClientId:
-          "931489511293-l561q0pdj13eppsqavsehc3e3tm8pje8.apps.googleusercontent.com",
+        androidClientId: getOAuthClientId(),
         scopes: ["profile", "email"],
       })
 
