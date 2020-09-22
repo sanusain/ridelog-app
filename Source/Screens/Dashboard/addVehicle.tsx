@@ -1,5 +1,5 @@
 import { Formik } from "formik"
-import React from "react"
+import React, { useContext } from "react"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import * as yup from "yup"
@@ -8,6 +8,7 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
+import { AuthContext } from "../../Contexts/AuthProvider"
 import {
   AddVehicleNavigationProp,
   AddVehicleRouteProp,
@@ -33,6 +34,8 @@ const addVehicleSchema = yup.object({
 })
 
 const AddVehicle: React.FunctionComponent<Props> = (props) => {
+  const { user } = useContext(AuthContext)
+
   const handleSubmit = (inputValues: {
     vcallsign: string
     year: string
@@ -52,21 +55,18 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
       vin: inputValues.vin,
     }
 
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        const vehicleInfoRef = firebase
-          .firestore()
-          .collection("vehicleInfo")
-          .doc(user.uid)
-          .collection("vehicles")
-          .doc(validatedInputData.vcallsign)
+    if (user) {
+      const vehicleInfoRef = firebase
+        .firestore()
+        .collection("vehicleInfo")
+        .doc(user.uid)
+        .collection("vehicles")
+        .doc(validatedInputData.vcallsign)
 
-        vehicleInfoRef.set(validatedInputData).then(() => {
-          console.log("data set in firebase")
-          props.navigation.navigate("dashboard")
-        })
-      }
-    })
+      vehicleInfoRef.set(validatedInputData).then(() => {
+        props.navigation.navigate("dashboard")
+      })
+    }
   }
 
   return (

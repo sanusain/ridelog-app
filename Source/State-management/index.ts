@@ -1,14 +1,33 @@
 import { applyMiddleware, createStore } from "redux"
+import { vehicleInfo } from "../Screens/Dashboard/types"
 import { Action } from "./root-action"
 
+// vehiclesInfo contains object of this type, where vehicle1 is the vehicle callsign
+// vehicle1: {
+//   vehicleCallsign: "",
+//   maker: "",
+//   model: "",
+//   odo: "",
+//   plate: "",
+//   vin: "",
+//   year: "",
+// },
+
+const vehiclesInfomation: Array<vehicleInfo> = []
+
 const initialState = {
-  currentValue: 0,
+  userInfo: {
+    userCallsign: "",
+    avatar: "",
+    email: "",
+    lastLogin: "",
+  },
+  vehiclesInfo: vehiclesInfomation,
 }
 
 const actionLogger = (state: any) => (next: any) => (action: Action<any>) => {
   console.log("Dispatched", action.type)
-  const result = next(action)
-  return result
+  return next(action)
 }
 
 export const getStore = () => {
@@ -17,10 +36,10 @@ export const getStore = () => {
 }
 
 const rootReducer = (state: AppState = initialState, action: Action<any>) => {
-  if (action.isUserAction) {
-    let currentState: AppState = { ...state }
-    action.actionSelf.updateState(currentState)
-    return currentState
+  if (action && action.isUserAction) {
+    let updatedState: AppState = { ...state }
+    action.actionSelf.updateState(updatedState)
+    return updatedState
   }
   return state
 }

@@ -1,20 +1,25 @@
 import { Ionicons } from "@expo/vector-icons"
-import React, { useContext, useEffect, useState } from "react"
-import { View } from "react-native"
+import React, { useContext, useEffect } from "react"
+import { Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { connect } from "react-redux"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
-import { firebase } from "../../Config/firebase"
 import { AuthContext } from "../../Contexts/AuthProvider"
+import { hydrateVehiclesInfo } from "../../Database"
 import { AppState, dispatchHandler } from "../../State-management"
+import { vehicleInfo } from "./types"
 
-type Props = { navigation: any }
+type Props = {
+  vehiclesInfo: Array<vehicleInfo>
+  navigation: any
+  dispatch: any
+  route: any
+}
 
 const userDashboard: React.FunctionComponent<Props> = (props) => {
-  const [userData, setuserData] = useState(true)
-  const { user, logout } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
   // useEffect(() => {
   //   console.log("user", user)
@@ -36,22 +41,11 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
   //       )
   //   })
   // }, [])
-  async function somethign() {
-    const data = await firebase
-      .firestore()
-      .collection("vehicleInfo")
-      .doc(user?.uid)
-      .collection("vehicles")
-      .get()
-    const vehicleList: firebase.firestore.DocumentData[] = []
-    data.forEach((collectiondata) => {
-      vehicleList.push(collectiondata.data())
-    })
-    console.log("vehicle list", vehicleList)
-  }
 
   useEffect(() => {
-    somethign()
+    if (!props.vehiclesInfo.length) {
+      hydrateVehiclesInfo(props.dispatch)
+    }
   }, [])
 
   return (
@@ -81,12 +75,13 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           marginRight: 100,
         }}
       />
-      {userData ? (
+      {!props.vehiclesInfo.length ? (
         <TouchableOpacity
           style={{
+            borderWidth: 1,
             height: "100%",
             justifyContent: "center",
-            alignItems: "center",
+            alignSelf: "center",
           }}
           onPress={() => {
             props.navigation.navigate("addVehicle")
@@ -103,13 +98,24 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           </TextMontserrat>
         </TouchableOpacity>
       ) : (
-        <View />
+        <View style={{ alignSelf: "center" }}>
+          <Text>{props.vehiclesInfo[0].vcallsign}</Text>
+          <Text>{props.vehiclesInfo[0].maker}</Text>
+          <Text>{props.vehiclesInfo[0].model}</Text>
+          <Text>{props.vehiclesInfo[0].odo}</Text>
+          <Text>{props.vehiclesInfo[0].plate}</Text>
+          <Text>{props.vehiclesInfo[0].vin}</Text>
+          <Text>{props.vehiclesInfo[0].year}</Text>
+        </View>
       )}
     </View>
   )
 }
 
-const mapStateToProps = (state: AppState) => ({})
+const mapStateToProps = (state: AppState) => ({
+  vehiclesInfo: state.vehiclesInfo,
+})
+
 const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
