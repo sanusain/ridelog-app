@@ -160,7 +160,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
               color: Colors.default_grey,
             }}
           >
-            Your Garage is empty, Add a vehicle to give it a purpose
+            Your Garage is empty, Add a vehicle and give it a purpose
           </TextMontserrat>
           <SquareButton
             title={"ADD VEHICLE"}
