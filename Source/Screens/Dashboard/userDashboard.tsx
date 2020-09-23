@@ -107,7 +107,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
         >
           Welcome, {user?.callSign}
         </TextOpenSans>
-        {false ? (
+        {props.vehiclesInfo.length ? (
           <TouchableOpacity
             style={{ marginRight: 5 }}
             onPress={() => {
@@ -125,8 +125,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           marginRight: 100,
         }}
       />
-      {true ? (
-        // {!props.vehiclesInfo.length ? (
+      {!props.vehiclesInfo.length ? (
         <View
           style={{
             alignItems: "center",
