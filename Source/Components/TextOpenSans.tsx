@@ -4,13 +4,13 @@ import { Text } from "react-native"
 type Props = {
   fontSize: number
   style?: any
-  type?: "light" | "regular" | "bold" | "semibold" | "semibolditalic"
+  weight?: "light" | "regular" | "bold" | "semibold" | "semibolditalic"
   onPress?: () => any
 }
 
 //@ts-ignore
 const TextOpenSans: React.FunctionComponent<Props> = (props) => {
-  if (!props.type)
+  if (!props.weight)
     return (
       <Text
         style={{
@@ -24,7 +24,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
       </Text>
     )
 
-  if (props.type === "bold")
+  if (props.weight === "bold")
     return (
       <Text
         style={{
@@ -37,7 +37,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
         {props.children}
       </Text>
     )
-  if (props.type === "light")
+  if (props.weight === "light")
     return (
       <Text
         style={{
@@ -50,7 +50,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
         {props.children}
       </Text>
     )
-  if (props.type === "semibold")
+  if (props.weight === "semibold")
     return (
       <Text
         style={{
@@ -63,7 +63,7 @@ const TextOpenSans: React.FunctionComponent<Props> = (props) => {
         {props.children}
       </Text>
     )
-  if (props.type === "semibolditalic")
+  if (props.weight === "semibolditalic")
     return (
       <Text
         style={{

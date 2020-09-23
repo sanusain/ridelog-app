@@ -1,9 +1,10 @@
-import { Ionicons, MaterialIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 import React, { useContext, useEffect } from "react"
 import { Dimensions, Image, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
 import { connect } from "react-redux"
+import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
@@ -106,14 +107,16 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
         >
           Welcome, {user?.callSign}
         </TextOpenSans>
-        <TouchableOpacity
-          style={{ marginRight: 5 }}
-          onPress={() => {
-            props.navigation.navigate("addVehicle")
-          }}
-        >
-          <MaterialIcons name={"add"} size={30} color={Colors.imperialRed} />
-        </TouchableOpacity>
+        {false ? (
+          <TouchableOpacity
+            style={{ marginRight: 5 }}
+            onPress={() => {
+              props.navigation.navigate("addVehicle")
+            }}
+          >
+            <MaterialIcons name={"add"} size={30} color={Colors.imperialRed} />
+          </TouchableOpacity>
+        ) : null}
       </View>
       <View
         style={{
@@ -126,17 +129,46 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
         // {!props.vehiclesInfo.length ? (
         <View
           style={{
-            flex: 1,
-            borderWidth: 1,
+            alignItems: "center",
             justifyContent: "center",
-            alignSelf: "center",
+            flex: 1,
           }}
         >
-          <Ionicons
-            name="ios-add-circle"
-            size={70}
-            color={Colors.imperialRed}
-            style={{ opacity: 0.85 }}
+          <MaterialCommunityIcons
+            name={"garage-open"}
+            size={200}
+            color={Colors.spaceCadetPurple}
+            style={{ opacity: 0.56 }}
+          />
+
+          <TextMontserrat
+            fontSize={24}
+            weight={"semibold"}
+            style={{
+              textAlign: "center",
+              color: Colors.default_grey,
+            }}
+          >
+            Empty Garage
+          </TextMontserrat>
+          <TextMontserrat
+            fontSize={18}
+            style={{
+              textAlign: "center",
+              paddingHorizontal: 50,
+              marginTop: 10,
+              letterSpacing: 0.8,
+              color: Colors.default_grey,
+            }}
+          >
+            Your Garage is empty, Add a vehicle to give it a purpose
+          </TextMontserrat>
+          <SquareButton
+            title={"ADD VEHICLE"}
+            buttonBackgroundColor={Colors.imperialRed}
+            onPress={() => props.navigation.navigate("addVehicle")}
+            width={"50%"}
+            style={{ opacity: 0.87, marginTop: 40 }}
           />
         </View>
       ) : (
