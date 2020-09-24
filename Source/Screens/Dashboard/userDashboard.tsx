@@ -29,8 +29,6 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
     vcallsign: "Storm0171",
     maker: "Rolls",
     model: "Ghost",
-    odo: 2552,
-    lastRefuelledDate: new Date(),
     plate: "WB2394SF",
     vin: "ASDFW234ASFD",
     year: 2012,
@@ -39,6 +37,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
     ],
+    vehicleData: { lastRefuelQty: 8, lastRefuelledDate: new Date(), odo: 2552 },
   }
 
   // useEffect(() => {
@@ -185,7 +184,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ marginTop: 10 }}
+          style={{ marginVertical: 5 }}
         >
           <View>
             <Carousel
@@ -237,7 +236,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
                 Distance Logged
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.odo} {"KMs"}
+                {fakeData.vehicleData.odo} {"KMs"}
               </TextMontserrat>
             </View>
             <View
@@ -252,7 +251,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
                 Last Refuel
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.lastRefuelledDate.toDateString()}
+                {fakeData.vehicleData.lastRefuelledDate.toDateString()}
               </TextMontserrat>
             </View>
           </TouchableOpacity>
