@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 import React, { useContext, useEffect } from "react"
-import { Dimensions, Image, View } from "react-native"
+import { Dimensions, Image, ScrollView, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
 import { connect } from "react-redux"
@@ -171,7 +171,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           />
         </View>
       ) : (
-        <View style={{ flex: 1, borderWidth: 1 }}>
+        <ScrollView contentContainerStyle={{ flex: 1 }}>
           <View
             style={{
               marginTop: 10,
@@ -246,7 +246,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
               </TextMontserrat>
             </View>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
       )}
     </View>
   )
