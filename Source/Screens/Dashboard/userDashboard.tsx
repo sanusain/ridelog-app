@@ -192,6 +192,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
             style={{
               backgroundColor: Colors.inputBackGroundWhite,
               marginTop: 10,
+              marginHorizontal: 8,
               padding: 10,
               borderRadius: 8,
               elevation: 5,
