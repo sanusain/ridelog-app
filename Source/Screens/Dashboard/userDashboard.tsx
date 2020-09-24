@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 import React, { useContext, useEffect } from "react"
 import { Dimensions, Image, ScrollView, View } from "react-native"
+import { LineChart } from "react-native-chart-kit"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
 import { connect } from "react-redux"
@@ -67,13 +68,24 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
     }
   }, [])
 
-  const renderCarousel = ({ item }: { item: any }) => {
+  const renderCarouselVehicle = ({ item }: { item: any }) => {
     return (
-      <View>
+      <View style={{ height: 0.5 * screenWidth }}>
         <Image
           resizeMode="cover"
           source={{ uri: item }}
           style={{ borderRadius: 10, width: "100%", height: "100%" }}
+        />
+      </View>
+    )
+  }
+  const renderCarouselTips = ({ item }: { item: any }) => {
+    return (
+      <View style={{ height: 60 }}>
+        <Image
+          resizeMode="cover"
+          source={{ uri: item }}
+          style={{ borderRadius: 5, width: "100%", height: "100%" }}
         />
       </View>
     )
@@ -125,7 +137,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           marginRight: 100,
         }}
       />
-      {!props.vehiclesInfo.length ? (
+      {false ? (
         <View
           style={{
             alignItems: "center",
@@ -171,19 +183,17 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           />
         </View>
       ) : (
-        <ScrollView contentContainerStyle={{ flex: 1 }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View
             style={{
               marginTop: 10,
-              height: "30%",
             }}
           >
             <Carousel
               data={fakeData.images}
-              renderItem={renderCarousel}
+              renderItem={renderCarouselVehicle}
               sliderWidth={screenWidth}
               itemWidth={screenWidth / 1.2}
-              indicatorStyle={"white"}
               loop={true}
               autoplay={true}
             />
@@ -247,6 +257,61 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
               </TextMontserrat>
             </View>
           </TouchableOpacity>
+
+          {/* **************************fuel consumed in month */}
+          <View style={{ alignItems: "center", marginTop: 10 }}>
+            <LineChart
+              data={{
+                labels: [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                ],
+                datasets: [
+                  {
+                    data: [
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                      Math.random() * 100,
+                    ],
+                  },
+                ],
+              }}
+              width={screenWidth - 10}
+              height={220}
+              yAxisSuffix={"L"}
+              chartConfig={{
+                backgroundColor: "#1cc910",
+                backgroundGradientFrom: "#eff3ff",
+                backgroundGradientTo: "#efefef",
+                decimalPlaces: 1, // optional, defaults to 2dp
+                color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
+                style: {
+                  borderRadius: 16,
+                },
+              }}
+              bezier
+              style={{
+                borderRadius: 16,
+              }}
+            />
+          </View>
+          <View style={{ marginTop: 10 }}>
+            <Carousel
+              data={fakeData.images}
+              renderItem={renderCarouselTips}
+              sliderWidth={screenWidth}
+              itemWidth={screenWidth - 10}
+              loop={true}
+              autoplay={true}
+            />
+          </View>
         </ScrollView>
       )}
     </View>
