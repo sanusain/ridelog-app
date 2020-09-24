@@ -183,12 +183,11 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           />
         </View>
       ) : (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              marginTop: 10,
-            }}
-          >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ marginTop: 10 }}
+        >
+          <View>
             <Carousel
               data={fakeData.images}
               renderItem={renderCarouselVehicle}
