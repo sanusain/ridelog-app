@@ -39,9 +39,6 @@ const rootReducer = (state: AppState = initialState, action: Action<any>) => {
   if (action && action.isUserAction) {
     const currentStateJSON = JSON.parse(JSON.stringify(state)) // deep-copy state
     let updatedState: AppState = { ...currentStateJSON }
-    if (updatedState === state) console.log("both are same")
-    else console.log("both are differnt")
-
     action.actionSelf.updateState(updatedState)
     return updatedState
   }
