@@ -35,7 +35,9 @@ const UserAccount: React.FunctionComponent<Props> = (props) => {
       })
   }
 
-  const handleProfileInfo = () => {}
+  const handleProfileInfo = () => {
+    props.navigation.navigate("profileUpdate")
+  }
   const handleUpdatePassword = () => console.log("update password")
   const handleRateUs = () => console.log("leave a 5 star rating")
   const handleFAQs = () => console.log("Read more at docs")

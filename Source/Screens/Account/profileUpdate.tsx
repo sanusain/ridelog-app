@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react"
 import { Text, View } from "react-native"
+import Colors from "../../Config/Colors"
 import {
   ProfileUpdateNavigationProps,
   ProfileUpdateRouteProp,
@@ -12,7 +13,7 @@ type Props = {
 
 const ProfileUpdate: FunctionComponent<Props> = (props) => {
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: Colors.white }}>
       <Text>profile update screen</Text>
     </View>
   )

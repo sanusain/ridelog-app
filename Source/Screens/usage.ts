@@ -7,4 +7,7 @@
  create the screen with navigation and route as its props, define its types 
  like explained in the Navigation/types.ts, set those types for both navigation
  and route(if required)
+
+ Newly created stacks are needed to be added in the bottom tab, earlier it
+ was a single screen, but now it has to be replaced with the stack component.
  */
