@@ -22,7 +22,7 @@ import { AppState, dispatchHandler } from "../../State-management"
 type Props = {}
 
 const userAccount: React.FunctionComponent<Props> = (props) => {
-  const { user, logout } = useContext(AuthContext)
+  const { logout } = useContext(AuthContext)
   const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
   const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
   const handleLogout = () => {
