@@ -89,7 +89,6 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
       </View>
     )
   }
-
   console.log("*******************vehicle count", props.vehiclesInfo.length) // keep it for now
 
   return (
@@ -136,7 +135,7 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
           marginRight: 100,
         }}
       />
-      {false ? (
+      {!props.vehiclesInfo.length ? (
         <View
           style={{
             alignItems: "center",
