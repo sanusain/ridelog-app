@@ -17,11 +17,12 @@ import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
 import { AuthContext } from "../../Contexts/AuthProvider"
+import { AccountsNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
 
-type Props = {}
+type Props = { navigation: AccountsNavigationProps }
 
-const userAccount: React.FunctionComponent<Props> = (props) => {
+const UserAccount: React.FunctionComponent<Props> = (props) => {
   const { logout } = useContext(AuthContext)
   const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
   const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
@@ -34,6 +35,7 @@ const userAccount: React.FunctionComponent<Props> = (props) => {
       })
   }
 
+  const handleProfileInfo = () => {}
   const handleUpdatePassword = () => console.log("update password")
   const handleRateUs = () => console.log("leave a 5 star rating")
   const handleFAQs = () => console.log("Read more at docs")
@@ -59,7 +61,7 @@ const userAccount: React.FunctionComponent<Props> = (props) => {
             justifyContent: "space-between",
             marginVertical: 10,
           }}
-          onPress={() => console.log("Profile information")}
+          onPress={handleProfileInfo}
         >
           <SimpleLineIcons
             name="user"
@@ -325,4 +327,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(userAccount)
+export default connect(mapStateToProps, mapDispatchToProps)(UserAccount)

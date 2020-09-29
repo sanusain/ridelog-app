@@ -47,7 +47,6 @@ const userDashboard: React.FunctionComponent<Props> = (props) => {
     data.forEach((collectiondata) => {
       vehicleList.push(collectiondata.data())
     })
-    console.log("vehicle list", vehicleList)
   }
 
   useEffect(() => {
