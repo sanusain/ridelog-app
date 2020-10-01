@@ -97,13 +97,12 @@ const ProfileUpdate: FunctionComponent<Props> = (props) => {
       >
         <SquareButton
           title={"UPDATE PROFILE"}
-          buttonBackgroundColor={
-            disabledButton() ? Colors.default_grey : Colors.imperialRed
-          }
+          buttonBackgroundColor={Colors.imperialRed}
           onPress={handleUpdateProfile}
           style={{
             marginBottom: 20,
             alignSelf: "center",
+            opacity: disabledButton() ? 0.67 : 0.99,
           }}
           disabled={disabledButton()}
         />
