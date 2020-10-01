@@ -15,7 +15,7 @@ const ScreenHeader: FunctionComponent<Props> = (props) => {
         margin: 20,
       }}
     >
-      <TouchableOpacity onPress={navigation.goBack}>
+      <TouchableOpacity style={{ padding: 10 }} onPress={navigation.goBack}>
         <Ionicons name="ios-arrow-back" size={25} color="black" />
       </TouchableOpacity>
       <View style={{ flex: 1, justifyContent: "center" }}>
