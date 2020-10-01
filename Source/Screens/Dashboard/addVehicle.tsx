@@ -3,6 +3,7 @@ import React from "react"
 import { View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import * as yup from "yup"
+import ScreenHeader from "../../Components/Header"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
@@ -72,11 +73,12 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
   return (
     <ScrollView
       style={{
-        width: "90%",
+        width: "100%",
         alignSelf: "center",
-        marginVertical: 10,
+        backgroundColor: Colors.white,
       }}
     >
+      <ScreenHeader title={"Add new Vehicle"} />
       <Formik
         initialValues={{
           vcallsign: "",
@@ -94,7 +96,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
         validationSchema={addVehicleSchema}
       >
         {(props) => (
-          <View style={{ alignItems: "center" }}>
+          <View style={{ alignItems: "center", marginVertical: 10 }}>
             <LightTextInput
               placeholder={"Vehicle Callsign"}
               //@ts-ignore

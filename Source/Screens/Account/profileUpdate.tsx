@@ -1,10 +1,8 @@
-import { Ionicons } from "@expo/vector-icons"
 import React, { FunctionComponent, useState } from "react"
 import { View } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
+import ScreenHeader from "../../Components/Header"
 import SquareButton from "../../Components/SquareButton"
-import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import {
   ProfileUpdateNavigationProps,
@@ -27,23 +25,7 @@ const ProfileUpdate: FunctionComponent<Props> = (props) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.white }}>
-      <View
-        style={{
-          flexDirection: "row",
-          margin: 20,
-        }}
-      >
-        <TouchableOpacity onPress={props.navigation.goBack}>
-          <Ionicons name="ios-arrow-back" size={25} color="black" />
-        </TouchableOpacity>
-        <TextMontserrat
-          fontSize={16}
-          style={{ marginLeft: 120 }}
-          weight={"semibold"}
-        >
-          Profile Update
-        </TextMontserrat>
-      </View>
+      <ScreenHeader title={"Profile Update"} />
       <View style={{ marginTop: 10, marginBottom: 20 }}>
         <TextInput
           label={"CALLSIGN"}

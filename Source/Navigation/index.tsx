@@ -10,14 +10,7 @@ const AppNavigation = () => {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
       <AppStack.Screen name={"bottomTabs"} component={BottomTabsNavigator} />
-      <AppStack.Screen
-        name="addVehicle"
-        component={AddVehicle}
-        options={{
-          headerTitle: "Add new vehicle",
-          headerShown: true,
-        }}
-      />
+      <AppStack.Screen name="addVehicle" component={AddVehicle} />
       <AppStack.Screen name={"profileUpdate"} component={ProfileUpdate} />
     </AppStack.Navigator>
   )
