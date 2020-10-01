@@ -3,11 +3,10 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import React from "react"
 import TextMontserrat from "../Components/TextMontserrat"
 import Colors from "../Config/Colors"
-import Dashboard from "../Screens/Dashboard/userDashboard"
+import Accounts from "../Screens/Account/userAccount"
+import DashBoard from "../Screens/Dashboard/userDashboard"
 import RefuelLog from "../Screens/Refuel/userRefuelLog"
 import ServiceLog from "../Screens/Service/userServiceLog"
-import AccountsStack from "./accountsStack"
-import DashBoardStack from "./dashBoardStack"
 import { BottomTabsParamList } from "./types"
 
 const BottomTabsNavigator = () => {
@@ -112,11 +111,11 @@ const BottomTabsNavigator = () => {
         },
       })}
     >
-      <TabsComponent.Screen name={"dashboard"} component={DashBoardStack} />
+      <TabsComponent.Screen name={"dashboard"} component={DashBoard} />
       <TabsComponent.Screen name={"refuel"} component={RefuelLog} />
-      <TabsComponent.Screen name={"unassigned"} component={Dashboard} />
+      <TabsComponent.Screen name={"unassigned"} component={DashBoard} />
       <TabsComponent.Screen name={"service"} component={ServiceLog} />
-      <TabsComponent.Screen name={"account"} component={AccountsStack} />
+      <TabsComponent.Screen name={"account"} component={Accounts} />
     </TabsComponent.Navigator>
   )
 }

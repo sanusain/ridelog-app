@@ -12,7 +12,7 @@ import { AppState, dispatchHandler } from "../../State-management"
 
 type Props = { navigation: any }
 
-const userDashboard: React.FunctionComponent<Props> = (props) => {
+const DashBoard: React.FunctionComponent<Props> = (props) => {
   const [userData, setuserData] = useState(true)
   const { user, logout } = useContext(AuthContext)
 
@@ -113,4 +113,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(userDashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoard)

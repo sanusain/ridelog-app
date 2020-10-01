@@ -22,7 +22,7 @@ import { AppState, dispatchHandler } from "../../State-management"
 
 type Props = { navigation: AccountsNavigationProps }
 
-const UserAccount: React.FunctionComponent<Props> = (props) => {
+const Accounts: React.FunctionComponent<Props> = (props) => {
   const { logout } = useContext(AuthContext)
   const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
   const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
@@ -329,4 +329,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserAccount)
+export default connect(mapStateToProps, mapDispatchToProps)(Accounts)
