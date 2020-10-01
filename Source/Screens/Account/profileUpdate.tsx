@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useState } from "react"
+import React, { FunctionComponent, useContext, useState } from "react"
 import { View } from "react-native"
 import { TextInput } from "react-native-paper"
 import ScreenHeader from "../../Components/Header"
 import SquareButton from "../../Components/SquareButton"
 import Colors from "../../Config/Colors"
+import { AuthContext } from "../../Contexts/AuthProvider"
 import {
   ProfileUpdateNavigationProps,
   ProfileUpdateRouteProp,
@@ -15,12 +16,19 @@ type Props = {
 }
 
 const ProfileUpdate: FunctionComponent<Props> = (props) => {
-  const [callsign, setCallsign] = useState("")
-  const [email, setEmail] = useState("")
+  const { user } = useContext(AuthContext)
+
+  const [callsign, setCallsign] = useState(user?.callSign)
+  const [email, setEmail] = useState(user?.emailId)
   const [phone, setPhone] = useState("")
 
   const handleUpdateProfile = () => {
     console.log("in update profile")
+  }
+
+  const disabledButton = () => {
+    if (user?.callSign !== callsign || user?.emailId !== email) return false
+    return true
   }
 
   return (
@@ -28,7 +36,7 @@ const ProfileUpdate: FunctionComponent<Props> = (props) => {
       <ScreenHeader title={"Profile Update"} />
       <View style={{ marginTop: 10, marginBottom: 20 }}>
         <TextInput
-          label={"CALLSIGN"}
+          label={"Call Sign"}
           mode={"outlined"}
           style={{ color: Colors.imperialRed, marginHorizontal: 20 }}
           theme={{
@@ -43,7 +51,7 @@ const ProfileUpdate: FunctionComponent<Props> = (props) => {
           }}
         />
         <TextInput
-          label={"EMAIL ADDRESS"}
+          label={"Email Address"}
           mode={"outlined"}
           style={{
             color: Colors.imperialRed,
@@ -62,7 +70,7 @@ const ProfileUpdate: FunctionComponent<Props> = (props) => {
           }}
         />
         <TextInput
-          label={"PHONE NUMBER"}
+          label={"Phone Number"}
           mode={"outlined"}
           style={{
             color: Colors.imperialRed,
@@ -89,12 +97,15 @@ const ProfileUpdate: FunctionComponent<Props> = (props) => {
       >
         <SquareButton
           title={"UPDATE PROFILE"}
-          buttonBackgroundColor={Colors.imperialRed}
+          buttonBackgroundColor={
+            disabledButton() ? Colors.default_grey : Colors.imperialRed
+          }
           onPress={handleUpdateProfile}
           style={{
             marginBottom: 20,
             alignSelf: "center",
           }}
+          disabled={disabledButton()}
         />
       </View>
     </View>
