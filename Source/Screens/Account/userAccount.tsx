@@ -72,9 +72,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
             style={{ marginLeft: 20 }}
           />
           <View style={{ marginLeft: -50 }}>
-            <TextOpenSans fontSize={18} weight={"semibold"}>
-              Profile Information
-            </TextOpenSans>
+            <TextOpenSans fontSize={18}>Profile Information</TextOpenSans>
             <TextMontserrat fontSize={14}>
               Change your account information
             </TextMontserrat>
@@ -110,9 +108,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
             style={{ marginLeft: 20 }}
           />
           <View style={{ marginLeft: -65 }}>
-            <TextOpenSans fontSize={18} weight={"semibold"}>
-              Update Password
-            </TextOpenSans>
+            <TextOpenSans fontSize={18}>Update Password</TextOpenSans>
             <TextMontserrat fontSize={14}>
               Change your current password
             </TextMontserrat>
@@ -154,9 +150,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
               style={{ marginLeft: 20 }}
             />
             <View style={{ marginLeft: -90 }}>
-              <TextOpenSans fontSize={18} weight={"semibold"}>
-                Push Notifications
-              </TextOpenSans>
+              <TextOpenSans fontSize={18}>Push Notifications</TextOpenSans>
               <TextMontserrat fontSize={14}>
                 For occasional updates
               </TextMontserrat>
@@ -189,9 +183,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
               style={{ marginLeft: 20 }}
             />
             <View style={{ marginLeft: -80 }}>
-              <TextOpenSans fontSize={18} weight={"semibold"}>
-                SMS Notifications
-              </TextOpenSans>
+              <TextOpenSans fontSize={18}>SMS Notifications</TextOpenSans>
               <TextMontserrat fontSize={14}>
                 For important reminders
               </TextMontserrat>
@@ -240,9 +232,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
               style={{ marginLeft: 20 }}
             />
             <View style={{ marginLeft: -150 }}>
-              <TextOpenSans fontSize={18} weight={"semibold"}>
-                Rate Us
-              </TextOpenSans>
+              <TextOpenSans fontSize={18}>Rate Us</TextOpenSans>
               <TextMontserrat fontSize={14}>Leave us a rating</TextMontserrat>
             </View>
             <SimpleLineIcons
@@ -268,9 +258,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
               style={{ marginLeft: 20 }}
             />
             <View style={{ marginLeft: -70 }}>
-              <TextOpenSans fontSize={18} weight={"semibold"}>
-                FAQs
-              </TextOpenSans>
+              <TextOpenSans fontSize={18}>FAQs</TextOpenSans>
               <TextMontserrat fontSize={14}>
                 Frequently asked questions
               </TextMontserrat>
@@ -298,9 +286,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
               style={{ marginLeft: 20 }}
             />
             <View style={{ marginLeft: -120 }}>
-              <TextOpenSans fontSize={18} weight={"semibold"}>
-                Logout
-              </TextOpenSans>
+              <TextOpenSans fontSize={18}>Logout</TextOpenSans>
               <TextMontserrat fontSize={14}>Signout of Ridelogg</TextMontserrat>
             </View>
             <SimpleLineIcons
