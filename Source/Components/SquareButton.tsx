@@ -10,7 +10,7 @@ type Props = {
   buttonBackgroundColor?: string
   textColor?: string
   borderRadius?: number
-  width?: number
+  width?: number | string
   textOpacity?: number
   icon?: () => void
   disabled?: boolean

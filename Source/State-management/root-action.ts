@@ -2,11 +2,11 @@ import { AppState } from "."
 
 export class Action<T> {
   type: string
-  payload: T
+  payload?: T
   isUserAction: boolean
   actionSelf: Action<T>
 
-  constructor(payload: T) {
+  constructor(payload?: T) {
     this.type = this.constructor.name
     this.payload = payload
     this.isUserAction = true
