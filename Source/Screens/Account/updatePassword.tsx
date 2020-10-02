@@ -13,7 +13,8 @@ const UpdatePassword: FunctionComponent<Props> = (props) => {
   const [confirmPassword, setConfirmPassword] = useState("")
 
   const disabledButton = () => {
-    if (newPassword !== confirmPassword) return true
+    if (newPassword !== confirmPassword || (!newPassword && !confirmPassword))
+      return true
     return false
   }
 
