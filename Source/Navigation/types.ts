@@ -23,58 +23,54 @@ import { StackNavigationProp } from "@react-navigation/stack"
 
 //################## PARAMS LIST ###################
 
-export type BottomTabsParamList = {
+export type AppStackParamsList = {
   dashboard: undefined
   refuel: undefined
   unassigned: undefined
   service: undefined
   account: undefined
-}
-
-export type DashboardStackParamsList = {
-  dashboard: undefined
   addVehicle: undefined
-}
-
-export type AccountsStackParamsList = {
-  account: undefined
   profileUpdate: undefined
+  updatePassword: undefined
 }
 
 //################## NAVIGATION PROPS ###################
 
+// MAIN SCREENS
 export type DashboardNavigationProp = StackNavigationProp<
-  DashboardStackParamsList,
+  AppStackParamsList,
   "dashboard"
 >
-export type AddVehicleNavigationProp = StackNavigationProp<
-  DashboardStackParamsList,
-  "addVehicle"
->
-
 export type AccountsNavigationProps = StackNavigationProp<
-  AccountsStackParamsList,
+  AppStackParamsList,
   "account"
 >
 
+// SUB SCREENS
+export type AddVehicleNavigationProp = StackNavigationProp<
+  AppStackParamsList,
+  "addVehicle"
+>
+
 export type ProfileUpdateNavigationProps = StackNavigationProp<
-  AccountsStackParamsList,
+  AppStackParamsList,
   "profileUpdate"
 >
 
-//################## ROUTE PROPS ###################
+export type updatePasswordNavigationProps = StackNavigationProp<
+  AppStackParamsList,
+  "updatePassword"
+>
 
-export type DashboardRouteProp = RouteProp<
-  DashboardStackParamsList,
-  "dashboard"
->
-export type AddVehicleRouteProp = RouteProp<
-  DashboardStackParamsList,
-  "addVehicle"
->
-export type AccountsRouteProp = RouteProp<AccountsStackParamsList, "account">
+//################## ROUTE PROPS ###################
+// MAIN SCREENS
+export type DashboardRouteProp = RouteProp<AppStackParamsList, "dashboard">
+export type AccountsRouteProp = RouteProp<AppStackParamsList, "account">
+
+// SUB SCREENS
+export type AddVehicleRouteProp = RouteProp<AppStackParamsList, "addVehicle">
 
 export type ProfileUpdateRouteProp = RouteProp<
-  AccountsStackParamsList,
+  AppStackParamsList,
   "profileUpdate"
 >

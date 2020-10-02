@@ -38,7 +38,11 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
   const handleProfileInfo = () => {
     props.navigation.navigate("profileUpdate")
   }
-  const handleUpdatePassword = () => console.log("update password")
+
+  const handleUpdatePassword = () => {
+    console.log("update password")
+    props.navigation.navigate("updatePassword")
+  }
   const handleRateUs = () => console.log("leave a 5 star rating")
   const handleFAQs = () => console.log("Read more at docs")
 
