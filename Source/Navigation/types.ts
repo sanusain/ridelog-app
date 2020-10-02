@@ -23,6 +23,14 @@ import { StackNavigationProp } from "@react-navigation/stack"
 
 //################## PARAMS LIST ###################
 
+export type BottomTabsParamList = {
+  dashboard: undefined
+  refuel: undefined
+  unassigned: undefined
+  service: undefined
+  account: undefined
+}
+
 export type AppStackParamsList = {
   dashboard: undefined
   refuel: undefined

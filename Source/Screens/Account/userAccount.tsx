@@ -96,7 +96,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
             opacity: 0.2,
           }}
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             flexDirection: "row",
             alignItems: "center",
@@ -123,7 +123,7 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
             color="black"
             style={{ marginRight: 10 }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {/* notifications section +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/}
         <View>
