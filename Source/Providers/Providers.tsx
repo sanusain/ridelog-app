@@ -3,12 +3,13 @@ import * as Font from "expo-font"
 import * as SecureStore from "expo-secure-store"
 import React, { useContext, useEffect, useState } from "react"
 import { ActivityIndicator } from "react-native"
+import { Provider as PaperProvider } from "react-native-paper"
 import { Provider } from "react-redux"
 import { appFonts } from "../Assets/Fonts/index"
 import SafeAreaView from "../Components/SafeAreaView"
 import { AuthContext } from "../Contexts/AuthProvider"
+import AppNavigation from "../Navigation"
 import AuthStack from "../Navigation/AuthStack"
-import BottomTabsNavigator from "../Navigation/BottomTabs"
 import { getStore } from "../State-management"
 
 export default function Providers() {
@@ -38,9 +39,11 @@ export default function Providers() {
   return fontsLoaded ? (
     <NavigationContainer>
       <Provider store={store}>
-        <SafeAreaView>
-          {user ? <BottomTabsNavigator /> : <AuthStack />}
-        </SafeAreaView>
+        <PaperProvider>
+          <SafeAreaView>
+            {user ? <AppNavigation /> : <AuthStack />}
+          </SafeAreaView>
+        </PaperProvider>
       </Provider>
     </NavigationContainer>
   ) : (

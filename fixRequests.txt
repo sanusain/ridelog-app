@@ -3,7 +3,8 @@ Design/ui/ux :
  [] ridelogg logo centerd as per screen - signin
  [] create new account should give visual feedback - signin
  [] input fields jumps up, unusual visual, need smooth transistion - signin
- 
+ [] Add a spinner when fetching data. update a redux boolean val when fetching,then update it again when 
+        data has been fetched.
 Code:
 [] save firebase credentials as env 
  

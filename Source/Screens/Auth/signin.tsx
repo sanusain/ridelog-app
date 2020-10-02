@@ -2,6 +2,7 @@ import * as Google from "expo-google-app-auth"
 import React, { useContext, useEffect, useState } from "react"
 import { ActivityIndicator, Alert, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { connect } from "react-redux"
 import LightTextInput from "../../Components/LightTextInput"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
@@ -10,18 +11,20 @@ import { getOAuthClientId } from "../../Config"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
 import { AuthContext, User } from "../../Contexts/AuthProvider"
+import { hydrateVehiclesInfo } from "../../Database"
+import { dispatchHandler } from "../../State-management"
 
-type Props = { navigation: any }
+type Props = { dispatch: any; navigation: any }
 
 const SignIn: React.FunctionComponent<Props> = (props) => {
   const [inputEmail, setInputEmail] = useState("")
   const [inputPassword, setInputPassword] = useState("")
-  const [loginSpinner, setloginSpinner] = useState(false)
+  const [loginSpinner, setLoginSpinner] = useState(false)
   const { user, login } = useContext(AuthContext)
 
   useEffect(() => {
     return () => {
-      setloginSpinner(false)
+      setLoginSpinner(false)
     }
   }, [])
 
@@ -51,6 +54,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           avatar: "",
         }
         login(signInUserData)
+        hydrateVehiclesInfo(props.dispatch)
       })
       .catch((error) => {
         Alert.alert(
@@ -64,15 +68,15 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           { cancelable: true }
         )
       })
-
-    console.log("signin")
   }
+
   const handleSignUpRedirection = () => {
     console.log("signup")
     props.navigation.navigate("signUp")
   }
+
   const handleSignInWithGoogleAsync = async () => {
-    setloginSpinner(true)
+    setLoginSpinner(true)
     try {
       const result = await Google.logInAsync({
         androidClientId: getOAuthClientId(),
@@ -87,15 +91,15 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
         firebase
           .auth()
           .signInWithCredential(credential)
-          .then((firebaseAuthUser) => {
+          .then(async (firebaseAuthUser) => {
             const logUser: User = {
               uid: firebaseAuthUser.user?.uid ? firebaseAuthUser.user?.uid : "",
               avatar: result.user.photoUrl,
               callSign: result.user.givenName ? result.user.givenName : "",
               emailId: result.user.email ? result.user.email : "",
             }
-
             login(logUser)
+            hydrateVehiclesInfo(props.dispatch)
           })
       } else {
         return { cancelled: true }
@@ -104,6 +108,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
       return { error: true }
     }
   }
+
   const handleSignInWithFacebook = () => {
     console.log("signinwith facebook")
   }
@@ -241,4 +246,8 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
   )
 }
 
-export default SignIn
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatch: dispatchHandler(dispatch),
+})
+
+export default connect(null, mapDispatchToProps)(SignIn)

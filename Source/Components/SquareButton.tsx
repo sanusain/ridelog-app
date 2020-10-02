@@ -10,9 +10,10 @@ type Props = {
   buttonBackgroundColor?: string
   textColor?: string
   borderRadius?: number
-  width?: number
+  width?: number | string
   textOpacity?: number
   icon?: () => void
+  disabled?: boolean
 }
 
 const SquareButton: React.FunctionComponent<Props> = (props) => {
@@ -30,6 +31,7 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
         ...props.style,
       }}
       onPress={props.onPress}
+      disabled={props.disabled}
     >
       <TextMontserrat
         fontSize={16}
