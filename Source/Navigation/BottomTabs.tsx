@@ -5,7 +5,7 @@ import TextMontserrat from "../Components/TextMontserrat"
 import Colors from "../Config/Colors"
 import Accounts from "../Screens/Account/userAccount"
 import DashBoard from "../Screens/Dashboard/userDashboard"
-import RefuelLog from "../Screens/Refuel/userRefuelLog"
+import RefuelLog from "../Screens/Refuel/refuel"
 import ServiceLog from "../Screens/Service/userServiceLog"
 import { BottomTabsParamList } from "./types"
 
