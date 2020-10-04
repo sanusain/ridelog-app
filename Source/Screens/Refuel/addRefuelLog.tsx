@@ -9,17 +9,6 @@ import Colors from "../../Config/Colors"
 
 type Props = {}
 
-/**
- * date time auto, but editable
- * current odo
- * last odometer
- * qty
- * price/lt
- * price auto calculate,non editable
- * location(optional)
- * images
- */
-
 const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [dateTime, setDateTime] = useState(new Date())
   const [currentOdo, setCurrentOdo] = useState("")
