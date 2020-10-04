@@ -85,7 +85,13 @@ const userRefuelLog: React.FunctionComponent<Props> = (props) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.white }}>
-      <ScreenHeader title={"Refuel"} />
+      <ScreenHeader
+        title={"Refuel"}
+        enableAdd={true}
+        enableCallback={() => {
+          console.log("button add")
+        }}
+      />
       <View style={{ flex: 1, marginTop: -10 }}>
         <FlatList
           data={refuelData}
