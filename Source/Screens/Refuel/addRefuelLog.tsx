@@ -23,7 +23,7 @@ type Props = {}
 const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [dateTime, setDateTime] = useState(new Date())
   const [currentOdo, setCurrentOdo] = useState("")
-  const [LastOdo, setLastOdo] = useState("0000")
+  const [lastOdo, setLastOdo] = useState("0000")
   const [fuelQuantity, setFuelQuantity] = useState("")
   const [pricePerQty, setPricePerQty] = useState("")
   const [cost, setCost] = useState("")
@@ -83,7 +83,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           theme={{
             colors: { primary: Colors.imperialRed, background: Colors.white },
           }}
-          value={LastOdo}
+          value={lastOdo}
           onChangeText={(inputText) => {
             console.log(inputText)
           }}
