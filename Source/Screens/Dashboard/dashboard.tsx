@@ -4,6 +4,7 @@ import { Dimensions, Image, ScrollView, View } from "react-native"
 import { LineChart } from "react-native-chart-kit"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
+import uuid from "react-native-uuid"
 import { connect } from "react-redux"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
@@ -25,19 +26,49 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
   const screenWidth = Dimensions.get("window").width
 
   const { user } = useContext(AuthContext)
-  const fakeData = {
+  const fakeData: vehicleInfo = {
     vcallsign: "Storm0171",
     maker: "Rolls",
     model: "Ghost",
     plate: "WB2394SF",
+    odo: "2020",
     vin: "ASDFW234ASFD",
-    year: 2012,
+    year: "2012",
     images: [
       "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
     ],
-    vehicleData: { lastRefuelQty: 8, lastRefuelledDate: new Date(), odo: 2552 }, //canbe taken from refuel data most recent items
+    vehicleData: { lastRefuelQty: "8", lastRefuelDate: new Date() }, //canbe taken from refuel data most recent items
+    refuelData: [
+      {
+        uid: uuid.v4(),
+        odo: "2595",
+        quantity: "7",
+        date: new Date(),
+        cost: "2.54",
+      },
+      {
+        uid: uuid.v4(),
+        odo: "2607",
+        quantity: "9",
+        date: new Date(),
+        cost: "25.54",
+      },
+      {
+        uid: uuid.v4(),
+        odo: "2808",
+        quantity: "2",
+        date: new Date(),
+        cost: "268.54",
+      },
+    ],
+    serviceData: [
+      {
+        uid: uuid.v4(),
+        date: new Date(),
+      },
+    ],
   }
 
   // useEffect(() => {
@@ -235,7 +266,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
                 Distance Logged
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.vehicleData.odo} {"KMs"}
+                {fakeData.odo} {"KMs"}
               </TextMontserrat>
             </View>
             <View
@@ -250,7 +281,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
                 Last Refuel
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.vehicleData.lastRefuelledDate.toDateString()}
+                {new Date().toDateString()}
               </TextMontserrat>
             </View>
           </TouchableOpacity>

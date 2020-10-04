@@ -2,13 +2,17 @@ export type vehicleInfo = {
   vcallsign: string
   maker: string
   model: string
-  odo: number
+  odo: string
   plate: string
   vin: string
-  year: number
+  year: string
   images: Array<string>
-  refuelData: RefuelData
-  serviceData: ServiceData
+  refuelData: Array<RefuelData>
+  serviceData: Array<ServiceData>
+  vehicleData: {
+    lastRefuelQty: string
+    lastRefuelDate: Date
+  }
 }
 
 export type RefuelData = {
