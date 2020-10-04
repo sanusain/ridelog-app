@@ -41,7 +41,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   return (
     <ScrollView style={{ backgroundColor: Colors.white }}>
       <ScreenHeader title={"New log"} />
-      <View>
+      <View style={{ marginTop: -10 }}>
         <TextInput
           label={"Date and Time"}
           mode={"outlined"}
@@ -169,7 +169,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             name="add-a-photo"
             size={35}
             color={Colors.imperialRed}
-            style={{ opacity: 0.77 }}
+            style={{ opacity: 0.67 }}
           />
         </TouchableOpacity>
 
