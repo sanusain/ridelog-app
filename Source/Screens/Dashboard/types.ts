@@ -6,6 +6,7 @@ export type vehicleInfo = {
   plate: string
   vin: string
   year: number
+  images: Array<string>
   refuelData: RefuelData
   serviceData: ServiceData
 }

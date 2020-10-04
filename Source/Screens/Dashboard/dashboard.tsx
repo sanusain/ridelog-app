@@ -37,7 +37,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
     ],
-    vehicleData: { lastRefuelQty: 8, lastRefuelledDate: new Date(), odo: 2552 },
+    vehicleData: { lastRefuelQty: 8, lastRefuelledDate: new Date(), odo: 2552 }, //canbe taken from refuel data most recent items
   }
 
   // useEffect(() => {
