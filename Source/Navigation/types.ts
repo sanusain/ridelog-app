@@ -41,6 +41,7 @@ export type AppStackParamsList = {
   profileUpdate: undefined
   updatePassword: undefined
   refuelDetails: undefined
+  addRefuelLog: undefined
 }
 
 //################## NAVIGATION PROPS ###################
@@ -74,6 +75,11 @@ export type RefuelNavigationProps = StackNavigationProp<
 export type RefuelDetailsNavigationProps = StackNavigationProp<
   AppStackParamsList,
   "refuelDetails"
+>
+
+export type AddRefuelLogNavigationProps = StackNavigationProp<
+  AppStackParamsList,
+  "addRefuelLog"
 >
 
 //################## ROUTE PROPS ###################

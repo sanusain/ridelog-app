@@ -34,6 +34,10 @@ const userRefuelLog: React.FunctionComponent<Props> = (props) => {
     props.navigation.navigate("refuelDetails")
   }
 
+  const handleAddLog = () => {
+    props.navigation.navigate("addRefuelLog")
+  }
+
   const renderList = ({ item }: { item: any }) => {
     return (
       <TouchableOpacity
@@ -88,9 +92,7 @@ const userRefuelLog: React.FunctionComponent<Props> = (props) => {
       <ScreenHeader
         title={"Refuel"}
         enableAdd={true}
-        enableCallback={() => {
-          console.log("button add")
-        }}
+        enableCallback={handleAddLog}
       />
       <View style={{ flex: 1, marginTop: -10 }}>
         <FlatList
