@@ -9,6 +9,7 @@ import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { RefuelNavigationProps } from "../../Navigation/types"
 import { dispatchHandler } from "../../State-management"
+import { RefuelData } from "../Dashboard/types"
 
 type Props = { navigation: RefuelNavigationProps }
 
@@ -16,17 +17,77 @@ const userRefuelLog: React.FunctionComponent<Props> = (props) => {
   const conversionLiquid = "L"
   const conversionDistance = "Km"
   const currency = "₹"
-  const refuelData = [
-    { uid: uuid.v4(), odo: 2500, quantity: 8, date: new Date(), cost: 275.54 },
-    { odo: 2570, quantity: 4.7, date: new Date(), cost: 300 },
-    { odo: 2580, quantity: 5, date: new Date(), cost: 245.4 },
-    { odo: 2590, quantity: 7, date: new Date(), cost: 2.54 },
-    { odo: 2600, quantity: 9, date: new Date(), cost: 25.54 },
-    { odo: 2800, quantity: 25.85, date: new Date(), cost: 268.54 },
-    { odo: 2583, quantity: 5, date: new Date(), cost: 245.4 },
-    { odo: 2595, quantity: 7, date: new Date(), cost: 2.54 },
-    { odo: 2607, quantity: 9, date: new Date(), cost: 25.54 },
-    { odo: 2808, quantity: 2, date: new Date(), cost: 268.54 },
+  const refuelData: Array<RefuelData> = [
+    {
+      uid: uuid.v4(),
+      odo: "2500",
+      quantity: "8",
+      date: new Date(),
+      cost: "275.54",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2570",
+      quantity: "4.7",
+      date: new Date(),
+      cost: "300",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2580",
+      quantity: "5",
+      date: new Date(),
+      cost: "245.4",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2590",
+      quantity: "7",
+      date: new Date(),
+      cost: "2.54",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2600",
+      quantity: "9",
+      date: new Date(),
+      cost: "25.54",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2800",
+      quantity: "25.85",
+      date: new Date(),
+      cost: "268.54",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2583",
+      quantity: "5",
+      date: new Date(),
+      cost: "245.4",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2595",
+      quantity: "7",
+      date: new Date(),
+      cost: "2.54",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2607",
+      quantity: "9",
+      date: new Date(),
+      cost: "25.54",
+    },
+    {
+      uid: uuid.v4(),
+      odo: "2808",
+      quantity: "2",
+      date: new Date(),
+      cost: "268.54",
+    },
   ]
 
   const handleRefuelItem = () => {
@@ -110,3 +171,8 @@ const mapDispatchToProps = (dispatch: any) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(userRefuelLog)
+
+/**
+ * firebase vehicle name and localvehicle name doesnt match. check
+ *
+ */
