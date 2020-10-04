@@ -10,10 +10,11 @@ import Colors from "../../Config/Colors"
 import { RefuelNavigationProps } from "../../Navigation/types"
 import { dispatchHandler } from "../../State-management"
 import { RefuelData } from "../Dashboard/types"
+import { ActionSetRefuelData } from "./actions"
 
-type Props = { navigation: RefuelNavigationProps }
+type Props = { dispatch: any; navigation: RefuelNavigationProps }
 
-const userRefuelLog: React.FunctionComponent<Props> = (props) => {
+const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
   const conversionLiquid = "L"
   const conversionDistance = "Km"
   const currency = "₹"
@@ -22,76 +23,78 @@ const userRefuelLog: React.FunctionComponent<Props> = (props) => {
       uid: uuid.v4(),
       odo: "2500",
       quantity: "8",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "275.54",
     },
     {
       uid: uuid.v4(),
       odo: "2570",
       quantity: "4.7",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "300",
     },
     {
       uid: uuid.v4(),
       odo: "2580",
       quantity: "5",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "245.4",
     },
     {
       uid: uuid.v4(),
       odo: "2590",
       quantity: "7",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "2.54",
     },
     {
       uid: uuid.v4(),
       odo: "2600",
       quantity: "9",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "25.54",
     },
     {
       uid: uuid.v4(),
       odo: "2800",
       quantity: "25.85",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "268.54",
     },
     {
       uid: uuid.v4(),
       odo: "2583",
       quantity: "5",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "245.4",
     },
     {
       uid: uuid.v4(),
       odo: "2595",
       quantity: "7",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "2.54",
     },
     {
       uid: uuid.v4(),
       odo: "2607",
       quantity: "9",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "25.54",
     },
     {
       uid: uuid.v4(),
       odo: "2808",
       quantity: "2",
-      date: new Date(),
+      date: new Date().toDateString(),
       cost: "268.54",
     },
   ]
 
-  const handleRefuelItem = () => {
-    console.log("pressed something")
+  const handleRefuelItem = (refuelData: RefuelData) => {
+    console.log("pressed handleRefuelItem")
+    console.log("item", refuelData)
+    props.dispatch(new ActionSetRefuelData(refuelData))
     props.navigation.navigate("refuelDetails")
   }
 
@@ -109,7 +112,7 @@ const userRefuelLog: React.FunctionComponent<Props> = (props) => {
           marginVertical: 5,
           paddingVertical: 10,
         }}
-        onPress={handleRefuelItem}
+        onPress={() => handleRefuelItem(item)}
       >
         <View
           style={{
@@ -120,7 +123,7 @@ const userRefuelLog: React.FunctionComponent<Props> = (props) => {
           }}
         >
           <TextMontserrat fontSize={18} weight={"medium"}>
-            {item.date.toDateString()}
+            {item.date}
           </TextMontserrat>
           <TextMontserrat
             fontSize={18}
@@ -170,9 +173,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(userRefuelLog)
-
-/**
- * firebase vehicle name and localvehicle name doesnt match. check
- *
- */
+export default connect(mapStateToProps, mapDispatchToProps)(UserRefuelLog)

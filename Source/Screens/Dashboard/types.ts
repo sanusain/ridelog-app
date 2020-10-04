@@ -19,7 +19,7 @@ export type RefuelData = {
   uid: string
   odo: string
   quantity: string
-  date: Date
+  date: string
   cost: string
 }
 
