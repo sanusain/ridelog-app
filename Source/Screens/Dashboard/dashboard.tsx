@@ -47,6 +47,11 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         quantity: "7",
         date: new Date().toDateString(),
         cost: "2.54",
+        images: [
+          "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+        ],
       },
       {
         uid: uuid.v4(),
@@ -54,6 +59,11 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         quantity: "9",
         date: new Date().toDateString(),
         cost: "25.54",
+        images: [
+          "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+        ],
       },
       {
         uid: uuid.v4(),
@@ -61,6 +71,11 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         quantity: "2",
         date: new Date().toDateString(),
         cost: "268.54",
+        images: [
+          "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+        ],
       },
     ],
     serviceData: [

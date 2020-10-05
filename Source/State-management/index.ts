@@ -20,6 +20,7 @@ const refuelData: RefuelData = {
   date: "",
   odo: "",
   quantity: "",
+  images: [],
 }
 const initialState = {
   userInfo: {

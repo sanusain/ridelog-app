@@ -21,6 +21,7 @@ export type RefuelData = {
   quantity: string
   date: string
   cost: string
+  images: Array<string>
 }
 
 export type ServiceData = {

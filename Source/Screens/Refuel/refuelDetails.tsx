@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react"
-import { Text, View } from "react-native"
+import { Dimensions, Image, View } from "react-native"
+import { ScrollView } from "react-native-gesture-handler"
+import Carousel from "react-native-snap-carousel"
 import { connect } from "react-redux"
 import ScreenHeader from "../../Components/Header"
 import Colors from "../../Config/Colors"
@@ -12,21 +14,46 @@ type Props = {
   navigation: RefuelDetailsNavigationProps
 }
 
+const screenWidth = Dimensions.get("window").width
+
 const RefuelDetails: FunctionComponent<Props> = (props) => {
-  console.log("refueldata", props.refuelData)
+  const renderCarousel = ({ item }: { item: any }) => {
+    return (
+      <View>
+        <Image
+          source={{ uri: item }}
+          resizeMode={"cover"}
+          style={{
+            borderWidth: 1,
+            width: screenWidth,
+            height: (3 / 4) * screenWidth,
+          }}
+        />
+      </View>
+    )
+  }
 
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.white }}>
+    <ScrollView style={{ backgroundColor: Colors.white }}>
       <ScreenHeader title={"Refuel Details"} />
-      <Text>refuel details</Text>
-    </View>
+      <Carousel
+        data={props.refuelData.images}
+        renderItem={renderCarousel}
+        sliderWidth={screenWidth}
+        itemWidth={screenWidth}
+        loop={true}
+        autoplay={true}
+      />
+    </ScrollView>
   )
 }
 
 const mapStateToProps = (state: AppState) => ({
   refuelData: state.refuelData,
 })
+
 const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(RefuelDetails)

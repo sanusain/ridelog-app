@@ -20,7 +20,8 @@ const ScreenHeader: FunctionComponent<Props> = (props) => {
     <View
       style={{
         flexDirection: "row",
-        margin: 20,
+        marginHorizontal: 20,
+        marginVertical: 10,
       }}
     >
       <TouchableOpacity
