@@ -9,10 +9,6 @@ export type vehicleInfo = {
   images: Array<string>
   refuelData: Array<RefuelData>
   serviceData: Array<ServiceData>
-  vehicleData: {
-    lastRefuelQty: string
-    lastRefuelDate: Date
-  }
 }
 
 export type RefuelData = {

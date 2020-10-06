@@ -49,7 +49,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  refuelData: state.refuelData,
+  refuelData: state.selectedVehicle.refuelData[0],
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

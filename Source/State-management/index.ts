@@ -1,5 +1,9 @@
 import { applyMiddleware, createStore } from "redux"
-import { RefuelData, vehicleInfo } from "../Screens/Dashboard/types"
+import {
+  RefuelData,
+  ServiceData,
+  vehicleInfo,
+} from "../Screens/Dashboard/types"
 import { Action } from "./root-action"
 
 // vehiclesInfo contains object of this type, where vehicle1 is the vehicle callsign
@@ -14,14 +18,19 @@ import { Action } from "./root-action"
 // },
 
 const vehiclesInfomation: Array<vehicleInfo> = []
-
-const refuelData: RefuelData = {
-  uid: "",
-  cost: "",
-  date: "",
+const refuelData: Array<RefuelData> = []
+const serviceData: Array<ServiceData> = []
+const selectedVehicle: vehicleInfo = {
+  vcallsign: "",
+  maker: "",
+  model: "",
   odo: "",
-  quantity: "",
+  plate: "",
+  vin: "",
+  year: "",
   images: [],
+  refuelData,
+  serviceData,
 }
 
 const initialState = {
@@ -32,7 +41,7 @@ const initialState = {
     lastLogin: "",
   },
   vehiclesInfo: vehiclesInfomation,
-  refuelData: refuelData,
+  selectedVehicle,
 }
 
 const actionLogger = (state: any) => (next: any) => (action: Action<any>) => {
