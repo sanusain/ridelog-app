@@ -14,6 +14,7 @@ import { Action } from "./root-action"
 // },
 
 const vehiclesInfomation: Array<vehicleInfo> = []
+
 const refuelData: RefuelData = {
   uid: "",
   cost: "",
@@ -22,6 +23,7 @@ const refuelData: RefuelData = {
   quantity: "",
   images: [],
 }
+
 const initialState = {
   userInfo: {
     userCallsign: "",
