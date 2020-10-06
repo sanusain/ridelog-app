@@ -4,7 +4,6 @@ import { Dimensions, Image, ScrollView, View } from "react-native"
 import { LineChart } from "react-native-chart-kit"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
-import uuid from "react-native-uuid"
 import { connect } from "react-redux"
 import ScreenHeader from "../../Components/Header"
 import SquareButton from "../../Components/SquareButton"
@@ -12,78 +11,84 @@ import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
 import { hydrateVehiclesInfo } from "../../Database"
+import {
+  DashboardNavigationProp,
+  DashboardRouteProp,
+} from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
 import { vehicleInfo } from "./types"
 
 type Props = {
   vehiclesInfo: Array<vehicleInfo>
-  navigation: any
+  selectedVehicle: vehicleInfo
+  navigation: DashboardNavigationProp
   dispatch: any
-  route: any
+  route: DashboardRouteProp
 }
 
 const DashBoard: React.FunctionComponent<Props> = (props) => {
   const screenWidth = Dimensions.get("window").width
 
   const { user } = useContext(AuthContext)
-  const fakeData: vehicleInfo = {
-    vcallsign: "Storm0171",
-    maker: "Rolls",
-    model: "Ghost",
-    plate: "WB2394SF",
-    odo: "2020",
-    vin: "ASDFW234ASFD",
-    year: "2012",
-    images: [
-      "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-    ],
-    refuelData: [
-      {
-        uid: uuid.v4(),
-        odo: "2595",
-        quantity: "7",
-        date: new Date().toDateString(),
-        cost: "2.54",
-        images: [
-          "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-        ],
-      },
-      {
-        uid: uuid.v4(),
-        odo: "2607",
-        quantity: "9",
-        date: new Date().toDateString(),
-        cost: "25.54",
-        images: [
-          "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-        ],
-      },
-      {
-        uid: uuid.v4(),
-        odo: "2808",
-        quantity: "2",
-        date: new Date().toDateString(),
-        cost: "268.54",
-        images: [
-          "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-        ],
-      },
-    ],
-    serviceData: [
-      {
-        uid: uuid.v4(),
-        date: new Date(),
-      },
-    ],
-  }
+  // const fakeData: vehicleInfo = {
+  //   vcallsign: "Storm0171",
+  //   maker: "Rolls",
+  //   model: "Ghost",
+  //   plate: "WB2394SF",
+  //   odo: "2020",
+  //   vin: "ASDFW234ASFD",
+  //   year: "2012",
+  //   images: [
+  //     "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+  //     "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+  //     "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+  //   ],
+  //   refuelData: [
+  //     {
+  //       uid: uuid.v4(),
+  //       odo: "2595",
+  //       quantity: "7",
+  //       date: new Date().toDateString(),
+  //       cost: "2.54",
+  //       images: [
+  //         "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+  //         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+  //       ],
+  //     },
+  //     {
+  //       uid: uuid.v4(),
+  //       odo: "2607",
+  //       quantity: "9",
+  //       date: new Date().toDateString(),
+  //       cost: "25.54",
+  //       images: [
+  //         "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+  //         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+  //       ],
+  //     },
+  //     {
+  //       uid: uuid.v4(),
+  //       odo: "2808",
+  //       quantity: "2",
+  //       date: new Date().toDateString(),
+  //       cost: "268.54",
+  //       images: [
+  //         "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+  //         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+  //       ],
+  //     },
+  //   ],
+  //   serviceData: [
+  //     {
+  //       uid: uuid.v4(),
+  //       date: new Date().toDateString(),
+  //       images: [],
+  //     },
+  //   ],
+  // }
 
   // useEffect(() => {
   //   console.log("user", user)
@@ -160,7 +165,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
           marginRight: 100,
         }}
       />
-      {!props.vehiclesInfo.length ? (
+      {!props.selectedVehicle ? (
         <View
           style={{
             alignItems: "center",
@@ -212,7 +217,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         >
           <View>
             <Carousel
-              data={fakeData.images}
+              data={props.selectedVehicle.images}
               renderItem={renderCarouselVehicle}
               sliderWidth={screenWidth}
               itemWidth={screenWidth / 1.2}
@@ -245,7 +250,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
                 Ride
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.vcallsign}
+                {props.selectedVehicle.vcallsign}
               </TextMontserrat>
             </View>
             <View
@@ -260,7 +265,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
                 Distance Logged
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.odo} {"KMs"}
+                {props.selectedVehicle.odo} {"KMs"}
               </TextMontserrat>
             </View>
             <View
@@ -326,7 +331,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
           </View>
           <View style={{ marginTop: 10 }}>
             <Carousel
-              data={fakeData.images}
+              data={props.selectedVehicle.images}
               renderItem={renderCarouselTips}
               sliderWidth={screenWidth}
               itemWidth={screenWidth - 10}
@@ -340,7 +345,12 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
   )
 }
 
+/* *currently seelected vehicle holds the first vehicle
+ * of all veihcles list ie vehiclesInfo. later this will be changed
+ * to selected vehicle state when user will be able to pick the vehicle
+ */
 const mapStateToProps = (state: AppState) => ({
+  selectedVehicle: state.vehiclesInfo[0],
   vehiclesInfo: state.vehiclesInfo,
 })
 

@@ -1,145 +1,26 @@
 import React from "react"
-import { AppState, View } from "react-native"
+import { Text, View } from "react-native"
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
-import uuid from "react-native-uuid"
 import { connect } from "react-redux"
 import ScreenHeader from "../../Components/Header"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { RefuelNavigationProps } from "../../Navigation/types"
-import { dispatchHandler } from "../../State-management"
+import { AppState, dispatchHandler } from "../../State-management"
 import { RefuelData } from "../Dashboard/types"
 import { ActionSetRefuelData } from "./actions"
 
-type Props = { dispatch: any; navigation: RefuelNavigationProps }
+type Props = {
+  refuelData: Array<RefuelData> | undefined
+  dispatch: any
+  navigation: RefuelNavigationProps
+}
 
 const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
   const conversionLiquid = "L"
   const conversionDistance = "Km"
   const currency = "₹"
-  const refuelData: Array<RefuelData> = [
-    {
-      uid: uuid.v4(),
-      odo: "2500",
-      quantity: "8",
-      date: new Date().toDateString(),
-      cost: "275.54",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2570",
-      quantity: "4.7",
-      date: new Date().toDateString(),
-      cost: "300",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2580",
-      quantity: "5",
-      date: new Date().toDateString(),
-      cost: "245.4",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2590",
-      quantity: "7",
-      date: new Date().toDateString(),
-      cost: "2.54",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2600",
-      quantity: "9",
-      date: new Date().toDateString(),
-      cost: "25.54",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2800",
-      quantity: "25.85",
-      date: new Date().toDateString(),
-      cost: "268.54",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2583",
-      quantity: "5",
-      date: new Date().toDateString(),
-      cost: "245.4",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2595",
-      quantity: "7",
-      date: new Date().toDateString(),
-      cost: "2.54",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2607",
-      quantity: "9",
-      date: new Date().toDateString(),
-      cost: "25.54",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-    {
-      uid: uuid.v4(),
-      odo: "2808",
-      quantity: "2",
-      date: new Date().toDateString(),
-      cost: "268.54",
-      images: [
-        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-      ],
-    },
-  ]
 
   const handleRefuelItem = (refuelData: RefuelData) => {
     console.log("pressed handleRefuelItem")
@@ -208,17 +89,23 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
         enableAdd={true}
         enableCallback={handleAddLog}
       />
-      <View style={{ flex: 1, marginTop: -10 }}>
-        <FlatList
-          data={refuelData}
-          renderItem={renderList}
-          keyExtractor={(item) => item.odo.toString()}
-        />
+      <View style={{ flex: 1, marginTop: -10, borderWidth: 1 }}>
+        {props.refuelData && props.refuelData.length ? (
+          <FlatList
+            data={props.refuelData}
+            renderItem={renderList}
+            keyExtractor={(item) => item.odo.toString()}
+          />
+        ) : (
+          <Text>no data</Text>
+        )}
       </View>
     </View>
   )
 }
-const mapStateToProps = (state: AppState) => ({})
+const mapStateToProps = (state: AppState) => ({
+  refuelData: state.selectedVehicle.refuelData,
+})
 const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })

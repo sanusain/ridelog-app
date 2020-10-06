@@ -22,5 +22,6 @@ export type RefuelData = {
 
 export type ServiceData = {
   uid: string
-  date: Date
+  date: string
+  images: Array<string>
 }

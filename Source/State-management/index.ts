@@ -6,19 +6,8 @@ import {
 } from "../Screens/Dashboard/types"
 import { Action } from "./root-action"
 
-// vehiclesInfo contains object of this type, where vehicle1 is the vehicle callsign
-// vehicle1: {
-//   vehicleCallsign: "",
-//   maker: "",
-//   model: "",
-//   odo: "",
-//   plate: "",
-//   vin: "",
-//   year: "",
-// },
-
 const vehiclesInfomation: Array<vehicleInfo> = []
-const refuelData: Array<RefuelData> = []
+const refuelData: Array<RefuelData> | undefined = []
 const serviceData: Array<ServiceData> = []
 const selectedVehicle: vehicleInfo = {
   vcallsign: "",
