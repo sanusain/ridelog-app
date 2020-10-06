@@ -169,7 +169,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           }}
           value={location}
           onChangeText={(inputText) => {
-            console.log(inputText)
+            setLocation(inputText)
           }}
         />
         <TouchableOpacity
