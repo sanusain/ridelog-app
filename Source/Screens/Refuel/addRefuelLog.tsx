@@ -20,7 +20,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 
   const updateCost = () => {
     const cost = (parseFloat(fuelQuantity) * parseFloat(pricePerQty)).toFixed(2)
-    setCost(cost)
+    if (parseFloat(cost) !== NaN) setCost(cost)
   }
 
   const handleAddLog = () => {
@@ -53,12 +53,13 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             marginHorizontal: 20,
             marginVertical: 5,
           }}
+          keyboardType={"number-pad"}
           theme={{
             colors: { primary: Colors.imperialRed, background: Colors.white },
           }}
-          value={currentOdo.toString()}
+          value={currentOdo}
           onChangeText={(inputText) => {
-            console.log(inputText)
+            setCurrentOdo(inputText)
           }}
         />
         <TextInput
@@ -73,9 +74,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             colors: { primary: Colors.imperialRed, background: Colors.white },
           }}
           value={lastOdo}
-          onChangeText={(inputText) => {
-            console.log(inputText)
-          }}
           editable={false}
         />
         <TextInput
@@ -86,6 +84,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             marginHorizontal: 20,
             marginVertical: 5,
           }}
+          keyboardType={"number-pad"}
           theme={{
             colors: { primary: Colors.imperialRed, background: Colors.white },
           }}
@@ -106,6 +105,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           theme={{
             colors: { primary: Colors.imperialRed, background: Colors.white },
           }}
+          keyboardType={"number-pad"}
           value={pricePerQty}
           onChangeText={(inputText) => {
             setPricePerQty(inputText)
