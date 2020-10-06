@@ -1,13 +1,15 @@
 import React from "react"
-import { Text, View } from "react-native"
+import { View } from "react-native"
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
 import { connect } from "react-redux"
 import ScreenHeader from "../../Components/Header"
+import NoLog from "../../Components/NoData"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { RefuelNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
+import { noop } from "../../Util"
 import { RefuelData } from "../Dashboard/types"
 import { ActionSetRefuelData } from "./actions"
 
@@ -86,10 +88,10 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
     <View style={{ flex: 1, backgroundColor: Colors.white }}>
       <ScreenHeader
         title={"Refuel"}
-        enableAdd={true}
-        enableCallback={handleAddLog}
+        enableAdd={props.refuelData?.length ? true : false}
+        enableCallback={props.refuelData?.length ? handleAddLog : noop}
       />
-      <View style={{ flex: 1, marginTop: -10, borderWidth: 1 }}>
+      <View style={{ flex: 1, marginTop: -10 }}>
         {props.refuelData && props.refuelData.length ? (
           <FlatList
             data={props.refuelData}
@@ -97,7 +99,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
             keyExtractor={(item) => item.odo.toString()}
           />
         ) : (
-          <Text>no data</Text>
+          <NoLog noLogType={"noRefuelLog"} handleOnPress={handleAddLog} />
         )}
       </View>
     </View>
