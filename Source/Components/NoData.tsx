@@ -66,7 +66,7 @@ const NoLog: FunctionComponent<Props> = (props) => {
           {getNoLogText(props.noLogType)[0]}
         </TextMontserrat>
         <TextOpenSans
-          fontSize={16}
+          fontSize={18}
           style={{ textAlign: "center", marginTop: 10 }}
         >
           {getNoLogText(props.noLogType)[1]}
@@ -76,7 +76,7 @@ const NoLog: FunctionComponent<Props> = (props) => {
         title={"ADD LOG"}
         onPress={props.handleOnPress}
         buttonBackgroundColor={Colors.imperialRed}
-        style={{ marginTop: 30, width: "80%" }}
+        style={{ marginTop: 30, width: "60%" }}
       />
     </View>
   )
