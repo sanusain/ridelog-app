@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons"
+import DateTimePicker from "@react-native-community/datetimepicker"
 import React, { FunctionComponent, useState } from "react"
-import { View } from "react-native"
+import { Keyboard, View } from "react-native"
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
 import ScreenHeader from "../../Components/Header"
@@ -10,7 +11,9 @@ import Colors from "../../Config/Colors"
 type Props = {}
 
 const AddRefuelLog: FunctionComponent<Props> = (props) => {
-  const [dateTime, setDateTime] = useState(new Date())
+  const [date, setDate] = useState(new Date())
+  const [mode, setMode] = useState("date")
+  const [show, setShow] = useState(false)
   const [currentOdo, setCurrentOdo] = useState("")
   const [lastOdo, setLastOdo] = useState("0000")
   const [fuelQuantity, setFuelQuantity] = useState("")
@@ -23,10 +26,25 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     if (parseFloat(cost) !== NaN) setCost(cost)
   }
 
+  const handleShowDateDialog = () => {
+    Keyboard.dismiss()
+    showMode("date")
+  }
+
+  const showMode = (mode: string) => {
+    setMode(mode)
+    setShow(true)
+  }
+
+  const onChangeDate = (event: any, selectedDate: Date) => {
+    setShow(false)
+    const currentDate = selectedDate || date
+    setDate(currentDate)
+  }
+
   const handleAddLog = () => {
     console.log("add log pressed")
   }
-
   return (
     <ScrollView style={{ backgroundColor: Colors.white }}>
       <ScreenHeader title={"New log"} />
@@ -42,9 +60,21 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           theme={{
             colors: { primary: Colors.imperialRed, background: Colors.white },
           }}
-          value={dateTime.toLocaleString()}
-          onFocus={() => console.log("launch date time picker")}
+          value={date.toDateString()}
+          onFocus={handleShowDateDialog}
         />
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            //@ts-ignore
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            //@ts-ignore
+            onChange={onChangeDate}
+          />
+        )}
         <TextInput
           label={"Current Odometer"}
           mode={"outlined"}
