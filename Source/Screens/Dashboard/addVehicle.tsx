@@ -78,7 +78,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
         backgroundColor: Colors.white,
       }}
     >
-      <ScreenHeader title={"Add new Vehicle"} />
+      <ScreenHeader title={"Add New Vehicle"} />
       <Formik
         initialValues={{
           vcallsign: "",

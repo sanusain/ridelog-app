@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import React, { useContext, useEffect } from "react"
 import { Dimensions, Image, ScrollView, View } from "react-native"
 import { LineChart } from "react-native-chart-kit"
@@ -6,9 +6,9 @@ import { TouchableOpacity } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
 import uuid from "react-native-uuid"
 import { connect } from "react-redux"
+import ScreenHeader from "../../Components/Header"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
-import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
 import { hydrateVehiclesInfo } from "../../Database"
@@ -145,37 +145,17 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         backgroundColor: Colors.white,
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 10,
+      <ScreenHeader
+        title={"Welcome, " + user?.callSign}
+        enableAdd={true}
+        enableCallback={() => {
+          props.navigation.navigate("addVehicle")
         }}
-      >
-        <TextOpenSans
-          fontSize={20}
-          style={{
-            marginLeft: 10,
-            opacity: 0.87,
-            color: Colors.imperialRed,
-          }}
-        >
-          Welcome, {user?.callSign}
-        </TextOpenSans>
-        {props.vehiclesInfo.length ? (
-          <TouchableOpacity
-            style={{ marginRight: 5 }}
-            onPress={() => {
-              props.navigation.navigate("addVehicle")
-            }}
-          >
-            <MaterialIcons name={"add"} size={30} color={Colors.imperialRed} />
-          </TouchableOpacity>
-        ) : null}
-      </View>
+      />
       <View
         style={{
+          marginTop: -10,
+          marginBottom: 10,
           borderTopWidth: 1, //intentional
           borderColor: Colors.imperialRed, //intentional
           marginRight: 100,
