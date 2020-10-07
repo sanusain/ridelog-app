@@ -1,10 +1,10 @@
-import { MaterialIcons } from "@expo/vector-icons"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import React, { FunctionComponent, useState } from "react"
 import { Keyboard, View } from "react-native"
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
+import { ScrollView } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
 import ScreenHeader from "../../Components/Header"
+import ImagePicker from "../../Components/ImagePicker"
 import SquareButton from "../../Components/SquareButton"
 import Colors from "../../Config/Colors"
 
@@ -172,7 +172,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             setLocation(inputText)
           }}
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             height: 120,
             marginVertical: 20,
@@ -190,7 +190,15 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             color={Colors.imperialRed}
             style={{ opacity: 0.67 }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <View style={{ flex: 1 }}>
+          <ImagePicker
+            images={[
+              "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+            ]}
+          />
+        </View>
 
         <SquareButton
           title={"ADD LOG"}
