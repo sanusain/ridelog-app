@@ -14,3 +14,9 @@ export class ActionAddImage extends Action<ImageSpecs> {
     if (this.payload) state.refuel.addRefuelLog.images.push(this.payload)
   }
 }
+
+export class ActionResetImages extends Action<any> {
+  updateState(state: AppState) {
+    state.refuel.addRefuelLog.images = []
+  }
+}

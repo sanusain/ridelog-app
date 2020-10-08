@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
 import * as ImagePicker from "expo-image-picker"
-import React, { createRef, FunctionComponent, useState } from "react"
+import React, { createRef, FunctionComponent, useEffect, useState } from "react"
 import { Animated, Keyboard, ScrollView, View } from "react-native"
 import {
   TouchableOpacity,
@@ -18,7 +18,7 @@ import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { AppState, dispatchHandler } from "../../State-management"
-import { ActionAddImage } from "./actions"
+import { ActionAddImage, ActionResetImages } from "./actions"
 import { ImageSpecs } from "./types"
 
 type Props = { refuelLogImages: Array<ImageSpecs>; dispatch: any }
@@ -37,6 +37,13 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
   const [animatedOpacity] = useState(new Animated.Value(1))
   const [isVisible, setIsVisible] = useState(true)
+
+  useEffect(() => {
+    return () => {
+      // clearing images when screen is left.
+      props.dispatch(new ActionResetImages())
+    }
+  }, [])
 
   const updateCost = () => {
     const cost = (parseFloat(fuelQuantity) * parseFloat(pricePerQty)).toFixed(2)
@@ -351,7 +358,12 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           title={"ADD LOG"}
           onPress={handleAddLog}
           buttonBackgroundColor={Colors.imperialRed}
-          style={{ alignSelf: "center", marginBottom: 20, opacity: 0.9 }}
+          style={{
+            alignSelf: "center",
+            marginTop: 5,
+            marginBottom: 20,
+            opacity: 0.9,
+          }}
         />
       </Animated.View>
     </ScrollView>
