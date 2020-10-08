@@ -140,8 +140,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     </View>
   )
 
-  console.log("asdf", bottomSheetRef)
-
   return (
     <ScrollView
       style={{
