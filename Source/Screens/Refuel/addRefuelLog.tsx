@@ -1,12 +1,12 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
 import React, { createRef, FunctionComponent, useState } from "react"
-import { Keyboard, ScrollView, View } from "react-native"
+import { Animated, Keyboard, ScrollView, View } from "react-native"
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
-import Animated from "react-native-reanimated"
+// import Animated from "react-native-reanimated"
 import BottomSheet from "reanimated-bottom-sheet"
 import ScreenHeader from "../../Components/Header"
 import ImagePicker from "../../Components/ImagePicker"
@@ -29,11 +29,35 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [location, setLocation] = useState("")
 
   const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
-  const fall = new Animated.Value(1)
+  const [animatedOpacity] = useState(new Animated.Value(1))
+  const [isVisible, setIsVisible] = useState(true)
 
   const updateCost = () => {
     const cost = (parseFloat(fuelQuantity) * parseFloat(pricePerQty)).toFixed(2)
     if (parseFloat(cost) !== NaN) setCost(cost)
+  }
+
+  const setBackgroundOpacity = () => {
+    if (isVisible === true) {
+      Animated.timing(animatedOpacity, {
+        toValue: 0.3,
+        duration: 100,
+        useNativeDriver: true,
+      }).start()
+      setIsVisible(false)
+    } else {
+      Animated.timing(animatedOpacity, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }).start()
+      setIsVisible(true)
+    }
+  }
+
+  const hideBottomSheet = () => {
+    bottomSheetRef.current?.snapTo(1)
+    setBackgroundOpacity()
   }
 
   const handleShowDateDialog = () => {
@@ -58,12 +82,12 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 
   const handleTakePicture = () => {
     console.log("take picture")
-    bottomSheetRef.current?.snapTo(1)
+    hideBottomSheet()
   }
 
   const handleFromGallery = () => {
     console.log("from gallery picture")
-    bottomSheetRef.current?.snapTo(1)
+    hideBottomSheet()
   }
 
   const renderBottomSheetContent = () => (
@@ -77,10 +101,12 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         borderLeftWidth: 2,
         borderRightWidth: 2,
         borderRadius: 10,
-        borderColor: Colors.default_grey,
+        borderTopColor: Colors.default_grey,
+        borderRightColor: Colors.white,
+        borderLeftColor: Colors.white,
       }}
     >
-      <View
+      <View // horizontal artifact
         style={{
           borderWidth: 3,
           width: "10%",
@@ -124,7 +150,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         </TouchableWithoutFeedback>
         <TouchableOpacity
           onPress={() => {
-            bottomSheetRef.current?.snapTo(1)
+            hideBottomSheet()
           }}
           style={{ marginTop: 10, marginBottom: 20, alignItems: "center" }}
         >
@@ -144,7 +170,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     <ScrollView
       style={{
         backgroundColor: Colors.white,
-        // opacity: 0.1,
       }}
       contentContainerStyle={{ flexGrow: 1 }}
     >
@@ -152,14 +177,14 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         ref={bottomSheetRef}
         snapPoints={["40%", "0%"]}
         renderContent={renderBottomSheetContent}
-        callbackNode={fall}
         enabledGestureInteraction={true}
         initialSnap={1}
         enabledInnerScrolling={false}
         enabledBottomClamp={true}
+        onCloseEnd={hideBottomSheet}
       />
       <ScreenHeader title={"New log"} />
-      <View style={{ marginTop: -10 }}>
+      <Animated.View style={{ marginTop: -10, opacity: animatedOpacity }}>
         <TextInput
           label={"Date and Time"}
           mode={"outlined"}
@@ -283,29 +308,10 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             setLocation(inputText)
           }}
         />
-        {/* <TouchableOpacity
-          style={{
-            height: 120,
-            marginVertical: 20,
-            borderRadius: 7,
-            borderWidth: 1,
-            marginHorizontal: 20,
-            justifyContent: "center",
-            alignItems: "center",
-            borderColor: Colors.default_grey,
-          }}
-        >
-          <MaterialIcons
-            name="add-a-photo"
-            size={35}
-            color={Colors.imperialRed}
-            style={{ opacity: 0.67 }}
-          />
-        </TouchableOpacity> */}
         <View
           style={{ flex: 1, marginHorizontal: 20 }}
           onTouchStart={() => {
-            console.log("touched me")
+            setBackgroundOpacity()
             bottomSheetRef.current?.snapTo(0)
           }}
         >
@@ -325,7 +331,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           buttonBackgroundColor={Colors.imperialRed}
           style={{ alignSelf: "center", marginBottom: 20, opacity: 0.9 }}
         />
-      </View>
+      </Animated.View>
     </ScrollView>
   )
 }
