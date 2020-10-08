@@ -1,11 +1,12 @@
 import React from "react"
 import { TouchableOpacity } from "react-native"
 import Colors from "../Config/Colors"
+import { noop } from "../Util"
 import TextMontserrat from "./TextMontserrat"
 
 type Props = {
   title: string
-  onPress: () => void
+  onPress?: () => void
   style?: any
   buttonBackgroundColor?: string
   textColor?: string
@@ -30,7 +31,7 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
         width: props.width ? props.width : "90%",
         ...props.style,
       }}
-      onPress={props.onPress}
+      onPress={props.onPress ? props.onPress : noop}
       disabled={props.disabled}
     >
       <TextMontserrat

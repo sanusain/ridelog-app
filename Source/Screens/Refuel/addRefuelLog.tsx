@@ -1,13 +1,18 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
 import React, { createRef, FunctionComponent, useState } from "react"
-import { Keyboard, Text, View } from "react-native"
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
+import { Keyboard, ScrollView, View } from "react-native"
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
 import Animated from "react-native-reanimated"
 import BottomSheet from "reanimated-bottom-sheet"
 import ScreenHeader from "../../Components/Header"
 import ImagePicker from "../../Components/ImagePicker"
 import SquareButton from "../../Components/SquareButton"
+import TextMontserrat from "../../Components/TextMontserrat"
+import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 
 type Props = {}
@@ -51,50 +56,109 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     console.log("add log pressed")
   }
 
-  const renderBottomSheetHeader = () => {
-    return <View></View>
+  const handleTakePicture = () => {
+    console.log("take picture")
+    bottomSheetRef.current?.snapTo(1)
+  }
+
+  const handleFromGallery = () => {
+    console.log("from gallery picture")
+    bottomSheetRef.current?.snapTo(1)
   }
 
   const renderBottomSheetContent = () => (
     <View
       style={{
-        backgroundColor: "yellow",
+        backgroundColor: Colors.white,
+        elevation: 5,
+        justifyContent: "center",
         padding: 16,
-        height: 200,
+        borderTopWidth: 3,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderRadius: 10,
+        borderColor: Colors.default_grey,
       }}
     >
-      <TouchableOpacity
-        onPress={() => {
-          bottomSheetRef.current?.snapTo(1)
+      <View
+        style={{
+          borderWidth: 3,
+          width: "10%",
+          alignSelf: "center",
+          borderRadius: 5,
+          marginBottom: 20,
+          borderColor: Colors.default_grey,
+          opacity: 0.5,
+        }}
+      />
+      <View style={{ alignItems: "center" }}>
+        <TextMontserrat fontSize={24}>Choose Image</TextMontserrat>
+        <TextMontserrat fontSize={16}>
+          Pick an image from gallery or using camera
+        </TextMontserrat>
+      </View>
+
+      <View
+        style={{
+          marginTop: 20,
+          paddingHorizontal: "10%",
         }}
       >
-        <Text>click me or Swipe down to close</Text>
-      </TouchableOpacity>
+        <TouchableWithoutFeedback
+          onPress={handleTakePicture}
+          style={{ alignItems: "center" }}
+        >
+          <SquareButton
+            title={"Take Picture"}
+            buttonBackgroundColor={Colors.imperialRed}
+          />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          onPress={handleFromGallery}
+          style={{ alignItems: "center", marginVertical: 10 }}
+        >
+          <SquareButton
+            title={"Choose from Gallery"}
+            buttonBackgroundColor={Colors.imperialRed}
+          />
+        </TouchableWithoutFeedback>
+        <TouchableOpacity
+          onPress={() => {
+            bottomSheetRef.current?.snapTo(1)
+          }}
+          style={{ marginTop: 10, marginBottom: 20, alignItems: "center" }}
+        >
+          <TextOpenSans
+            fontSize={18}
+            weight="semibold"
+            style={{ color: Colors.imperialRed }}
+          >
+            Cancel
+          </TextOpenSans>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 
-  console.log("", bottomSheetRef)
+  console.log("asdf", bottomSheetRef)
 
   return (
     <ScrollView
       style={{
         backgroundColor: Colors.white,
-        borderWidth: 2,
-        borderColor: "red",
         // opacity: 0.1,
       }}
-      pointerEvents={"auto"}
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[200, 0]}
-        borderRadius={10}
-        renderHeader={renderBottomSheetHeader}
+        snapPoints={["40%", "0%"]}
         renderContent={renderBottomSheetContent}
         callbackNode={fall}
         enabledGestureInteraction={true}
         initialSnap={1}
+        enabledInnerScrolling={false}
+        enabledBottomClamp={true}
       />
       <ScreenHeader title={"New log"} />
       <View style={{ marginTop: -10 }}>
