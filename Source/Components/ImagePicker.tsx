@@ -2,12 +2,13 @@ import { EvilIcons } from "@expo/vector-icons"
 import React, { FunctionComponent } from "react"
 import { Image, TouchableOpacity, View } from "react-native"
 import Colors from "../Config/Colors"
+import { ImageSpecs } from "../Screens/Refuel/types"
 
 type Props = {
-  images: Array<string>
+  images: Array<ImageSpecs>
 }
 
-const ImagePicker: FunctionComponent<Props> = (props) => {
+const CustomImagePicker: FunctionComponent<Props> = (props) => {
   const handleImagePress = () => {
     console.log("imagePressed")
   }
@@ -18,10 +19,10 @@ const ImagePicker: FunctionComponent<Props> = (props) => {
   return (
     <View style={{ flex: 1 }}>
       {props.images.length !== 0 &&
-        props.images.map((uri) => (
-          <TouchableOpacity key={uri} onPress={handleImagePress}>
+        props.images.map((image) => (
+          <TouchableOpacity key={image.uid} onPress={handleImagePress}>
             <Image
-              source={{ uri }}
+              source={{ uri: image.uri }}
               style={{
                 alignItems: "center",
                 justifyContent: "center",
@@ -58,4 +59,4 @@ const ImagePicker: FunctionComponent<Props> = (props) => {
   )
 }
 
-export default ImagePicker
+export default CustomImagePicker

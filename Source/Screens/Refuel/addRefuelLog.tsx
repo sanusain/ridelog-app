@@ -1,4 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
+import * as ImagePicker from "expo-image-picker"
 import React, { createRef, FunctionComponent, useState } from "react"
 import { Animated, Keyboard, ScrollView, View } from "react-native"
 import {
@@ -6,16 +7,21 @@ import {
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
+import uuid from "react-native-uuid"
+import { connect } from "react-redux"
 // import Animated from "react-native-reanimated"
 import BottomSheet from "reanimated-bottom-sheet"
 import ScreenHeader from "../../Components/Header"
-import ImagePicker from "../../Components/ImagePicker"
+import CustomImagePicker from "../../Components/ImagePicker"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { AppState, dispatchHandler } from "../../State-management"
+import { ActionAddImage } from "./actions"
+import { ImageSpecs } from "./types"
 
-type Props = {}
+type Props = { refuelLogImages: Array<ImageSpecs>; dispatch: any }
 
 const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [date, setDate] = useState(new Date())
@@ -85,9 +91,32 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     hideBottomSheet()
   }
 
-  const handleFromGallery = () => {
+  const handleFromGallery = async () => {
     console.log("from gallery picture")
     hideBottomSheet()
+
+    const { status } = await ImagePicker.requestCameraRollPermissionsAsync()
+    if (status !== "granted") {
+      console.log("permission denied")
+      return
+    }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    })
+
+    if (!result.cancelled) {
+      console.log("in result", result.uri)
+      const image: ImageSpecs = {
+        uid: uuid.v4(),
+        uri: result.uri,
+        height: result.height,
+        width: result.width,
+      }
+      props.dispatch(new ActionAddImage(image))
+    }
   }
 
   const renderBottomSheetContent = () => (
@@ -315,14 +344,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             bottomSheetRef.current?.snapTo(0)
           }}
         >
-          <ImagePicker
-            images={
-              [
-                // "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-                // "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-              ]
-            }
-          />
+          <CustomImagePicker images={props.refuelLogImages} />
         </View>
 
         <SquareButton
@@ -336,4 +358,12 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   )
 }
 
-export default AddRefuelLog
+const mapStateToProps = (state: AppState) => ({
+  refuelLogImages: state.refuel.addRefuelLog.images,
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatch: dispatchHandler(dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddRefuelLog)

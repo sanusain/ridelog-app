@@ -4,6 +4,7 @@ import {
   ServiceData,
   vehicleInfo,
 } from "../Screens/Dashboard/types"
+import { ImageSpecs } from "../Screens/Refuel/types"
 import { Action } from "./root-action"
 
 const vehiclesInfomation: Array<vehicleInfo> = []
@@ -21,6 +22,7 @@ const selectedVehicle: vehicleInfo = {
   refuelData,
   serviceData,
 }
+const refuelLogImages: Array<ImageSpecs> = []
 
 const initialState = {
   userInfo: {
@@ -31,6 +33,11 @@ const initialState = {
   },
   vehiclesInfo: vehiclesInfomation,
   selectedVehicle,
+  refuel: {
+    addRefuelLog: {
+      images: refuelLogImages,
+    },
+  },
 }
 
 const actionLogger = (state: any) => (next: any) => (action: Action<any>) => {
