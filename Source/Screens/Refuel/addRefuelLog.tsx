@@ -193,10 +193,12 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         </TouchableOpacity> */}
         <View style={{ flex: 1 }}>
           <ImagePicker
-            images={[
-              "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-              // "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-            ]}
+            images={
+              [
+                // "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+                // "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
+              ]
+            }
           />
         </View>
 
