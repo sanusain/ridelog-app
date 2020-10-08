@@ -1,8 +1,10 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
-import React, { FunctionComponent, useState } from "react"
-import { Keyboard, View } from "react-native"
-import { ScrollView } from "react-native-gesture-handler"
+import React, { createRef, FunctionComponent, useState } from "react"
+import { Keyboard, Text, View } from "react-native"
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
+import Animated from "react-native-reanimated"
+import BottomSheet from "reanimated-bottom-sheet"
 import ScreenHeader from "../../Components/Header"
 import ImagePicker from "../../Components/ImagePicker"
 import SquareButton from "../../Components/SquareButton"
@@ -20,6 +22,9 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [pricePerQty, setPricePerQty] = useState("")
   const [cost, setCost] = useState("")
   const [location, setLocation] = useState("")
+
+  const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
+  const fall = new Animated.Value(1)
 
   const updateCost = () => {
     const cost = (parseFloat(fuelQuantity) * parseFloat(pricePerQty)).toFixed(2)
@@ -45,8 +50,52 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const handleAddLog = () => {
     console.log("add log pressed")
   }
+
+  const renderBottomSheetHeader = () => {
+    return <View></View>
+  }
+
+  const renderBottomSheetContent = () => (
+    <View
+      style={{
+        backgroundColor: "yellow",
+        padding: 16,
+        height: 200,
+      }}
+    >
+      <TouchableOpacity
+        onPress={() => {
+          bottomSheetRef.current?.snapTo(1)
+        }}
+      >
+        <Text>click me or Swipe down to close</Text>
+      </TouchableOpacity>
+    </View>
+  )
+
+  console.log("", bottomSheetRef)
+
   return (
-    <ScrollView style={{ backgroundColor: Colors.white }}>
+    <ScrollView
+      style={{
+        backgroundColor: Colors.white,
+        borderWidth: 2,
+        borderColor: "red",
+        // opacity: 0.1,
+      }}
+      pointerEvents={"auto"}
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={[200, 0]}
+        borderRadius={10}
+        renderHeader={renderBottomSheetHeader}
+        renderContent={renderBottomSheetContent}
+        callbackNode={fall}
+        enabledGestureInteraction={true}
+        initialSnap={1}
+      />
       <ScreenHeader title={"New log"} />
       <View style={{ marginTop: -10 }}>
         <TextInput
@@ -191,7 +240,13 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             style={{ opacity: 0.67 }}
           />
         </TouchableOpacity> */}
-        <View style={{ flex: 1 }}>
+        <View
+          style={{ flex: 1, marginHorizontal: 20 }}
+          onTouchStart={() => {
+            console.log("touched me")
+            bottomSheetRef.current?.snapTo(0)
+          }}
+        >
           <ImagePicker
             images={
               [

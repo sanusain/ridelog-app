@@ -1,7 +1,6 @@
 import { EvilIcons } from "@expo/vector-icons"
 import React, { FunctionComponent } from "react"
-import { Image, View } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import { Image, TouchableOpacity, View } from "react-native"
 import Colors from "../Config/Colors"
 
 type Props = {
@@ -31,7 +30,6 @@ const ImagePicker: FunctionComponent<Props> = (props) => {
                 marginBottom: 5,
                 borderRadius: 7,
                 borderWidth: 1,
-                marginHorizontal: 20,
                 resizeMode: "cover",
               }}
             />
@@ -49,7 +47,6 @@ const ImagePicker: FunctionComponent<Props> = (props) => {
               marginBottom: 20,
               borderRadius: 7,
               borderWidth: 1,
-              marginHorizontal: 20,
               borderColor: Colors.default_grey,
             }}
           >
