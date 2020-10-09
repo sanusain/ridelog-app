@@ -9,7 +9,6 @@ import {
 import { TextInput } from "react-native-paper"
 import uuid from "react-native-uuid"
 import { connect } from "react-redux"
-// import Animated from "react-native-reanimated"
 import BottomSheet from "reanimated-bottom-sheet"
 import ScreenHeader from "../../Components/Header"
 import CustomImagePicker from "../../Components/ImagePicker"
