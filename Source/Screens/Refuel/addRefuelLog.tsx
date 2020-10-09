@@ -52,13 +52,13 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const setBackgroundOpacity = (mode: boolean) => {
     if (mode) {
       Animated.timing(animatedOpacity, {
-        toValue: 0.3,
+        toValue: 0.3, //sets opacity
         duration: 100,
         useNativeDriver: true,
       }).start()
     } else {
       Animated.timing(animatedOpacity, {
-        toValue: 1,
+        toValue: 1, //removes opacity
         duration: 100,
         useNativeDriver: true,
       }).start()
@@ -66,6 +66,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   }
 
   const hideBottomSheet = () => {
+    setBackgroundOpacity(false)
     bottomSheetRef.current?.snapTo(1)
   }
 
