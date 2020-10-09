@@ -48,13 +48,14 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   useEffect(() => {
     return () => {
       // clearing images when screen is left.
-      props.dispatch(new ActionResetImages())
+      if (props.refuelLogImages.length) props.dispatch(new ActionResetImages())
     }
   }, [])
 
   const updateCost = () => {
     const cost = (parseFloat(fuelQuantity) * parseFloat(pricePerQty)).toFixed(2)
-    if (parseFloat(cost) !== NaN) setCost(cost)
+    if (cost !== "NaN") setCost(cost)
+    else setCost("")
   }
 
   const setBackgroundOpacity = (mode: boolean) => {
