@@ -20,3 +20,15 @@ export class ActionResetImages extends Action<any> {
     state.refuel.addRefuelLog.images = []
   }
 }
+
+export class ActionRemoveRefuelLogImage extends Action<ImageSpecs> {
+  updateState(state: AppState) {
+    if (this.payload) {
+      state.refuel.addRefuelLog.images.forEach((item, index) => {
+        if (item.uid === this.payload?.uid) {
+          state.refuel.addRefuelLog.images.splice(index, 1)
+        }
+      })
+    }
+  }
+}

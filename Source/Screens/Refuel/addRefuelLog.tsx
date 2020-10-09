@@ -18,10 +18,17 @@ import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { AppState, dispatchHandler } from "../../State-management"
-import { ActionAddImage, ActionResetImages } from "./actions"
+import {
+  ActionAddImage,
+  ActionRemoveRefuelLogImage,
+  ActionResetImages,
+} from "./actions"
 import { ImageSpecs } from "./types"
 
-type Props = { refuelLogImages: Array<ImageSpecs>; dispatch: any }
+type Props = {
+  refuelLogImages: Array<ImageSpecs>
+  dispatch: any
+}
 
 const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [date, setDate] = useState(new Date())
@@ -346,14 +353,14 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             setLocation(inputText)
           }}
         />
-        <TouchableWithoutFeedback
-          style={{ flex: 1, marginHorizontal: 20 }}
-          onPress={() => {
+        <CustomImagePicker
+          handleImagePress={(image: ImageSpecs) => {
+            props.dispatch(new ActionRemoveRefuelLogImage(image))
+          }}
+          handlePlaceHolderImagePress={() => {
             bottomSheetRef.current?.snapTo(0)
           }}
-        >
-          <CustomImagePicker images={props.refuelLogImages} />
-        </TouchableWithoutFeedback>
+        />
 
         <SquareButton
           title={"ADD LOG"}

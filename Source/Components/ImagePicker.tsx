@@ -1,26 +1,29 @@
 import { EvilIcons } from "@expo/vector-icons"
 import React, { FunctionComponent } from "react"
 import { Image, TouchableOpacity, View } from "react-native"
+import { connect } from "react-redux"
 import Colors from "../Config/Colors"
 import { ImageSpecs } from "../Screens/Refuel/types"
+import { AppState, dispatchHandler } from "../State-management"
 
 type Props = {
-  images: Array<ImageSpecs>
+  refuelLogImages: Array<ImageSpecs>
+  dispatch?: any
+  handleImagePress: (image: ImageSpecs) => void
+  handlePlaceHolderImagePress: () => void
 }
 
 const CustomImagePicker: FunctionComponent<Props> = (props) => {
-  const handleImagePress = () => {
-    console.log("imagePressed")
-  }
-  const handlePlaceHolderImagePress = () => {
-    console.log("Placeohlder imagePressed")
-  }
-
   return (
     <View style={{ flex: 1 }}>
-      {props.images.length !== 0 &&
-        props.images.map((image) => (
-          <TouchableOpacity key={image.uid} onPress={handleImagePress}>
+      {props.refuelLogImages.length !== 0 &&
+        props.refuelLogImages.map((image) => (
+          <TouchableOpacity
+            key={image.uid}
+            onPress={() => {
+              props.handleImagePress(image)
+            }}
+          >
             <Image
               source={{ uri: image.uri }}
               style={{
@@ -29,6 +32,7 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
                 height: 120,
                 marginTop: 5,
                 marginBottom: 5,
+                marginHorizontal: 20,
                 borderRadius: 7,
                 borderWidth: 1,
                 resizeMode: "cover",
@@ -37,8 +41,8 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
           </TouchableOpacity>
         ))}
 
-      {props.images.length < 2 && (
-        <TouchableOpacity onPress={handlePlaceHolderImagePress}>
+      {props.refuelLogImages.length < 2 && (
+        <TouchableOpacity onPress={props.handlePlaceHolderImagePress}>
           <View
             style={{
               alignItems: "center",
@@ -46,6 +50,7 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
               height: 120,
               marginTop: 5,
               marginBottom: 20,
+              marginHorizontal: 20,
               borderRadius: 7,
               borderWidth: 1,
               borderColor: Colors.default_grey,
@@ -59,4 +64,12 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
   )
 }
 
-export default CustomImagePicker
+const mapStateToProps = (state: AppState) => ({
+  refuelLogImages: state.refuel.addRefuelLog.images,
+})
+
+const mapDispatchToProps = (dispatch: any) => ({
+  dispatch: dispatchHandler(dispatch),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomImagePicker)
