@@ -40,6 +40,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [pricePerQty, setPricePerQty] = useState("")
   const [cost, setCost] = useState("")
   const [location, setLocation] = useState("")
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
 
   const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
   const [animatedOpacity] = useState(new Animated.Value(1))
@@ -73,6 +74,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   }
 
   const hideBottomSheet = () => {
+    setIsBottomSheetOpen(false)
     setBackgroundOpacity(false)
     bottomSheetRef.current?.snapTo(1)
   }
@@ -225,11 +227,14 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           setBackgroundOpacity(true)
         }}
         onCloseEnd={() => {
-          setBackgroundOpacity(false)
+          hideBottomSheet()
         }}
       />
       <ScreenHeader title={"New log"} />
-      <Animated.View style={{ marginTop: -10, opacity: animatedOpacity }}>
+      <Animated.View
+        style={{ marginTop: -10, opacity: animatedOpacity }}
+        pointerEvents={isBottomSheetOpen ? "none" : undefined}
+      >
         <TextInput
           label={"Date and Time"}
           mode={"outlined"}
@@ -358,6 +363,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             props.dispatch(new ActionRemoveRefuelLogImage(image))
           }}
           handlePlaceHolderImagePress={() => {
+            setIsBottomSheetOpen(true)
             bottomSheetRef.current?.snapTo(0)
           }}
         />
