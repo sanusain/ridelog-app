@@ -36,7 +36,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 
   const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
   const [animatedOpacity] = useState(new Animated.Value(1))
-  const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
     return () => {
@@ -50,27 +49,24 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     if (parseFloat(cost) !== NaN) setCost(cost)
   }
 
-  const setBackgroundOpacity = () => {
-    if (isVisible === true) {
+  const setBackgroundOpacity = (mode: boolean) => {
+    if (mode) {
       Animated.timing(animatedOpacity, {
         toValue: 0.3,
         duration: 100,
         useNativeDriver: true,
       }).start()
-      setIsVisible(false)
     } else {
       Animated.timing(animatedOpacity, {
         toValue: 1,
         duration: 100,
         useNativeDriver: true,
       }).start()
-      setIsVisible(true)
     }
   }
 
   const hideBottomSheet = () => {
     bottomSheetRef.current?.snapTo(1)
-    setBackgroundOpacity()
   }
 
   const handleShowDateDialog = () => {
@@ -217,7 +213,12 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         initialSnap={1}
         enabledInnerScrolling={false}
         enabledBottomClamp={true}
-        onCloseEnd={hideBottomSheet}
+        onOpenEnd={() => {
+          setBackgroundOpacity(true)
+        }}
+        onCloseEnd={() => {
+          setBackgroundOpacity(false)
+        }}
       />
       <ScreenHeader title={"New log"} />
       <Animated.View style={{ marginTop: -10, opacity: animatedOpacity }}>
@@ -344,15 +345,14 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             setLocation(inputText)
           }}
         />
-        <View
+        <TouchableWithoutFeedback
           style={{ flex: 1, marginHorizontal: 20 }}
-          onTouchStart={() => {
-            setBackgroundOpacity()
+          onPress={() => {
             bottomSheetRef.current?.snapTo(0)
           }}
         >
           <CustomImagePicker images={props.refuelLogImages} />
-        </View>
+        </TouchableWithoutFeedback>
 
         <SquareButton
           title={"ADD LOG"}
