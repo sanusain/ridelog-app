@@ -1,3 +1,5 @@
+import { ImageSpecs } from "../Refuel/types"
+
 export type vehicleInfo = {
   vcallsign: string
   maker: string
@@ -17,11 +19,11 @@ export type RefuelData = {
   quantity: string
   date: string
   cost: string
-  images: Array<string>
+  images: Array<ImageSpecs>
 }
 
 export type ServiceData = {
   uid: string
   date: string
-  images: Array<string>
+  images: Array<ImageSpecs>
 }
