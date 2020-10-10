@@ -99,13 +99,32 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     console.log("add log pressed")
   }
 
-  const handleTakePicture = () => {
-    console.log("take picture")
+  const handleTakePicture = async () => {
     hideBottomSheet()
+
+    const { status } = await ImagePicker.requestCameraPermissionsAsync()
+    if (status !== "granted") return
+
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      exif: true,
+      quality: 1,
+    })
+
+    if (!result.cancelled) {
+      const image: ImageSpecs = {
+        uid: uuid.v4(),
+        uri: result.uri,
+        height: result.height,
+        width: result.width,
+      }
+      props.dispatch(new ActionAddImage(image))
+    }
   }
 
   const handleFromGallery = async () => {
-    console.log("from gallery picture")
     hideBottomSheet()
 
     const { status } = await ImagePicker.requestCameraRollPermissionsAsync()
@@ -121,7 +140,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
     })
 
     if (!result.cancelled) {
-      console.log("in result", result.uri)
       const image: ImageSpecs = {
         uid: uuid.v4(),
         uri: result.uri,
