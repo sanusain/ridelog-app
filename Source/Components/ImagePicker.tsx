@@ -46,8 +46,8 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
                 }}
               />
             </TouchableOpacity>
-
-            {deleteBlur ? ( // delete overlay
+            {/* @ts-ignore  */}
+            {deleteImage.uri === image.uri && deleteBlur ? ( // delete overlay
               <BlurView
                 key={uuid.v4()}
                 intensity={100}
