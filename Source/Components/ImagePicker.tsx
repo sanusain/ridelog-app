@@ -18,6 +18,7 @@ type Props = {
 
 const CustomImagePicker: FunctionComponent<Props> = (props) => {
   const [deleteBlur, setDeleteBlur] = useState(false)
+  const [deleteImage, setDeleteImage] = useState({})
 
   return (
     <View style={{ flex: 1 }}>
@@ -27,6 +28,7 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
             <TouchableOpacity
               key={image.uid}
               onPress={() => {
+                setDeleteImage(image)
                 setDeleteBlur(true)
               }}
             >
@@ -45,7 +47,8 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
                 }}
               />
             </TouchableOpacity>
-            {deleteBlur ? ( //this is the delete overlay
+
+            {deleteBlur ? ( // delete overlay
               <BlurView
                 key={uuid.v4()}
                 intensity={100}
@@ -77,7 +80,8 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
                     }}
                     onPress={() => {
                       setDeleteBlur(false)
-                      props.handleImagePress(image)
+                      //@ts-ignore      // doesnt need to type typechecked. used in this file only.
+                      props.handleImagePress(deleteImage)
                       console.log("pressed delete")
                     }}
                   >
