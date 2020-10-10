@@ -81,7 +81,6 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
                       setDeleteBlur(false)
                       //@ts-ignore      // doesnt need to type typechecked. used in this file only.
                       props.handleImagePress(deleteImage)
-                      console.log("pressed delete")
                     }}
                   >
                     <TextMontserrat
@@ -101,7 +100,6 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
                     }}
                     onPress={() => {
                       setDeleteBlur(false)
-                      console.log("pressed cancel")
                     }}
                   >
                     <TextMontserrat
