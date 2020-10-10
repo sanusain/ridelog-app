@@ -24,9 +24,8 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
     <View style={{ flex: 1 }}>
       {props.refuelLogImages.length !== 0 &&
         props.refuelLogImages.map((image) => (
-          <>
+          <View key={image.uid}>
             <TouchableOpacity
-              key={image.uid}
               onPress={() => {
                 setDeleteImage(image)
                 setDeleteBlur(true)
@@ -117,7 +116,7 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
                 </View>
               </BlurView>
             ) : null}
-          </>
+          </View>
         ))}
 
       {props.refuelLogImages.length < 2 && (
