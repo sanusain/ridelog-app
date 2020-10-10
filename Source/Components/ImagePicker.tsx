@@ -50,7 +50,7 @@ const CustomImagePicker: FunctionComponent<Props> = (props) => {
             {deleteImage.uri === image.uri && deleteBlur ? ( // delete overlay
               <BlurView
                 key={uuid.v4()}
-                intensity={100}
+                intensity={150}
                 style={{
                   backgroundColor: Colors.white,
                   position: "absolute",
