@@ -30,6 +30,7 @@ const initialState = {
     avatar: "",
     email: "",
     lastLogin: "",
+    firebaseUId: "",
   },
   vehiclesInfo: vehiclesInfomation,
   selectedVehicle,

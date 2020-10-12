@@ -1,6 +1,12 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
 import * as ImagePicker from "expo-image-picker"
-import React, { createRef, FunctionComponent, useEffect, useState } from "react"
+import React, {
+  createRef,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
 import { Animated, Keyboard, ScrollView, View } from "react-native"
 import {
   TouchableOpacity,
@@ -16,7 +22,10 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { firebase } from "../../Config/firebase"
+import { AuthContext } from "../../Contexts/AuthProvider"
 import { AppState, dispatchHandler } from "../../State-management"
+import { vehicleInfo } from "../Dashboard/types"
 import {
   ActionAddImage,
   ActionRemoveRefuelLogImage,
@@ -26,6 +35,7 @@ import { ImageSpecs } from "./types"
 
 type Props = {
   refuelLogImages: Array<ImageSpecs>
+  selectedVehicle: vehicleInfo
   dispatch: any
 }
 
@@ -40,8 +50,10 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [cost, setCost] = useState("")
   const [location, setLocation] = useState("")
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
+  const [imgUploadCounter, setImgUploadCounter] = useState(0)
 
   const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
+  const { user } = useContext(AuthContext)
   const [animatedOpacity] = useState(new Animated.Value(1))
 
   useEffect(() => {
@@ -95,7 +107,48 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   }
 
   const handleAddLog = () => {
-    console.log("add log pressed")
+    setImgUploadCounter(0)
+    if (firebase.auth().currentUser) {
+      const storageRef = firebase
+        .storage()
+        .ref("images")
+        .child(user ? user.uid : "")
+        .child(props.selectedVehicle.vcallsign)
+        .child("refuelLog")
+        .child(new Date().getTime().toString())
+
+      props.refuelLogImages.forEach(async (item, index) => {
+        const blob: Blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest()
+          xhr.onload = function () {
+            resolve(xhr.response)
+          }
+          xhr.onerror = function (e) {
+            console.log(e)
+            reject(new TypeError("Network request failed"))
+          }
+          xhr.responseType = "blob"
+          xhr.open("GET", item.uri, true)
+          xhr.send(null)
+        })
+
+        let uploadTask = storageRef.child(uuid.v4() + ".jpg").put(blob)
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
+          setImgUploadCounter(index + 1)
+          console.log(
+            "progress",
+            index,
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          )
+        }),
+          (error: any) => {
+            console.log("some error occured", error)
+          },
+          (unknown: any) => {
+            console.log("file uploaded successfully", unknown)
+          }
+      })
+    }
   }
 
   const handleTakePicture = async () => {
@@ -403,6 +456,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 
 const mapStateToProps = (state: AppState) => ({
   refuelLogImages: state.refuel.addRefuelLog.images,
+  selectedVehicle: state.vehiclesInfo[0],
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
