@@ -1,5 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
 import * as ImagePicker from "expo-image-picker"
+import LottieView from "lottie-react-native"
 import React, {
   createRef,
   FunctionComponent,
@@ -7,12 +8,13 @@ import React, {
   useEffect,
   useState,
 } from "react"
-import { Animated, Keyboard, ScrollView, View } from "react-native"
+import { Animated, Keyboard, Modal, ScrollView, View } from "react-native"
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler"
 import { TextInput } from "react-native-paper"
+import * as Progress from "react-native-progress"
 import uuid from "react-native-uuid"
 import { connect } from "react-redux"
 import BottomSheet from "reanimated-bottom-sheet"
@@ -40,6 +42,8 @@ type Props = {
 }
 
 const AddRefuelLog: FunctionComponent<Props> = (props) => {
+  const { user } = useContext(AuthContext)
+
   const [date, setDate] = useState(new Date())
   const [mode, setMode] = useState("date")
   const [show, setShow] = useState(false)
@@ -50,10 +54,10 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [cost, setCost] = useState("")
   const [location, setLocation] = useState("")
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
-  const [imgUploadCounter, setImgUploadCounter] = useState(0)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
 
   const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
-  const { user } = useContext(AuthContext)
   const [animatedOpacity] = useState(new Animated.Value(1))
 
   useEffect(() => {
@@ -107,7 +111,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   }
 
   const handleAddLog = () => {
-    setImgUploadCounter(0)
+    setModalOpen(true)
+
     if (firebase.auth().currentUser) {
       const storageRef = firebase
         .storage()
@@ -117,7 +122,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         .child("refuelLog")
         .child(new Date().getTime().toString())
 
-      props.refuelLogImages.forEach(async (item, index) => {
+      props.refuelLogImages.forEach(async (item, index, array) => {
         const blob: Blob = await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest()
           xhr.onload = function () {
@@ -132,21 +137,19 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           xhr.send(null)
         })
 
-        let uploadTask = storageRef.child(uuid.v4() + ".jpg").put(blob)
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-          setImgUploadCounter(index + 1)
-          console.log(
-            "progress",
-            index,
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          )
-        }),
-          (error: any) => {
-            console.log("some error occured", error)
+        let uploadTask = storageRef.child(uuid.v4() + ".jpg").put(blob, {
+          customMetadata: {
+            height: item.height.toString(),
+            width: item.width.toString(),
           },
-          (unknown: any) => {
-            console.log("file uploaded successfully", unknown)
+        })
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
+          if (index === array.length - 1) {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            setUploadProgress(progress)
           }
+        })
       })
     }
   }
@@ -285,6 +288,44 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
       }}
       contentContainerStyle={{ flexGrow: 1 }}
     >
+      <Modal
+        visible={modalOpen}
+        animationType={"fade"}
+        onRequestClose={() => {
+          setModalOpen(false)
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: Colors.white,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View>
+            {uploadProgress < 100 ? (
+              <Progress.Bar
+                color={Colors.redLite}
+                progress={uploadProgress}
+                width={200}
+              />
+            ) : (
+              <View>
+                <LottieView
+                  source={require("../../Assets/Animations/done.json")}
+                  loop={false}
+                  autoPlay={true}
+                  style={{ width: 300 }}
+                  onAnimationFinish={() => {
+                    setModalOpen(false)
+                  }}
+                />
+              </View>
+            )}
+          </View>
+        </View>
+      </Modal>
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={["40%", "0%"]}
@@ -300,7 +341,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           hideBottomSheet()
         }}
       />
-      <ScreenHeader title={"New log"} />
+      <ScreenHeader title={"Refuel Log"} />
       <Animated.View
         style={{ marginTop: -10, opacity: animatedOpacity }}
         pointerEvents={isBottomSheetOpen ? "none" : undefined}
