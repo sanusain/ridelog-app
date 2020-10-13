@@ -40,6 +40,7 @@ export function uploadImages(
         customMetadata: {
           height: item.height.toString(),
           width: item.width.toString(),
+          uid: item.uid,
         },
       })
 

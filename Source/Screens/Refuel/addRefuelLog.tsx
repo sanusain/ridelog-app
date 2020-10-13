@@ -1,5 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker"
 import * as ImagePicker from "expo-image-picker"
+import { firestore } from "firebase"
 import LottieView from "lottie-react-native"
 import React, {
   createRef,
@@ -24,14 +25,16 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { firebase } from "../../Config/firebase"
 import { AuthContext } from "../../Contexts/AuthProvider"
 import { AddRefuelLogNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
-import { vehicleInfo } from "../Dashboard/types"
+import { RefuelData, vehicleInfo } from "../Dashboard/types"
 import {
   ActionAddImage,
   ActionRemoveRefuelLogImage,
   ActionResetImages,
+  ActionSetUploadProgress,
 } from "./actions"
 import { uploadImages } from "./functions"
 import { ImageSpecs } from "./types"
@@ -114,14 +117,43 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 
   const handleAddLog = () => {
     setModalOpen(true)
-    uploadImages(
-      user ? user.uid : "",
-      props.selectedVehicle.vcallsign,
-      "refuelLog",
-      props.refuelLogImages,
-      date,
-      props.dispatch
-    )
+
+    const data: RefuelData = {
+      uid: uuid.v4(),
+      odo: currentOdo,
+      date: date.toDateString(),
+      cost: cost,
+      quantity: fuelQuantity,
+      images: [],
+    }
+
+    const vehicleInfoRef = firebase
+      .firestore()
+      .collection("vehicleInfo")
+      .doc(user?.uid)
+      .collection("vehicles")
+      .doc(props.selectedVehicle.vcallsign)
+
+    vehicleInfoRef
+      .update({ refuelData: firestore.FieldValue.arrayUnion(data) })
+      .then(() => {
+        if (!props.refuelLogImages.length)
+          props.dispatch(new ActionSetUploadProgress(100))
+        vehicleInfoRef.update({ odo: currentOdo }).then(() => {
+          console.log("odo updated aswell")
+        })
+      })
+
+    if (props.refuelLogImages.length) {
+      uploadImages(
+        user ? user.uid : "",
+        props.selectedVehicle.vcallsign,
+        "refuelLog",
+        props.refuelLogImages,
+        date,
+        props.dispatch
+      )
+    }
   }
 
   const handleTakePicture = async () => {
