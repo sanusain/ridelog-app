@@ -29,6 +29,7 @@ const SquareButton: React.FunctionComponent<Props> = (props) => {
           ? props.buttonBackgroundColor
           : Colors.googleBlue,
         width: props.width ? props.width : "90%",
+        opacity: props.disabled ? 0.5 : 1,
         ...props.style,
       }}
       onPress={props.onPress ? props.onPress : noop}

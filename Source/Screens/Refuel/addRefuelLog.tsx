@@ -250,7 +250,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
       </View>
     </View>
   )
-  console.log("date", date.getTime().toString())
 
   return (
     <ScrollView
@@ -459,8 +458,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             alignSelf: "center",
             marginTop: 5,
             marginBottom: 20,
-            opacity: 0.9,
           }}
+          disabled={!currentOdo || !fuelQuantity || !pricePerQty ? true : false}
         />
       </Animated.View>
     </ScrollView>
