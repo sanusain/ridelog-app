@@ -5,7 +5,7 @@ import { ImageSpecs } from "./types"
 
 export class ActionSetRefuelData extends Action<RefuelData> {
   updateState(state: AppState) {
-    if (this.payload) state.refuelData = this.payload
+    if (this.payload) state.refuel.refuelLog = this.payload
   }
 }
 
@@ -30,5 +30,17 @@ export class ActionRemoveRefuelLogImage extends Action<ImageSpecs> {
         }
       })
     }
+  }
+}
+
+export class ActionSetUploadProgress extends Action<number> {
+  updateState(state: AppState) {
+    if (this.payload) state.misc.imageUploadProgress = this.payload
+  }
+}
+
+export class ActionResetUploadProgress extends Action<any> {
+  updateState(state: AppState) {
+    state.misc.imageUploadProgress = 0
   }
 }

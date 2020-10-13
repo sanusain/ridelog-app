@@ -24,8 +24,8 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
-import { firebase } from "../../Config/firebase"
 import { AuthContext } from "../../Contexts/AuthProvider"
+import { AddRefuelLogNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
 import { vehicleInfo } from "../Dashboard/types"
 import {
@@ -33,11 +33,14 @@ import {
   ActionRemoveRefuelLogImage,
   ActionResetImages,
 } from "./actions"
+import { uploadImages } from "./functions"
 import { ImageSpecs } from "./types"
 
 type Props = {
+  navigation: AddRefuelLogNavigationProps
   refuelLogImages: Array<ImageSpecs>
   selectedVehicle: vehicleInfo
+  imageUploadProgress: number
   dispatch: any
 }
 
@@ -55,7 +58,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [location, setLocation] = useState("")
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
-  const [uploadProgress, setUploadProgress] = useState(0)
 
   const bottomSheetRef: React.RefObject<BottomSheet> = createRef()
   const [animatedOpacity] = useState(new Animated.Value(1))
@@ -112,46 +114,14 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 
   const handleAddLog = () => {
     setModalOpen(true)
-
-    if (firebase.auth().currentUser) {
-      const storageRef = firebase
-        .storage()
-        .ref("images")
-        .child(user ? user.uid : "")
-        .child(props.selectedVehicle.vcallsign)
-        .child("refuelLog")
-        .child(new Date().getTime().toString())
-
-      props.refuelLogImages.forEach(async (item, index, array) => {
-        const blob: Blob = await new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest()
-          xhr.onload = function () {
-            resolve(xhr.response)
-          }
-          xhr.onerror = function (e) {
-            console.log(e)
-            reject(new TypeError("Network request failed"))
-          }
-          xhr.responseType = "blob"
-          xhr.open("GET", item.uri, true)
-          xhr.send(null)
-        })
-
-        let uploadTask = storageRef.child(uuid.v4() + ".jpg").put(blob, {
-          customMetadata: {
-            height: item.height.toString(),
-            width: item.width.toString(),
-          },
-        })
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-          if (index === array.length - 1) {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            setUploadProgress(progress)
-          }
-        })
-      })
-    }
+    uploadImages(
+      user ? user.uid : "",
+      props.selectedVehicle.vcallsign,
+      "refuelLog",
+      props.refuelLogImages,
+      date,
+      props.dispatch
+    )
   }
 
   const handleTakePicture = async () => {
@@ -280,6 +250,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
       </View>
     </View>
   )
+  console.log("date", date.getTime().toString())
 
   return (
     <ScrollView
@@ -304,10 +275,10 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           }}
         >
           <View>
-            {uploadProgress < 100 ? (
+            {props.imageUploadProgress < 100 ? (
               <Progress.Bar
                 color={Colors.redLite}
-                progress={uploadProgress}
+                progress={props.imageUploadProgress}
                 width={200}
               />
             ) : (
@@ -319,6 +290,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
                   style={{ width: 300 }}
                   onAnimationFinish={() => {
                     setModalOpen(false)
+                    props.navigation.navigate("refuel")
                   }}
                 />
               </View>
@@ -498,6 +470,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 const mapStateToProps = (state: AppState) => ({
   refuelLogImages: state.refuel.addRefuelLog.images,
   selectedVehicle: state.vehiclesInfo[0],
+  imageUploadProgress: state.misc.imageUploadProgress,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -23,7 +23,14 @@ const selectedVehicle: vehicleInfo = {
   serviceData,
 }
 const refuelLogImages: Array<ImageSpecs> = []
-
+const refuelLog: RefuelData = {
+  uid: "",
+  odo: "",
+  quantity: "",
+  date: "",
+  cost: "",
+  images: [],
+}
 const initialState = {
   userInfo: {
     userCallsign: "",
@@ -38,6 +45,10 @@ const initialState = {
     addRefuelLog: {
       images: refuelLogImages,
     },
+    refuelLog,
+  },
+  misc: {
+    imageUploadProgress: 0,
   },
 }
 

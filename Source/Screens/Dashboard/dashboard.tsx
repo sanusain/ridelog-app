@@ -139,8 +139,6 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
       </View>
     )
   }
-  console.log("*******************vehicle count", props.vehiclesInfo.length) // keep it for now
-
   return (
     <View
       style={{
