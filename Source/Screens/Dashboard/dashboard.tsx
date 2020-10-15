@@ -10,7 +10,7 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
-import { hydrateVehiclesInfo } from "../../Database"
+import { hydrateVehiclesInfo } from "../../Database/backgroundJobs"
 import {
   DashboardNavigationProp,
   DashboardRouteProp,

@@ -11,7 +11,7 @@ import { getOAuthClientId } from "../../Config"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
 import { AuthContext, User } from "../../Contexts/AuthProvider"
-import { hydrateVehiclesInfo } from "../../Database"
+import { hydrateVehiclesInfo } from "../../Database/backgroundJobs"
 import { dispatchHandler } from "../../State-management"
 
 type Props = { dispatch: any; navigation: any }
