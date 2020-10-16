@@ -98,6 +98,7 @@ export function fetchVehicles(dispatch: any) {
                       collectionData.data().vcallsign,
                       " inserted in SQLITE"
                     )
+                    if (resultSet.rowsAffected) hydrateVehiclesInfo(dispatch)
                   }
                 )
               },
@@ -106,7 +107,6 @@ export function fetchVehicles(dispatch: any) {
               },
               () => {
                 //sucess callback
-                hydrateVehiclesInfo(dispatch)
               }
             )
           })

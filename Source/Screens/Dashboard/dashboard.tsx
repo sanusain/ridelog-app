@@ -10,7 +10,7 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
-import { fetchVehicles } from "../../Database/backgroundJobs"
+import { hydrateVehiclesInfo } from "../../Database/backgroundJobs"
 import {
   DashboardNavigationProp,
   DashboardRouteProp,
@@ -30,90 +30,11 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
   const screenWidth = Dimensions.get("window").width
 
   const { user } = useContext(AuthContext)
-  // const fakeData: vehicleInfo = {
-  //   vcallsign: "Storm0171",
-  //   maker: "Rolls",
-  //   model: "Ghost",
-  //   plate: "WB2394SF",
-  //   odo: "2020",
-  //   vin: "ASDFW234ASFD",
-  //   year: "2012",
-  //   images: [
-  //     "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-  //     "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-  //     "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-  //   ],
-  //   refuelData: [
-  //     {
-  //       uid: uuid.v4(),
-  //       odo: "2595",
-  //       quantity: "7",
-  //       date: new Date().toDateString(),
-  //       cost: "2.54",
-  //       images: [
-  //         "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-  //         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-  //       ],
-  //     },
-  //     {
-  //       uid: uuid.v4(),
-  //       odo: "2607",
-  //       quantity: "9",
-  //       date: new Date().toDateString(),
-  //       cost: "25.54",
-  //       images: [
-  //         "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-  //         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-  //       ],
-  //     },
-  //     {
-  //       uid: uuid.v4(),
-  //       odo: "2808",
-  //       quantity: "2",
-  //       date: new Date().toDateString(),
-  //       cost: "268.54",
-  //       images: [
-  //         "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-  //         "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-  //       ],
-  //     },
-  //   ],
-  //   serviceData: [
-  //     {
-  //       uid: uuid.v4(),
-  //       date: new Date().toDateString(),
-  //       images: [],
-  //     },
-  //   ],
-  // }
-
-  // useEffect(() => {
-  //   console.log("user", user)
-
-  //   firebase.auth().onAuthStateChanged((userLogged) => {
-  //     if (!userLogged)
-  //       Alert.alert(
-  //         "Re Login",
-  //         "Youre logged out of cloud, Please relogin",
-  //         [
-  //           {
-  //             text: "Re login",
-  //             onPress: () => {
-  //               logout()
-  //             },
-  //           },
-  //         ],
-  //         { cancelable: false }
-  //       )
-  //   })
-  // }, [])
 
   useEffect(() => {
     if (!props.vehiclesInfo.length) {
-      fetchVehicles(props.dispatch)
+      // fetchVehicles(props.dispatch)
+      hydrateVehiclesInfo(props.dispatch)
     }
   }, [])
 

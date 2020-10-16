@@ -4,7 +4,6 @@ import { Action } from "../State-management/root-action"
 
 export class ActionSetVehicles extends Action<vehicleInfo> {
   updateState(state: AppState) {
-    //@ts-ignore
     if (this.payload)
       if (
         state.vehiclesInfo.findIndex(
