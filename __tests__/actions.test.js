@@ -1,18 +1,8 @@
-import {
-  ActionInitializeVehicleInfo,
-  ActionSetVehicles,
-} from "../Source/Database/Actions"
+import { ActionSetVehicles } from "../Source/Database/Actions"
 
 // creating the sameobject type as of the class
 // update the payload of the object with testpayload data
 // call the action with with testpayload data, both should match.
-
-describe("Action", () => {
-  it("Initialize vehicles", () => {
-    const expectedData = new ActionInitializeVehicleInfo()
-    expect(new ActionInitializeVehicleInfo()).toEqual(expectedData)
-  })
-})
 
 describe("Action", () => {
   it("Set Vehicles", () => {

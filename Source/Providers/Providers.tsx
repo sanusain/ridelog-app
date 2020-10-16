@@ -8,6 +8,7 @@ import { Provider } from "react-redux"
 import { appFonts } from "../Assets/Fonts/index"
 import SafeAreaView from "../Components/SafeAreaView"
 import { AuthContext } from "../Contexts/AuthProvider"
+import { InitDB, printLog } from "../Database"
 import AppNavigation from "../Navigation"
 import AuthStack from "../Navigation/AuthStack"
 import { getStore } from "../State-management"
@@ -21,11 +22,17 @@ export default function Providers() {
   useEffect(() => {
     getFonts()
     if (!user) getUser()
+    getDB()
   }, [])
 
   const getFonts = async () => {
     await Font.loadAsync(appFonts)
     setFontsLoaded(true)
+    printLog("fonts loaded")
+  }
+
+  const getDB = () => {
+    InitDB()
   }
 
   const getUser = async () => {

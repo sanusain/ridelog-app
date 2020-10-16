@@ -11,7 +11,7 @@ import { getOAuthClientId } from "../../Config"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
 import { AuthContext, User } from "../../Contexts/AuthProvider"
-import { hydrateVehiclesInfo } from "../../Database/backgroundJobs"
+import { fetchVehicles } from "../../Database/backgroundJobs"
 import { dispatchHandler } from "../../State-management"
 
 type Props = { dispatch: any; navigation: any }
@@ -54,7 +54,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           avatar: "",
         }
         login(signInUserData)
-        hydrateVehiclesInfo(props.dispatch)
+        fetchVehicles(props.dispatch)
       })
       .catch((error) => {
         Alert.alert(
@@ -99,7 +99,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
               emailId: result.user.email ? result.user.email : "",
             }
             login(logUser)
-            hydrateVehiclesInfo(props.dispatch)
+            fetchVehicles(props.dispatch)
           })
       } else {
         return { cancelled: true }

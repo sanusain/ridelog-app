@@ -10,7 +10,7 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
-import { hydrateVehiclesInfo } from "../../Database/backgroundJobs"
+import { fetchVehicles } from "../../Database/backgroundJobs"
 import {
   DashboardNavigationProp,
   DashboardRouteProp,
@@ -113,7 +113,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     if (!props.vehiclesInfo.length) {
-      hydrateVehiclesInfo(props.dispatch)
+      fetchVehicles(props.dispatch)
     }
   }, [])
 
@@ -139,6 +139,8 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
       </View>
     )
   }
+
+  console.log("props.vehiclesInfo.length", props.vehiclesInfo.length)
   return (
     <View
       style={{

@@ -2,12 +2,6 @@ import { vehicleInfo } from "../Screens/Dashboard/types"
 import { AppState } from "../State-management"
 import { Action } from "../State-management/root-action"
 
-export class ActionInitializeVehicleInfo extends Action<any> {
-  updateState(state: AppState) {
-    state.vehiclesInfo = []
-  }
-}
-
 export class ActionSetVehicles extends Action<vehicleInfo> {
   updateState(state: AppState) {
     //@ts-ignore
@@ -18,5 +12,15 @@ export class ActionSetVehicles extends Action<vehicleInfo> {
         ) === -1
       )
         state.vehiclesInfo.push(this.payload)
+  }
+}
+
+export class ActionRemoveVehicle extends Action<string> {
+  updateState(state: AppState) {
+    state.vehiclesInfo.forEach((item, index) => {
+      if (item.vcallsign === this.payload) {
+        state.vehiclesInfo.splice(index, 1)
+      }
+    })
   }
 }
