@@ -11,7 +11,7 @@ import { AuthContext } from "../Contexts/AuthProvider"
 import { InitDB, printLog } from "../Database"
 import AppNavigation from "../Navigation"
 import AuthStack from "../Navigation/AuthStack"
-import { getStore } from "../State-management"
+import { dispatchHandler, getStore } from "../State-management"
 
 export default function Providers() {
   const store = getStore()
@@ -32,7 +32,7 @@ export default function Providers() {
   }
 
   const getDB = () => {
-    InitDB()
+    InitDB(dispatchHandler(store.dispatch))
   }
 
   const getUser = async () => {

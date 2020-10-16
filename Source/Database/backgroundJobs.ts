@@ -1,7 +1,7 @@
-import { db } from "."
 import { firebase } from "../Config/firebase"
 import { vehicleInfo } from "../Screens/Dashboard/types"
 import { ActionRemoveVehicle, ActionSetVehicles } from "./Actions"
+import { db } from "./dbconfig"
 
 export function hydrateVehiclesInfo(dispatch: any) {
   db.transaction((txn) => {

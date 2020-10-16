@@ -1,18 +1,12 @@
-import * as SQLite from "expo-sqlite"
-
-const dbConsts = {
-  name: "ridelogg.db",
-  version: "1.0.0",
-}
-
-export const db = SQLite.openDatabase(dbConsts.name, dbConsts.version)
+import { fetchVehicles } from "./backgroundJobs"
+import { db } from "./dbconfig"
 
 export function printLog(log: string) {
   if (__DEV__) console.log("dbLog:", log)
   return
 }
 
-export function InitDB() {
+export function InitDB(dispatch: any) {
   db.transaction(
     (txn) => {
       txn.executeSql(
@@ -59,7 +53,7 @@ export function InitDB() {
       console.log("txn failed", error)
     },
     () => {
-      console.log("DB initialized")
+      fetchVehicles(dispatch)
     }
   )
 }
