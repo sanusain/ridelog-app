@@ -184,7 +184,7 @@ export function fetchRefuelLogs(dispatch: any) {
                 (error) => {},
                 //@ts-ignore
                 (success) => {
-                  console.log("transaction executed")
+                  console.log("Refuel Logs updated")
                   hydrateRefuelLogs(dispatch, "Storm0171")
                 }
               )

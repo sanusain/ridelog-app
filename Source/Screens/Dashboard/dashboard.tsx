@@ -33,7 +33,6 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
 
   useEffect(() => {
     if (!props.vehiclesInfo.length) {
-      // fetchVehicles(props.dispatch)
       hydrateVehiclesInfo(props.dispatch)
     }
   }, [])
@@ -61,7 +60,6 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
     )
   }
 
-  console.log("props.vehiclesInfo.length", props.vehiclesInfo.length)
   return (
     <View
       style={{
