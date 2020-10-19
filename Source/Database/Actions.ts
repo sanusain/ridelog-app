@@ -1,4 +1,4 @@
-import { vehicleInfo } from "../Screens/Dashboard/types"
+import { RefuelData, vehicleInfo } from "../Screens/Dashboard/types"
 import { AppState } from "../State-management"
 import { Action } from "../State-management/root-action"
 
@@ -21,5 +21,18 @@ export class ActionRemoveVehicle extends Action<string> {
         state.vehiclesInfo.splice(index, 1)
       }
     })
+  }
+}
+
+export class ActionSetRefuelLog extends Action<RefuelData> {
+  updateState(state: AppState) {
+    if (this.payload) {
+      if (
+        state.selectedVehicle.refuelData.findIndex(
+          (item) => item.uid === this.payload?.uid
+        ) === -1
+      )
+        state.selectedVehicle.refuelData.push(this.payload)
+    }
   }
 }

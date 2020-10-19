@@ -14,7 +14,7 @@ import { RefuelData } from "../Dashboard/types"
 import { ActionSetRefuelData } from "./actions"
 
 type Props = {
-  refuelData: Array<RefuelData> | undefined
+  refuelData: Array<RefuelData>
   dispatch: any
   navigation: RefuelNavigationProps
 }

@@ -1,4 +1,4 @@
-import { fetchVehicles } from "./backgroundJobs"
+import { fetchRefuelLogs, fetchVehicles } from "./backgroundJobs"
 import { db } from "./dbconfig"
 
 export function printLog(log: string) {
@@ -31,11 +31,10 @@ export function InitDB(dispatch: any) {
         }
       )
       txn.executeSql(
-        `create TABLE if not EXISTS refuelLog (
-        id integer PRIMARY KEY autoincrement,
+        `create TABLE if not EXISTS refuelLogs (
         userUid varchar(200) not NULL,
         vcallsign varchar(20) not NULL,
-        logUuid varchar(200) not NULL,
+        logUuid varchar(200) not NULL PRIMARY KEY,
         odo varchar(30) not null,
         quantity varchar(10) not null,
         refuelDate varchar(30) not null,
@@ -54,6 +53,7 @@ export function InitDB(dispatch: any) {
     },
     () => {
       fetchVehicles(dispatch)
+      fetchRefuelLogs(dispatch)
     }
   )
 }
