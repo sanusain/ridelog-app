@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { View } from "react-native"
 import { FlatList, TouchableOpacity } from "react-native-gesture-handler"
 import { connect } from "react-redux"
@@ -7,6 +7,7 @@ import NoLog from "../../Components/NoData"
 import TextMontserrat from "../../Components/TextMontserrat"
 import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
+import { hydrateRefuelLogs } from "../../Database/backgroundJobs"
 import { RefuelNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
 import { noop } from "../../Util"
@@ -23,6 +24,10 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
   const conversionLiquid = "L"
   const conversionDistance = "Km"
   const currency = "₹"
+
+  useEffect(() => {
+    if (!props.refuelData.length) hydrateRefuelLogs(props.dispatch, "Storm0171")
+  }, [])
 
   const handleRefuelItem = (refuelLog: RefuelData) => {
     console.log("pressed handleRefuelItem")
