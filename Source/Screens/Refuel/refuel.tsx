@@ -100,7 +100,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
           <FlatList
             data={props.refuelData}
             renderItem={renderList}
-            keyExtractor={(item) => item.odo.toString()}
+            keyExtractor={(item) => item.uid}
           />
         ) : (
           <NoLog noLogType={"noRefuelLog"} handleOnPress={handleAddLog} />
