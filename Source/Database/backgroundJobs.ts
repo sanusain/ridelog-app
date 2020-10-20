@@ -120,6 +120,8 @@ export function fetchVehicles(dispatch: any) {
 }
 
 export function hydrateRefuelLogs(dispatch: any, vcallsign: "Storm0171") {
+  console.log("***********************************in hydrate")
+
   db.transaction((txn) => {
     txn.executeSql(
       "select * from refuelLogs where vcallsign=?",
@@ -161,7 +163,6 @@ export function fetchRefuelLogs(dispatch: any) {
             const vcallsign: string = collectionData.data().vcallsign
             const refuelLogsData: Array<RefuelData> = collectionData.data()
               .refuelData
-
             refuelLogsData.forEach((item) => {
               db.transaction(
                 (txn) => {
@@ -181,12 +182,7 @@ export function fetchRefuelLogs(dispatch: any) {
                     ]
                   )
                 },
-                (error) => {},
-                //@ts-ignore
-                (success) => {
-                  console.log("Refuel Logs updated")
-                  hydrateRefuelLogs(dispatch, "Storm0171")
-                }
+                (error) => {}
               )
             })
           })
