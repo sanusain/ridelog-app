@@ -122,22 +122,33 @@ export function hydrateRefuelLogs(dispatch: any) {
   return new Promise(async (resolve, reject) => {
     db.transaction(
       (txn) => {
-        txn.executeSql("select * from refuelLogs", [], (tx, refuelLogs) => {
-          for (let i = 0; i < refuelLogs.rows.length; i++) {
-            const refuelLogMapping: RefuelData = {
-              uid: refuelLogs.rows.item(i).logUuid,
-              date: refuelLogs.rows.item(i).refuelDate,
-              odo: refuelLogs.rows.item(i).odo,
-              quantity: refuelLogs.rows.item(i).quantity,
-              cost: refuelLogs.rows.item(i).cost,
-              images: [
-                refuelLogs.rows.item(i).image1,
-                refuelLogs.rows.item(i).image2,
-              ],
+        txn.executeSql(
+          "select * from refuelLogs",
+          [],
+          async (tx, refuelLogs) => {
+            if (
+              (await AsyncStorage.getItem("isFirstAppLaunch")) == null ||
+              !refuelLogs.rows.length
+            )
+              await fetchRefuelLogs(dispatch)
+            console.log("refuelLogs.rows.length", refuelLogs.rows.length)
+
+            for (let i = 0; i < refuelLogs.rows.length; i++) {
+              const refuelLogMapping: RefuelData = {
+                uid: refuelLogs.rows.item(i).logUuid,
+                date: refuelLogs.rows.item(i).refuelDate,
+                odo: refuelLogs.rows.item(i).odo,
+                quantity: refuelLogs.rows.item(i).quantity,
+                cost: refuelLogs.rows.item(i).cost,
+                images: [
+                  refuelLogs.rows.item(i).image1,
+                  refuelLogs.rows.item(i).image2,
+                ],
+              }
+              dispatch(new ActionSetRefuelLog(refuelLogMapping))
             }
-            dispatch(new ActionSetRefuelLog(refuelLogMapping))
           }
-        })
+        )
       },
       (error) => {
         reject()
@@ -177,13 +188,14 @@ export function fetchRefuelLogs(dispatch: any) {
                         item.quantity,
                         item.date,
                         item.cost,
-                        item.images[0],
-                        item.images[1],
+                        item.images[0].uri,
+                        item.images[1].uri,
                       ],
                       (tx, rs) => {}
                     )
                   },
                   (error) => {
+                    console.log("FetchRefuellog ERROR:", error)
                     reject()
                   },
                   () => {
