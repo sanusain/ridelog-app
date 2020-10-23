@@ -17,13 +17,11 @@ export async function hydrateAllState(dispatch: any) {
 
 export function hydrateSelectedVehicle(dispatch: any) {
   return new Promise(async (resolve, reject) => {
-    const selectedVehicle = await AsyncStorage.getItem("selectedVehicle")
-
     db.transaction(
       (txn) => {
         txn.executeSql(
-          `select * from vehicles where vcallsign=?`,
-          [selectedVehicle],
+          `select * from vehicles`,
+          [],
           (txn, selectedVehicleFromDB) => {
             if (selectedVehicleFromDB.rows.length) {
               const vehicle: vehicleInfo = {
@@ -119,29 +117,24 @@ export function fetchVehicles(dispatch: any) {
 
 export function hydrateRefuelLogs(dispatch: any) {
   return new Promise(async (resolve, reject) => {
-    const selectedVehicle = await AsyncStorage.getItem("selectedVehicle")
     db.transaction(
       (txn) => {
-        txn.executeSql(
-          "select * from refuelLogs where vcallsign=?",
-          [selectedVehicle],
-          (tx, refuelLogs) => {
-            for (let i = 0; i < refuelLogs.rows.length; i++) {
-              const refuelLogMapping: RefuelData = {
-                uid: refuelLogs.rows.item(i).logUuid,
-                date: refuelLogs.rows.item(i).refuelDate,
-                odo: refuelLogs.rows.item(i).odo,
-                quantity: refuelLogs.rows.item(i).quantity,
-                cost: refuelLogs.rows.item(i).cost,
-                images: [
-                  refuelLogs.rows.item(i).image1,
-                  refuelLogs.rows.item(i).image2,
-                ],
-              }
-              dispatch(new ActionSetRefuelLog(refuelLogMapping))
+        txn.executeSql("select * from refuelLogs", [], (tx, refuelLogs) => {
+          for (let i = 0; i < refuelLogs.rows.length; i++) {
+            const refuelLogMapping: RefuelData = {
+              uid: refuelLogs.rows.item(i).logUuid,
+              date: refuelLogs.rows.item(i).refuelDate,
+              odo: refuelLogs.rows.item(i).odo,
+              quantity: refuelLogs.rows.item(i).quantity,
+              cost: refuelLogs.rows.item(i).cost,
+              images: [
+                refuelLogs.rows.item(i).image1,
+                refuelLogs.rows.item(i).image2,
+              ],
             }
+            dispatch(new ActionSetRefuelLog(refuelLogMapping))
           }
-        )
+        })
       },
       (error) => {
         reject()

@@ -44,3 +44,13 @@ export class ActionResetUploadProgress extends Action<any> {
     state.misc.imageUploadProgress = 0
   }
 }
+export class ActionAddUploadURL extends Action<string> {
+  updateState(state: AppState) {
+    if (this.payload) state.refuel.uploadedImageURLs.push(this.payload)
+  }
+}
+export class ActionResetUploadURLs extends Action<any> {
+  updateState(state: AppState) {
+    state.refuel.uploadedImageURLs = []
+  }
+}

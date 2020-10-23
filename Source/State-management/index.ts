@@ -7,7 +7,7 @@ import {
 import { ImageSpecs } from "../Screens/Refuel/types"
 import { Action } from "./root-action"
 
-const vehiclesInfomation: Array<vehicleInfo> = []
+const uploadedImageURLs: Array<string> = []
 const refuelData: Array<RefuelData> | undefined = []
 const serviceData: Array<ServiceData> = []
 const selectedVehicle: vehicleInfo = {
@@ -45,6 +45,7 @@ const initialState = {
       images: refuelLogImages,
     },
     refuelLog,
+    uploadedImageURLs,
   },
   misc: {
     imageUploadProgress: 0,
