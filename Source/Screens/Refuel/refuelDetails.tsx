@@ -41,8 +41,6 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
         renderItem={renderCarousel}
         sliderWidth={screenWidth}
         itemWidth={screenWidth}
-        loop={true}
-        autoplay={true}
       />
     </ScrollView>
   )
