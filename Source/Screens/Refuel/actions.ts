@@ -35,7 +35,7 @@ export class ActionRemoveRefuelLogImage extends Action<ImageSpecs> {
 
 export class ActionSetUploadProgress extends Action<number> {
   updateState(state: AppState) {
-    if (this.payload) state.misc.imageUploadProgress = this.payload
+    if (this.payload) state.misc.imageUploadProgress += this.payload
   }
 }
 

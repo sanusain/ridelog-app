@@ -45,6 +45,7 @@ type Props = {
   selectedVehicle: vehicleInfo
   imageUploadProgress: number
   dispatch: any
+  uploadedImageURLs: Array<String>
 }
 
 const AddRefuelLog: FunctionComponent<Props> = (props) => {
@@ -118,32 +119,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const handleAddLog = () => {
     setModalOpen(true)
 
-    const data: RefuelData = {
-      uid: uuid.v4(),
-      odo: currentOdo,
-      date: date.toDateString(),
-      cost: cost,
-      quantity: fuelQuantity,
-      images: [],
-    }
-
-    const vehicleInfoRef = firebase
-      .firestore()
-      .collection("vehicleInfo")
-      .doc(user?.uid)
-      .collection("vehicles")
-      .doc(props.selectedVehicle.vcallsign)
-
-    vehicleInfoRef
-      .update({ refuelData: firestore.FieldValue.arrayUnion(data) })
-      .then(() => {
-        if (!props.refuelLogImages.length)
-          props.dispatch(new ActionSetUploadProgress(100))
-        vehicleInfoRef.update({ odo: currentOdo }).then(() => {
-          console.log("odo updated aswell")
-        })
-      })
-
     if (props.refuelLogImages.length) {
       uploadImages(
         user ? user.uid : "",
@@ -152,7 +127,56 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         props.refuelLogImages,
         date,
         props.dispatch
-      )
+      ).then((imageURLs: Array<ImageSpecs>) => {
+        const data: RefuelData = {
+          uid: uuid.v4(),
+          odo: currentOdo,
+          date: date.toDateString(),
+          cost: cost,
+          quantity: fuelQuantity,
+          images: [...imageURLs],
+        }
+
+        const vehicleInfoRef = firebase
+          .firestore()
+          .collection("vehicleInfo")
+          .doc(user?.uid)
+          .collection("vehicles")
+          .doc(props.selectedVehicle.vcallsign)
+
+        vehicleInfoRef
+          .update({ refuelData: firestore.FieldValue.arrayUnion(data) })
+          .then(() => {
+            vehicleInfoRef.update({ odo: currentOdo }).then(() => {
+              console.log("odo updated aswell")
+            })
+          })
+      })
+    } else {
+      const data: RefuelData = {
+        uid: uuid.v4(),
+        odo: currentOdo,
+        date: date.toDateString(),
+        cost: cost,
+        quantity: fuelQuantity,
+        images: [],
+      }
+      const vehicleInfoRef = firebase
+        .firestore()
+        .collection("vehicleInfo")
+        .doc(user?.uid)
+        .collection("vehicles")
+        .doc(props.selectedVehicle.vcallsign)
+
+      vehicleInfoRef
+        .update({ refuelData: firestore.FieldValue.arrayUnion(data) })
+        .then(() => {
+          if (!props.refuelLogImages.length)
+            props.dispatch(new ActionSetUploadProgress(100))
+          vehicleInfoRef.update({ odo: currentOdo }).then(() => {
+            console.log("odo updated aswell")
+          })
+        })
     }
   }
 
@@ -309,8 +333,10 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
             {props.imageUploadProgress < 100 ? (
               <Progress.Bar
                 color={Colors.redLite}
-                progress={props.imageUploadProgress}
+                progress={props.imageUploadProgress / 100}
                 width={200}
+                useNativeDriver={true}
+                animationType={"spring"}
               />
             ) : (
               <View>
@@ -502,6 +528,7 @@ const mapStateToProps = (state: AppState) => ({
   refuelLogImages: state.refuel.addRefuelLog.images,
   selectedVehicle: state.selectedVehicle,
   imageUploadProgress: state.misc.imageUploadProgress,
+  uploadedImageURLs: state.refuel.uploadedImageURLs,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

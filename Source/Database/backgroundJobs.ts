@@ -16,6 +16,8 @@ export async function hydrateAllState(dispatch: any) {
 }
 
 export function hydrateSelectedVehicle(dispatch: any) {
+  console.log("++++++Hydrating selected vehicle+++++++++")
+
   return new Promise(async (resolve, reject) => {
     db.transaction(
       (txn) => {
@@ -52,6 +54,7 @@ export function hydrateSelectedVehicle(dispatch: any) {
         reject()
       },
       () => {
+        console.log("vehicle hydration done")
         resolve()
       }
     )
