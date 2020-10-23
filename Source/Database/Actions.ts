@@ -22,3 +22,9 @@ export class ActionSetRefuelLog extends Action<RefuelData> {
     }
   }
 }
+
+export class ActionSetFetchingVehicle extends Action<boolean> {
+  updateState(state: AppState) {
+    if (this.payload) state.misc.fetchingVehicle = this.payload
+  }
+}

@@ -10,7 +10,6 @@ import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
-import { hydrateVehiclesInfo } from "../../Database/backgroundJobs"
 import {
   DashboardNavigationProp,
   DashboardRouteProp,
@@ -19,7 +18,6 @@ import { AppState, dispatchHandler } from "../../State-management"
 import { vehicleInfo } from "./types"
 
 type Props = {
-  vehiclesInfo: Array<vehicleInfo>
   selectedVehicle: vehicleInfo
   navigation: DashboardNavigationProp
   dispatch: any
@@ -28,12 +26,12 @@ type Props = {
 
 const DashBoard: React.FunctionComponent<Props> = (props) => {
   const screenWidth = Dimensions.get("window").width
-
   const { user } = useContext(AuthContext)
 
   useEffect(() => {
-    if (!props.vehiclesInfo.length) {
-      hydrateVehiclesInfo(props.dispatch)
+    if (!props.selectedVehicle.vcallsign) {
+      //something not very proud of, ugly AF!
+      // hydrateAllState(props.dispatch)
     }
   }, [])
 
@@ -84,7 +82,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
           marginRight: 100,
         }}
       />
-      {!props.selectedVehicle ? (
+      {!props.selectedVehicle.vcallsign ? (
         <View
           style={{
             alignItems: "center",
@@ -264,13 +262,8 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
   )
 }
 
-/* *currently seelected vehicle holds the first vehicle
- * of all veihcles list ie vehiclesInfo. later this will be changed
- * to selected vehicle state when user will be able to pick the vehicle
- */
 const mapStateToProps = (state: AppState) => ({
-  selectedVehicle: state.vehiclesInfo[0],
-  vehiclesInfo: state.vehiclesInfo,
+  selectedVehicle: state.selectedVehicle,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

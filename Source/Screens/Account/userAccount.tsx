@@ -17,6 +17,7 @@ import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { firebase } from "../../Config/firebase"
 import { AuthContext } from "../../Contexts/AuthProvider"
+import { db } from "../../Database/dbconfig"
 import { AccountsNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
 
@@ -27,6 +28,16 @@ const Accounts: React.FunctionComponent<Props> = (props) => {
   const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
   const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
   const handleLogout = () => {
+    db.transaction(
+      (txn) => {
+        txn.executeSql(`drop table vehicles`)
+        txn.executeSql(`drop table refuelLog`)
+      },
+      (error) => {},
+      () => {
+        console.log("All Db tables removed")
+      }
+    )
     firebase
       .auth()
       .signOut()

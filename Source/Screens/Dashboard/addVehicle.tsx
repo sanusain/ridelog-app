@@ -75,6 +75,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
         .doc(validatedInputData.vcallsign)
 
       vehicleInfoRef.set(validatedInputData).then(() => {
+        // AsyncStorage.setItem("selectedVehicle", validatedInputData.vcallsign)
         props.navigation.navigate("dashboard")
       })
     }

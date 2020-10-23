@@ -39,7 +39,6 @@ const initialState = {
     lastLogin: "",
     firebaseUId: "",
   },
-  vehiclesInfo: vehiclesInfomation,
   selectedVehicle,
   refuel: {
     addRefuelLog: {
@@ -49,6 +48,7 @@ const initialState = {
   },
   misc: {
     imageUploadProgress: 0,
+    fetchingVehicle: false,
   },
 }
 

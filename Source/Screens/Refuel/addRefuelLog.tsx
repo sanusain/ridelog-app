@@ -500,7 +500,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
 
 const mapStateToProps = (state: AppState) => ({
   refuelLogImages: state.refuel.addRefuelLog.images,
-  selectedVehicle: state.vehiclesInfo[0],
+  selectedVehicle: state.selectedVehicle,
   imageUploadProgress: state.misc.imageUploadProgress,
 })
 

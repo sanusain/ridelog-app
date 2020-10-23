@@ -1,192 +1,203 @@
+import AsyncStorage from "@react-native-community/async-storage"
 import { firebase } from "../Config/firebase"
 import { RefuelData, vehicleInfo } from "../Screens/Dashboard/types"
 import {
-  ActionRemoveVehicle,
+  ActionSetFetchingVehicle,
   ActionSetRefuelLog,
-  ActionSetVehicles,
+  ActionSetSelectedVehicle,
 } from "./Actions"
 import { db } from "./dbconfig"
 
-export function hydrateVehiclesInfo(dispatch: any) {
-  db.transaction((txn) => {
-    txn.executeSql(`select * from vehicles`, [], (txn, resultSet) => {
-      let allVehicles = []
-      for (let i = 0; i < resultSet.rows.length; i++) {
-        allVehicles.push(resultSet.rows.item(i))
+//setting selected vehicle when taking userinput for vcallsign
+
+export async function hydrateAllState(dispatch: any) {
+  await hydrateSelectedVehicle(dispatch)
+  await hydrateRefuelLogs(dispatch)
+}
+
+export function hydrateSelectedVehicle(dispatch: any) {
+  return new Promise(async (resolve, reject) => {
+    const selectedVehicle = await AsyncStorage.getItem("selectedVehicle")
+
+    db.transaction(
+      (txn) => {
+        txn.executeSql(
+          `select * from vehicles where vcallsign=?`,
+          [selectedVehicle],
+          (txn, selectedVehicleFromDB) => {
+            if (selectedVehicleFromDB.rows.length) {
+              const vehicle: vehicleInfo = {
+                vcallsign: selectedVehicleFromDB.rows.item(0).vcallsign,
+                maker: selectedVehicleFromDB.rows.item(0).maker,
+                model: selectedVehicleFromDB.rows.item(0).maker,
+                odo: selectedVehicleFromDB.rows.item(0).odo,
+                plate: selectedVehicleFromDB.rows.item(0).plate,
+                vin: selectedVehicleFromDB.rows.item(0).plate,
+                year: selectedVehicleFromDB.rows.item(0).year,
+                images: [
+                  selectedVehicleFromDB.rows.item(0).image1,
+                  selectedVehicleFromDB.rows.item(0).image2,
+                  selectedVehicleFromDB.rows.item(0).image3,
+                  selectedVehicleFromDB.rows.item(0).image4,
+                  selectedVehicleFromDB.rows.item(0).image5,
+                ],
+                refuelData: [],
+                serviceData: [],
+              }
+              dispatch(new ActionSetSelectedVehicle(vehicle))
+            } else console.log("No rows in db")
+          }
+        )
+      },
+      (error) => {
+        console.log("Selected Vehicle txn failed", error)
+        reject()
+      },
+      () => {
+        resolve()
       }
-      allVehicles.forEach((item) => {
-        const vehicle: vehicleInfo = {
-          vcallsign: item.vcallsign,
-          maker: item.maker,
-          model: item.maker,
-          odo: item.odo,
-          plate: item.plate,
-          vin: item.plate,
-          year: item.year,
-          images: [
-            item.image1,
-            item.image2,
-            item.image3,
-            item.image4,
-            item.image5,
-          ],
-          refuelData: [],
-          serviceData: [],
-        }
-        dispatch(new ActionSetVehicles(vehicle))
-      })
-    })
+    )
   })
 }
 
 export function fetchVehicles(dispatch: any) {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      firebase
-        .firestore()
-        .collection("vehicleInfo")
-        .doc(user?.uid)
-        .collection("vehicles")
-        .onSnapshot((collections) => {
-          let vehiclesInServer: Array<string> = []
-          collections.forEach((collectionData) => {
-            vehiclesInServer.push(collectionData.data().vcallsign)
-          })
-
-          db.transaction((txn) => {
-            txn.executeSql(`select * from vehicles`, [], (txn, resultSet) => {
-              for (let i = 0; i < resultSet.rows.length; i++) {
-                if (
-                  !vehiclesInServer.includes(resultSet.rows.item(i).vcallsign)
-                ) {
+  dispatch(new ActionSetFetchingVehicle(true))
+  return new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase
+          .firestore()
+          .collection("vehicleInfo")
+          .doc(user?.uid)
+          .collection("vehicles")
+          .onSnapshot((collections) => {
+            collections.forEach((collectionData) => {
+              db.transaction(
+                (txn) => {
                   txn.executeSql(
-                    `DELETE FROM vehicles WHERE vcallsign=?`,
-                    [resultSet.rows.item(i).vcallsign],
-                    (_txn, rs) => {
-                      console.log("rs.rowsAffected", rs.rowsAffected)
-                      dispatch(
-                        new ActionRemoveVehicle(
-                          resultSet.rows.item(i).vcallsign
-                        )
+                    `REPLACE INTO vehicles(userUid,vcallsign,maker,model,plate,odo,vin,year,image1,image2,image3,image4,image5) 
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                    [
+                      user.uid,
+                      collectionData.data().vcallsign,
+                      collectionData.data().maker,
+                      collectionData.data().model,
+                      collectionData.data().plate,
+                      collectionData.data().odo,
+                      collectionData.data().vin,
+                      collectionData.data().year,
+                      collectionData.data().images[0],
+                      collectionData.data().images[1],
+                      collectionData.data().images[2],
+                      collectionData.data().images[3],
+                      collectionData.data().images[4],
+                    ],
+                    async (tx, resultSet) => {
+                      await AsyncStorage.setItem(
+                        "selectedVehicle",
+                        collectionData.data().vcallsign
                       )
+                      console.log(collectionData.data().vcallsign, " inserted")
                     }
                   )
+                },
+                (error) => {
+                  console.log("Insert failed:", error)
+                  reject()
+                },
+                () => {
+                  resolve()
                 }
-              }
+              )
             })
+            dispatch(new ActionSetFetchingVehicle(false))
           })
-
-          collections.forEach((collectionData) => {
-            db.transaction(
-              (txn) => {
-                txn.executeSql(
-                  `REPLACE INTO vehicles(userUid,vcallsign,maker,model,plate,odo,vin,year,image1,image2,image3,image4,image5) 
-                VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
-                  [
-                    user.uid,
-                    collectionData.data().vcallsign,
-                    collectionData.data().maker,
-                    collectionData.data().model,
-                    collectionData.data().plate,
-                    collectionData.data().odo,
-                    collectionData.data().vin,
-                    collectionData.data().year,
-                    collectionData.data().images[0],
-                    collectionData.data().images[1],
-                    collectionData.data().images[2],
-                    collectionData.data().images[3],
-                    collectionData.data().images[4],
-                  ],
-                  (tx, resultSet) => {
-                    console.log(
-                      collectionData.data().vcallsign,
-                      " inserted in SQLITE"
-                    )
-                    if (resultSet.rowsAffected) hydrateVehiclesInfo(dispatch)
-                  }
-                )
-              },
-              (error) => {
-                console.log("Insert failed:", error)
-              },
-              () => {
-                //sucess callback
-              }
-            )
-          })
-        })
-    }
+      }
+    })
   })
 }
 
-export function hydrateRefuelLogs(dispatch: any, vcallsign: "Storm0171") {
-  console.log("***********************************in hydrate")
-
-  db.transaction((txn) => {
-    txn.executeSql(
-      "select * from refuelLogs where vcallsign=?",
-      [vcallsign],
-      (tx, refuelLogs) => {
-        let allRefuelLogs = []
-        for (let i = 0; i < refuelLogs.rows.length; i++) {
-          allRefuelLogs.push(refuelLogs.rows.item(i))
-        }
-
-        allRefuelLogs.forEach((dblog) => {
-          const refuelLogMapping: RefuelData = {
-            uid: dblog.logUuid,
-            date: dblog.refuelDate,
-            odo: dblog.odo,
-            quantity: dblog.quantity,
-            cost: dblog.cost,
-            images: [dblog.image1, dblog.image2],
+export function hydrateRefuelLogs(dispatch: any) {
+  return new Promise(async (resolve, reject) => {
+    const selectedVehicle = await AsyncStorage.getItem("selectedVehicle")
+    db.transaction(
+      (txn) => {
+        txn.executeSql(
+          "select * from refuelLogs where vcallsign=?",
+          [selectedVehicle],
+          (tx, refuelLogs) => {
+            for (let i = 0; i < refuelLogs.rows.length; i++) {
+              const refuelLogMapping: RefuelData = {
+                uid: refuelLogs.rows.item(i).logUuid,
+                date: refuelLogs.rows.item(i).refuelDate,
+                odo: refuelLogs.rows.item(i).odo,
+                quantity: refuelLogs.rows.item(i).quantity,
+                cost: refuelLogs.rows.item(i).cost,
+                images: [
+                  refuelLogs.rows.item(i).image1,
+                  refuelLogs.rows.item(i).image2,
+                ],
+              }
+              dispatch(new ActionSetRefuelLog(refuelLogMapping))
+            }
           }
-          dispatch(new ActionSetRefuelLog(refuelLogMapping))
-        })
+        )
       },
-      //@ts-ignore
-      (error) => {}
+      (error) => {
+        reject()
+      },
+      () => {
+        resolve()
+      }
     )
   })
 }
 
 export function fetchRefuelLogs(dispatch: any) {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      firebase
-        .firestore()
-        .collection("vehicleInfo")
-        .doc(user.uid)
-        .collection("vehicles")
-        .onSnapshot((collections) => {
-          collections.forEach((collectionData) => {
-            const vcallsign: string = collectionData.data().vcallsign
-            const refuelLogsData: Array<RefuelData> = collectionData.data()
-              .refuelData
-            refuelLogsData.forEach((item) => {
-              db.transaction(
-                (txn) => {
-                  txn.executeSql(
-                    `REPLACE INTO refuelLogs(userUid,vcallsign,logUuid,odo,quantity,refuelDate,cost,image1,image2)
+  return new Promise((resolve, reject) => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        firebase
+          .firestore()
+          .collection("vehicleInfo")
+          .doc(user.uid)
+          .collection("vehicles")
+          .onSnapshot((collections) => {
+            collections.forEach(async (collectionData) => {
+              const vcallsign: string = collectionData.data().vcallsign
+              const refuelLogsData: Array<RefuelData> = collectionData.data()
+                .refuelData
+              refuelLogsData.forEach((item) => {
+                db.transaction(
+                  (txn) => {
+                    txn.executeSql(
+                      `REPLACE INTO refuelLogs(userUid,vcallsign,logUuid,odo,quantity,refuelDate,cost,image1,image2)
                 VALUES(?,?,?,?,?,?,?,?,?)`,
-                    [
-                      user.uid,
-                      vcallsign,
-                      item.uid,
-                      item.odo,
-                      item.quantity,
-                      item.date,
-                      item.cost,
-                      item.images[0],
-                      item.images[1],
-                    ]
-                  )
-                },
-                (error) => {}
-              )
+                      [
+                        user.uid,
+                        vcallsign,
+                        item.uid,
+                        item.odo,
+                        item.quantity,
+                        item.date,
+                        item.cost,
+                        item.images[0],
+                        item.images[1],
+                      ],
+                      (tx, rs) => {}
+                    )
+                  },
+                  (error) => {
+                    reject()
+                  },
+                  () => {
+                    resolve()
+                  }
+                )
+              })
             })
           })
-        })
-    }
+      }
+    })
   })
 }
