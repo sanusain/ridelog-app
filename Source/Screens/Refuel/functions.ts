@@ -1,10 +1,6 @@
 import uuid from "react-native-uuid"
 import { firebase } from "../../Config/firebase"
-import {
-  ActionResetUploadProgress,
-  ActionResetUploadURLs,
-  ActionSetUploadProgress,
-} from "./actions"
+import { ActionResetUploadProgress, ActionSetUploadProgress } from "./actions"
 import { ImageSpecs } from "./types"
 
 export function uploadImages(
@@ -89,7 +85,6 @@ export function uploadImages(
           })
         }
         resolve(uploadedImagesURLs)
-        dispatch(new ActionResetUploadURLs())
         dispatch(new ActionResetUploadProgress())
       }
     } catch (error) {

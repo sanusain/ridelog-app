@@ -528,7 +528,6 @@ const mapStateToProps = (state: AppState) => ({
   refuelLogImages: state.refuel.addRefuelLog.images,
   selectedVehicle: state.selectedVehicle,
   imageUploadProgress: state.misc.imageUploadProgress,
-  uploadedImageURLs: state.refuel.uploadedImageURLs,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
