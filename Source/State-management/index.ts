@@ -45,7 +45,7 @@ const initialState = {
       images: refuelLogImages,
     },
     refuelLog,
-    uploadedImageURLs,
+    imageViewInitialIndex: 0,
   },
   misc: {
     imageUploadProgress: 0,

@@ -44,3 +44,14 @@ export class ActionResetUploadProgress extends Action<any> {
     state.misc.imageUploadProgress = 0
   }
 }
+
+export class ActionSetImageViewInitialIndex extends Action<number> {
+  updateState(state: AppState) {
+    if (this.payload) state.refuel.imageViewInitialIndex = this.payload
+  }
+}
+export class ActionResetImageViewInitialIndex extends Action<any> {
+  updateState(state: AppState) {
+    state.refuel.imageViewInitialIndex = 0
+  }
+}
