@@ -134,6 +134,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           date: date.toDateString(),
           cost: cost,
           quantity: fuelQuantity,
+          location: location,
           images: [...imageURLs],
         }
 
@@ -159,6 +160,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         date: date.toDateString(),
         cost: cost,
         quantity: fuelQuantity,
+        location: location,
         images: [],
       }
       const vehicleInfoRef = firebase

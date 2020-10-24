@@ -35,7 +35,12 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
     return (
       <View>
         <TouchableOpacity
-          style={{ flex: 1 }}
+          style={{
+            flex: 1,
+            marginHorizontal: 5,
+            borderRadius: 5,
+            overflow: "hidden",
+          }}
           onPress={() => {
             setModalVisible(true)
           }}
@@ -46,13 +51,14 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
             style={{
               borderWidth: 1,
               width: screenWidth,
-              height: (3 / 4) * screenWidth,
+              height: (3 / 4) * (screenWidth / 1.5),
             }}
           />
         </TouchableOpacity>
       </View>
     )
   }
+  console.log("refuel data", props.refuelData)
 
   return modalVisible ? (
     <Modal visible={modalVisible} onRequestClose={closeModal}>
@@ -81,6 +87,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
         onSnapToItem={(index) => {
           props.dispatch(new ActionSetImageViewInitialIndex(index))
         }}
+        showsHorizontalScrollIndicator
       />
     </ScrollView>
   )

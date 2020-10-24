@@ -19,6 +19,7 @@ export type RefuelData = {
   quantity: string
   date: string
   cost: string
+  location: string
   images: Array<ImageSpecs>
 }
 
