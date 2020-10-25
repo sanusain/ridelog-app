@@ -18,6 +18,7 @@ export type RefuelData = {
   odo: string
   quantity: string
   date: string
+  price: string
   cost: string
   location: string
   images: Array<ImageSpecs>

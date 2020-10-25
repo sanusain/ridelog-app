@@ -1,4 +1,10 @@
-import { AntDesign } from "@expo/vector-icons"
+import {
+  AntDesign,
+  Feather,
+  FontAwesome,
+  Ionicons,
+  MaterialIcons,
+} from "@expo/vector-icons"
 import React, { FunctionComponent, useState } from "react"
 import { Dimensions, Image, Modal, TouchableOpacity, View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
@@ -6,6 +12,8 @@ import Carousel from "react-native-snap-carousel"
 import { connect } from "react-redux"
 import ScreenHeader from "../../Components/Header"
 import ImageView from "../../Components/ImageView"
+import SquareButton from "../../Components/SquareButton"
+import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
 import { RefuelDetailsNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
@@ -37,7 +45,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
         <TouchableOpacity
           style={{
             flex: 1,
-            marginHorizontal: 5,
+            marginHorizontal: 10,
             borderRadius: 5,
             overflow: "hidden",
           }}
@@ -77,19 +85,194 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
       </View>
     </Modal>
   ) : (
-    <ScrollView style={{ backgroundColor: Colors.white }}>
-      <ScreenHeader title={"Refuel Details"} />
-      <Carousel
-        data={props.refuelData.images}
-        renderItem={renderCarousel}
-        sliderWidth={screenWidth}
-        itemWidth={screenWidth}
-        onSnapToItem={(index) => {
-          props.dispatch(new ActionSetImageViewInitialIndex(index))
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        style={{
+          backgroundColor: Colors.white,
         }}
-        showsHorizontalScrollIndicator
-      />
-    </ScrollView>
+      >
+        <ScreenHeader title={"Refuel Details"} />
+        <Carousel
+          data={props.refuelData.images}
+          renderItem={renderCarousel}
+          sliderWidth={screenWidth}
+          itemWidth={screenWidth}
+          onSnapToItem={(index) => {
+            props.dispatch(new ActionSetImageViewInitialIndex(index))
+          }}
+          showsHorizontalScrollIndicator
+        />
+        <View
+          style={{
+            borderWidth: 1,
+            borderColor: Colors.manateeGrey,
+            paddingVertical: 5,
+            flex: 1,
+            borderRadius: 5,
+            marginVertical: 10,
+            marginHorizontal: 10,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 5,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <MaterialIcons
+                name={"date-range"}
+                size={30}
+                color={Colors.imperialRed}
+              />
+              <TextMontserrat fontSize={18} style={{ marginLeft: 10 }}>
+                Date
+              </TextMontserrat>
+            </View>
+            <View>
+              <TextMontserrat fontSize={18}>
+                {props.refuelData.date}
+              </TextMontserrat>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 5,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <AntDesign
+                name={"dashboard"}
+                size={30}
+                color={Colors.imperialRed}
+              />
+              <TextMontserrat fontSize={18} style={{ marginLeft: 10 }}>
+                Odometer
+              </TextMontserrat>
+            </View>
+            <View>
+              <TextMontserrat fontSize={18}>
+                {props.refuelData.odo}
+              </TextMontserrat>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 5,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FontAwesome
+                name={"sitemap"}
+                size={30}
+                color={Colors.imperialRed}
+              />
+              <TextMontserrat fontSize={18} style={{ marginLeft: 10 }}>
+                Quantity
+              </TextMontserrat>
+            </View>
+            <View>
+              <TextMontserrat fontSize={18}>
+                {props.refuelData.quantity}
+              </TextMontserrat>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 5,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Feather
+                name={"dollar-sign"}
+                size={30}
+                color={Colors.imperialRed}
+              />
+              <TextMontserrat fontSize={18} style={{ marginLeft: 10 }}>
+                Price/L
+              </TextMontserrat>
+            </View>
+            <View>
+              <TextMontserrat fontSize={18}>
+                {props.refuelData.price}
+              </TextMontserrat>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 5,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Ionicons
+                name={"md-pricetags"}
+                size={30}
+                color={Colors.imperialRed}
+              />
+              <TextMontserrat fontSize={18} style={{ marginLeft: 10 }}>
+                {" "}
+                Cost
+              </TextMontserrat>
+            </View>
+            <View>
+              <TextMontserrat fontSize={18}>
+                {props.refuelData.cost}
+              </TextMontserrat>
+            </View>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              margin: 5,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <MaterialIcons
+                name={"location-on"}
+                size={30}
+                color={Colors.imperialRed}
+              />
+              <TextMontserrat fontSize={18} style={{ marginLeft: 10 }}>
+                Location
+              </TextMontserrat>
+            </View>
+            <View>
+              <TextMontserrat fontSize={18}>
+                {props.refuelData.location}
+              </TextMontserrat>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+      <View
+        style={{
+          backgroundColor: Colors.white,
+          marginBottom: 10,
+        }}
+      >
+        <SquareButton
+          title={"DELETE LOG"}
+          buttonBackgroundColor={Colors.redLite}
+          style={{ alignSelf: "center", width: "95%" }}
+        />
+      </View>
+    </View>
   )
 }
 

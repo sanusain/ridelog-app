@@ -139,6 +139,8 @@ export function hydrateRefuelLogs(dispatch: any) {
                 date: refuelLogs.rows.item(i).refuelDate,
                 odo: refuelLogs.rows.item(i).odo,
                 quantity: refuelLogs.rows.item(i).quantity,
+                price: refuelLogs.rows.item(i).price,
+                location: refuelLogs.rows.item(i).location,
                 cost: refuelLogs.rows.item(i).cost,
                 images: [
                   refuelLogs.rows.item(i).image1,
