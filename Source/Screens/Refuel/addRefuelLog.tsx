@@ -131,7 +131,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         const data: RefuelData = {
           uid: uuid.v4(),
           odo: currentOdo,
-          date: date.toDateString(),
+          date: date.toISOString(),
+          price: pricePerQty,
           cost: cost,
           quantity: fuelQuantity,
           location: location,
@@ -157,7 +158,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
       const data: RefuelData = {
         uid: uuid.v4(),
         odo: currentOdo,
-        date: date.toDateString(),
+        date: date.toISOString(),
+        price: pricePerQty,
         cost: cost,
         quantity: fuelQuantity,
         location: location,

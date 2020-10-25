@@ -20,7 +20,7 @@ export function uploadImages(
           .child(uid)
           .child(vcallsign)
           .child(logType)
-          .child(date.getTime().toString())
+          .child(date.toISOString())
 
         let uploadedImagesURLs: Array<ImageSpecs> = []
 

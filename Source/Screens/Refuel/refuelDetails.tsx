@@ -39,6 +39,11 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
     setModalVisible(false)
   }
 
+  const deleteLog = () => {
+    //delete record using uid, delete images using date
+    console.log("delete log pressed")
+  }
+
   const renderCarousel = ({ item }: { item: any }) => {
     return (
       <View>
@@ -66,7 +71,6 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
       </View>
     )
   }
-  console.log("refuel data", props.refuelData)
 
   return modalVisible ? (
     <Modal visible={modalVisible} onRequestClose={closeModal}>
@@ -224,7 +228,6 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
                 color={Colors.imperialRed}
               />
               <TextMontserrat fontSize={18} style={{ marginLeft: 10 }}>
-                {" "}
                 Cost
               </TextMontserrat>
             </View>
@@ -270,6 +273,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
           title={"DELETE LOG"}
           buttonBackgroundColor={Colors.redLite}
           style={{ alignSelf: "center", width: "95%" }}
+          onPress={deleteLog}
         />
       </View>
     </View>
