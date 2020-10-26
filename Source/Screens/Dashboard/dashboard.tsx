@@ -179,7 +179,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
               }}
             >
               <TextMontserrat fontSize={16} weight={"medium"}>
-                Distance Logged
+                Current Odometer
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
                 {props.selectedVehicle.odo} {"KMs"}

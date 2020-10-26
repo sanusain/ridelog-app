@@ -55,6 +55,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [mode, setMode] = useState("date")
   const [show, setShow] = useState(false)
   const [currentOdo, setCurrentOdo] = useState("")
+  const [odoError, setOdoError] = useState(false)
   const [lastOdo, setLastOdo] = useState("0000")
   const [fuelQuantity, setFuelQuantity] = useState("")
   const [pricePerQty, setPricePerQty] = useState("")
@@ -67,6 +68,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
   const [animatedOpacity] = useState(new Animated.Value(1))
 
   useEffect(() => {
+    setLastOdo(props.selectedVehicle.odo)
     return () => {
       props.dispatch(new ActionResetImages())
     }
@@ -403,6 +405,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         )}
         <TextInput
           label={"Current Odometer"}
+          error={odoError}
           mode={"outlined"}
           style={{
             color: Colors.imperialRed,
@@ -417,7 +420,23 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           onChangeText={(inputText) => {
             setCurrentOdo(inputText)
           }}
+          onBlur={() => {
+            if (parseInt(currentOdo) < parseInt(lastOdo)) setOdoError(true)
+            else setOdoError(false)
+          }}
         />
+        {odoError ? (
+          <TextMontserrat
+            fontSize={16}
+            weight={"semibold"}
+            fontColor={Colors.imperialRed}
+            style={{ alignSelf: "center" }}
+          >
+            Current reading is less than Last reading
+          </TextMontserrat>
+        ) : (
+          <View />
+        )}
         <TextInput
           label={"Last Odometer"}
           mode={"outlined"}
