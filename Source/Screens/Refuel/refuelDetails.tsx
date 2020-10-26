@@ -37,6 +37,7 @@ const screenWidth = Dimensions.get("window").width
 const RefuelDetails: FunctionComponent<Props> = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const { user } = useContext(AuthContext)
+  const images = props.refuelData.images.filter((image) => image != null)
 
   const closeModal = () => {
     props.dispatch(new ActionResetImageViewInitialIndex())
@@ -82,7 +83,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
   return modalVisible ? (
     <Modal visible={modalVisible} onRequestClose={closeModal}>
       <View style={{ flex: 1 }}>
-        <ImageView images={props.refuelData.images} />
+        <ImageView images={images} />
         <TouchableOpacity
           style={{
             position: "absolute",
@@ -104,7 +105,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
       >
         <ScreenHeader title={"Refuel Details"} />
         <Carousel
-          data={props.refuelData.images}
+          data={images}
           renderItem={renderCarousel}
           sliderWidth={screenWidth}
           itemWidth={screenWidth}
