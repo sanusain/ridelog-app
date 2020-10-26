@@ -29,7 +29,6 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
   }, [])
 
   const handleRefuelItem = (refuelLog: RefuelData) => {
-    console.log("pressed handleRefuelItem")
     props.dispatch(new ActionSetRefuelData(refuelLog))
     props.navigation.navigate("refuelDetails")
   }
@@ -59,7 +58,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props) => {
           }}
         >
           <TextMontserrat fontSize={18} weight={"medium"}>
-            {item.date}
+            {new Date(item.date).toDateString()}
           </TextMontserrat>
           <TextMontserrat
             fontSize={18}

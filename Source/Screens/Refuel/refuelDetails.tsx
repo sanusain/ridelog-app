@@ -144,7 +144,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.date}
+                {new Date(props.refuelData.date).toDateString()}
               </TextMontserrat>
             </View>
           </View>
