@@ -1,6 +1,6 @@
 import * as Google from "expo-google-app-auth"
 import React, { useContext, useEffect, useState } from "react"
-import { ActivityIndicator, Alert, Text, View } from "react-native"
+import { ActivityIndicator, Alert, Image, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { connect } from "react-redux"
 import LightTextInput from "../../Components/LightTextInput"
@@ -135,17 +135,25 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           justifyContent: "center",
         }}
       >
-        <TextMontserrat
+        <View
           style={{
-            alignSelf: "center",
             justifyContent: "center",
-            color: Colors.imperialRed,
+            alignItems: "center",
           }}
-          weight={"bold"}
-          fontSize={60}
         >
-          R
-        </TextMontserrat>
+          <Image
+            source={require("../../Assets/Images/logo.png")}
+            style={{
+              height: 130,
+              width: 150,
+            }}
+          />
+          <TextMontserrat
+            weight={"semibold"}
+            fontSize={16}
+            style={{ marginTop: 5 }}
+          >{`R      I     D     E     L     O     G     G`}</TextMontserrat>
+        </View>
         <LightTextInput
           style={{ alignSelf: "center", borderColor: Colors.imperialRed }}
           placeholder={"Email"}
