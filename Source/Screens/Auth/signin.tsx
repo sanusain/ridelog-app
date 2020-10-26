@@ -184,7 +184,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
         <SquareButton
           buttonBackgroundColor={Colors.imperialRed}
           style={{ alignSelf: "center", marginTop: 15 }}
-          title={"Sign In"}
+          title={"SIGN IN"}
           onPress={handleSignIn}
         />
 
@@ -220,7 +220,7 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
         </Text>
 
         <SquareButton
-          title={"Sign In with Google"}
+          title={"SIGN IN WITH GOOGLE"}
           onPress={handleSignInWithGoogleAsync}
           buttonBackgroundColor={Colors.googleBlue}
           style={{
