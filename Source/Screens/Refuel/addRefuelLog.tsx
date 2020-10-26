@@ -128,6 +128,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
         date,
         props.dispatch
       ).then((imageURLs: Array<ImageSpecs>) => {
+        const urls = imageURLs.map((item) => item.uri)
+
         const data: RefuelData = {
           uid: uuid.v4(),
           odo: currentOdo,
@@ -136,7 +138,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           cost: cost,
           quantity: fuelQuantity,
           location: location,
-          images: [...imageURLs],
+          //@ts-ignore
+          images: [...urls],
         }
 
         const vehicleInfoRef = firebase

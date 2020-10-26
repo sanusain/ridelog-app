@@ -62,6 +62,8 @@ export function hydrateSelectedVehicle(dispatch: any) {
 }
 
 export function fetchVehicles(dispatch: any) {
+  console.log("+++++++++++fetching Vehicles from Cloud+++++")
+
   dispatch(new ActionSetFetchingVehicle(true))
   return new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -75,6 +77,10 @@ export function fetchVehicles(dispatch: any) {
             collections.forEach((collectionData) => {
               db.transaction(
                 (txn) => {
+                  console.log(
+                    "********************collection data",
+                    collectionData.data()
+                  )
                   txn.executeSql(
                     `REPLACE INTO vehicles(userUid,vcallsign,maker,model,plate,odo,vin,year,image1,image2,image3,image4,image5) 
                 VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`,
@@ -107,11 +113,11 @@ export function fetchVehicles(dispatch: any) {
                   reject()
                 },
                 () => {
+                  dispatch(new ActionSetFetchingVehicle(false))
                   resolve()
                 }
               )
             })
-            dispatch(new ActionSetFetchingVehicle(false))
           })
       }
     })
@@ -119,6 +125,8 @@ export function fetchVehicles(dispatch: any) {
 }
 
 export function hydrateRefuelLogs(dispatch: any) {
+  console.log("+++++++++++hydrating refuel logs+++++")
+
   return new Promise(async (resolve, reject) => {
     db.transaction(
       (txn) => {
@@ -163,6 +171,8 @@ export function hydrateRefuelLogs(dispatch: any) {
 }
 
 export function fetchRefuelLogs(dispatch: any) {
+  console.log("+++++++++++fetching refuellogs from Cloud+++++")
+
   return new Promise((resolve, reject) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -180,8 +190,8 @@ export function fetchRefuelLogs(dispatch: any) {
                 db.transaction(
                   (txn) => {
                     txn.executeSql(
-                      `REPLACE INTO refuelLogs(userUid,vcallsign,logUuid,odo,quantity,refuelDate,cost,image1,image2)
-                VALUES(?,?,?,?,?,?,?,?,?)`,
+                      `REPLACE INTO refuelLogs(userUid,vcallsign,logUuid,odo,quantity,refuelDate,cost,price,location,image1,image2)
+                VALUES(?,?,?,?,?,?,?,?,?,?,?)`,
                       [
                         user.uid,
                         vcallsign,
@@ -190,10 +200,16 @@ export function fetchRefuelLogs(dispatch: any) {
                         item.quantity,
                         item.date,
                         item.cost,
-                        item.images[0].uri,
-                        item.images[1].uri,
+                        item.price,
+                        item.location,
+                        item.images[0],
+                        item.images[1],
                       ],
-                      (tx, rs) => {}
+                      (tx, rs) => {},
+                      //@ts-ignore
+                      (tx, error) => {
+                        reject(error)
+                      }
                     )
                   },
                   (error) => {

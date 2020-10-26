@@ -46,8 +46,8 @@ export default function Providers() {
       .then(() => {
         setIsAppReady(true)
       })
-      .catch(() => {
-        console.log("ERROR:Ridelogg not ready!")
+      .catch((error) => {
+        console.log("ERROR:Ridelogg not ready!", error)
       })
   }
 

@@ -5,7 +5,8 @@ import {
   Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons"
-import React, { FunctionComponent, useState } from "react"
+import AsyncStorage from "@react-native-community/async-storage"
+import React, { FunctionComponent, useContext, useState } from "react"
 import { Dimensions, Image, Modal, TouchableOpacity, View } from "react-native"
 import { ScrollView } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
@@ -15,6 +16,7 @@ import ImageView from "../../Components/ImageView"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
 import Colors from "../../Config/Colors"
+import { AuthContext } from "../../Contexts/AuthProvider"
 import { RefuelDetailsNavigationProps } from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
 import { RefuelData } from "../Dashboard/types"
@@ -22,6 +24,7 @@ import {
   ActionResetImageViewInitialIndex,
   ActionSetImageViewInitialIndex,
 } from "./actions"
+import { removeLogFromDB } from "./backgroundJobs"
 
 type Props = {
   dispatch: any
@@ -33,15 +36,19 @@ const screenWidth = Dimensions.get("window").width
 
 const RefuelDetails: FunctionComponent<Props> = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
+  const { user } = useContext(AuthContext)
 
   const closeModal = () => {
     props.dispatch(new ActionResetImageViewInitialIndex())
     setModalVisible(false)
   }
 
-  const deleteLog = () => {
+  const deleteLog = async () => {
     //delete record using uid, delete images using date
-    console.log("delete log pressed")
+    const selectedVehicle = await AsyncStorage.getItem("selectedVehicle")
+    if (selectedVehicle)
+      removeLogFromDB(props.dispatch, user, props.refuelData, selectedVehicle)
+    props.navigation.goBack()
   }
 
   const renderCarousel = ({ item }: { item: any }) => {
@@ -281,7 +288,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  refuelData: state.selectedVehicle.refuelData[0],
+  refuelData: state.refuel.refuelLog,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -48,6 +48,8 @@ export function InitDB(dispatch: any) {
           quantity varchar(10) not null,
           refuelDate varchar(30) not null,
           cost varchar(10) not null,
+          price varchar(10) not null,
+          location varchar(10) not null,
           image1 varchar(200),
           image2 varchar(200)
         )`,
@@ -59,35 +61,41 @@ export function InitDB(dispatch: any) {
       },
       (error) => {
         console.log("DB init txn failed", error)
-        reject()
+        reject(error)
       },
       async () => {
-        let isFirstAppLaunch
-        try {
-          isFirstAppLaunch = await AsyncStorage.getItem("isFirstAppLaunch")
-        } catch (error) {
-          console.log("Could not fetch first app launch status", error)
-        }
+        let isFirstAppLaunch: string | null
+        isFirstAppLaunch = await AsyncStorage.getItem("isFirstAppLaunch")
+        firebase.auth().onAuthStateChanged(async (user) => {
+          if (user) {
+            if (isFirstAppLaunch == null) {
+              //app is running for first time
+              await fetchVehicles(dispatch)
+                .then(async () => {
+                  hydrateSelectedVehicle(dispatch)
+                })
+                .catch((error) => {
+                  reject(error)
+                })
+              await fetchRefuelLogs(dispatch)
+                .then(async () => {
+                  console.log("@@@@inside then for fetch refeul logs")
+                  hydrateRefuelLogs(dispatch)
+                })
+                .catch((error) => {
+                  reject(error)
+                })
+              AsyncStorage.setItem("isFirstAppLaunch", "false")
+            } else {
+              hydrateAllState(dispatch)
+              // .then(() => {
+              //   console.log("in then")
 
-        //checking if first time app is launched, if yes
-        // then fetch data from cloud, else hydrate from db
-        if (isFirstAppLaunch == null) {
-          // null means the app is launched first time
-          firebase.auth().onAuthStateChanged(async (user) => {
-            if (user) {
-              await fetchVehicles(dispatch).then(async () => {
-                await hydrateSelectedVehicle(dispatch)
-              })
-              await fetchRefuelLogs(dispatch).then(async () => {
-                await hydrateRefuelLogs(dispatch)
-              })
-            } else console.log("No user")
-          })
-          AsyncStorage.setItem("isFirstAppLaunch", "false")
-        } else {
-          await hydrateAllState(dispatch)
-        }
-
+              //   fetchRefuelLogs(dispatch)
+              // })
+            }
+          }
+        })
         resolve()
       }
     )
