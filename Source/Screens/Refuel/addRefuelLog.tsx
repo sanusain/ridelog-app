@@ -313,7 +313,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
       </View>
     </View>
   )
-
   return (
     <ScrollView
       style={{
@@ -321,13 +320,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
       }}
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      <Modal
-        visible={modalOpen}
-        animationType={"fade"}
-        onRequestClose={() => {
-          setModalOpen(false)
-        }}
-      >
+      <Modal visible={modalOpen} animationType={"fade"}>
         <View
           style={{
             flex: 1,
