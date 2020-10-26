@@ -21,7 +21,7 @@ const GetStarted: React.FunctionComponent<Props> = (props) => {
       }}
     >
       <SquareButton
-        title="Get started"
+        title="GET STARTED"
         onPress={handleGetstarted}
         style={{ paddingHorizontal: 90 }}
         borderRadius={8}
