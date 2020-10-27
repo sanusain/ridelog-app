@@ -41,7 +41,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         <Image
           resizeMode="cover"
           source={{ uri: item }}
-          style={{ borderRadius: 10, width: "100%", height: "100%" }}
+          style={{ borderRadius: 5, width: "100%", height: "100%" }}
         />
       </View>
     )
@@ -137,9 +137,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
               data={props.selectedVehicle.images}
               renderItem={renderCarouselVehicle}
               sliderWidth={screenWidth}
-              itemWidth={screenWidth / 1.2}
-              loop={true}
-              autoplay={true}
+              itemWidth={screenWidth - 10}
             />
           </View>
           <TouchableOpacity
@@ -148,7 +146,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
               marginTop: 10,
               marginHorizontal: 8,
               padding: 10,
-              borderRadius: 8,
+              borderRadius: 5,
               elevation: 5,
             }}
             onPress={() => {
@@ -164,7 +162,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
               }}
             >
               <TextMontserrat fontSize={16} weight={"medium"}>
-                Ride
+                Vehicle Callsign
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
                 {props.selectedVehicle.vcallsign}
@@ -194,7 +192,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
               }}
             >
               <TextMontserrat fontSize={16} weight={"medium"}>
-                Last Refuel
+                Last refuelled on
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
                 {new Date().toDateString()}

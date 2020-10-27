@@ -6,11 +6,11 @@ import Colors from "../Config/Colors"
 import Accounts from "../Screens/Account/userAccount"
 import DashBoard from "../Screens/Dashboard/dashboard"
 import RefuelLog from "../Screens/Refuel/refuel"
-import ServiceLog from "../Screens/Service/userServiceLog"
 import { BottomTabsParamList } from "./types"
 
 const BottomTabsNavigator = () => {
   const TabsComponent = createMaterialTopTabNavigator<BottomTabsParamList>()
+  const buttonTabsFontSize = 16
 
   return (
     <TabsComponent.Navigator
@@ -18,9 +18,9 @@ const BottomTabsNavigator = () => {
       tabBarOptions={{
         showIcon: true,
         showLabel: true,
-        labelStyle: { fontSize: 8 },
         indicatorStyle: { backgroundColor: Colors.default_red },
         activeTintColor: Colors.default_red,
+        style: { margin: -10 },
       }}
       screenOptions={({ route }) => ({
         tabBarLabel: ({ focused }) => {
@@ -47,7 +47,7 @@ const BottomTabsNavigator = () => {
 
           return (
             <TextMontserrat
-              fontSize={13}
+              fontSize={buttonTabsFontSize}
               style={{
                 color: focused ? Colors.default_red : Colors.default_grey,
               }}
@@ -64,7 +64,8 @@ const BottomTabsNavigator = () => {
                 <AntDesign
                   name="dashboard"
                   color={focused ? Colors.default_red : Colors.default_grey}
-                  size={22}
+                  size={20}
+                  style={{ alignSelf: "center" }}
                 />
               )
             case "refuel":
@@ -72,7 +73,8 @@ const BottomTabsNavigator = () => {
                 <SimpleLineIcons
                   name="drop"
                   color={focused ? Colors.default_red : Colors.default_grey}
-                  size={22}
+                  size={20}
+                  style={{ alignSelf: "center" }}
                 />
               )
             case "unassigned":
@@ -80,7 +82,8 @@ const BottomTabsNavigator = () => {
                 <Entypo
                   name="circle-with-cross"
                   color={focused ? Colors.default_red : Colors.default_grey}
-                  size={22}
+                  size={20}
+                  style={{ alignSelf: "center" }}
                 />
               )
             case "service":
@@ -88,7 +91,8 @@ const BottomTabsNavigator = () => {
                 <Feather
                   name="clipboard"
                   color={focused ? Colors.default_red : Colors.default_grey}
-                  size={22}
+                  size={20}
+                  style={{ alignSelf: "center" }}
                 />
               )
             case "account":
@@ -96,7 +100,8 @@ const BottomTabsNavigator = () => {
                 <SimpleLineIcons
                   name="user"
                   color={focused ? Colors.default_red : Colors.default_grey}
-                  size={22}
+                  size={20}
+                  style={{ alignSelf: "center" }}
                 />
               )
 
@@ -113,8 +118,8 @@ const BottomTabsNavigator = () => {
     >
       <TabsComponent.Screen name={"dashboard"} component={DashBoard} />
       <TabsComponent.Screen name={"refuel"} component={RefuelLog} />
-      <TabsComponent.Screen name={"unassigned"} component={DashBoard} />
-      <TabsComponent.Screen name={"service"} component={ServiceLog} />
+      {/* <TabsComponent.Screen name={"unassigned"} component={DashBoard} />
+      <TabsComponent.Screen name={"service"} component={ServiceLog} /> */}
       <TabsComponent.Screen name={"account"} component={Accounts} />
     </TabsComponent.Navigator>
   )
