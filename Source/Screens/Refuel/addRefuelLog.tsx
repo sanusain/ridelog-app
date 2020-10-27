@@ -372,9 +372,9 @@ const AddRefuelLog: FunctionComponent<Props> = (props) => {
           hideBottomSheet()
         }}
       />
-      <ScreenHeader title={"Refuel Log"} />
+      <ScreenHeader title={"Refuel Log"} enableLeftBack={true} />
       <Animated.View
-        style={{ marginTop: -10, opacity: animatedOpacity }}
+        style={{ opacity: animatedOpacity }}
         pointerEvents={isBottomSheetOpen ? "none" : undefined}
       >
         <TextInput

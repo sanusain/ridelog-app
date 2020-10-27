@@ -79,7 +79,8 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
     setLoginSpinner(true)
     try {
       const result = await Google.logInAsync({
-        androidClientId: getOAuthClientId(),
+        androidClientId: getOAuthClientId("android"),
+        androidStandaloneAppClientId: getOAuthClientId("standalone"),
         scopes: ["profile", "email"],
       })
 
@@ -109,9 +110,6 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
     }
   }
 
-  const handleSignInWithFacebook = () => {
-    console.log("signinwith facebook")
-  }
   if (!user && loginSpinner) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -231,17 +229,6 @@ const SignIn: React.FunctionComponent<Props> = (props) => {
           title={"SIGN IN WITH GOOGLE"}
           onPress={handleSignInWithGoogleAsync}
           buttonBackgroundColor={Colors.googleBlue}
-          style={{
-            alignSelf: "center",
-            marginTop: 24,
-            borderWidth: 1,
-            borderColor: Colors.googleBlue,
-          }}
-        />
-        <SquareButton
-          title={"Sign In with Facebook"}
-          onPress={handleSignInWithFacebook}
-          buttonBackgroundColor={Colors.facebookBlue}
           style={{
             alignSelf: "center",
             marginTop: 24,
