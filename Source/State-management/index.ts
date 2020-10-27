@@ -1,32 +1,60 @@
 import { applyMiddleware, createStore } from "redux"
-import { vehicleInfo } from "../Screens/Dashboard/types"
+import {
+  RefuelData,
+  ServiceData,
+  vehicleInfo,
+} from "../Screens/Dashboard/types"
+import { ImageSpecs } from "../Screens/Refuel/types"
 import { Action } from "./root-action"
 
-// vehiclesInfo contains object of this type, where vehicle1 is the vehicle callsign
-// vehicle1: {
-//   vehicleCallsign: "",
-//   maker: "",
-//   model: "",
-//   odo: "",
-//   plate: "",
-//   vin: "",
-//   year: "",
-// },
-
-const vehiclesInfomation: Array<vehicleInfo> = []
-
+const uploadedImageURLs: Array<string> = []
+const refuelData: Array<RefuelData> | undefined = []
+const serviceData: Array<ServiceData> = []
+const selectedVehicle: vehicleInfo = {
+  vcallsign: "",
+  maker: "",
+  model: "",
+  odo: "",
+  plate: "",
+  vin: "",
+  year: "",
+  images: [],
+  refuelData,
+  serviceData,
+}
+const refuelLogImages: Array<ImageSpecs> = []
+const refuelLog: RefuelData = {
+  uid: "",
+  odo: "",
+  quantity: "",
+  date: "",
+  cost: "",
+  images: [],
+}
 const initialState = {
   userInfo: {
     userCallsign: "",
     avatar: "",
     email: "",
     lastLogin: "",
+    firebaseUId: "",
   },
-  vehiclesInfo: vehiclesInfomation,
+  selectedVehicle,
+  refuel: {
+    addRefuelLog: {
+      images: refuelLogImages,
+    },
+    refuelLog,
+    imageViewInitialIndex: 0,
+  },
+  misc: {
+    imageUploadProgress: 0,
+    fetchingVehicle: false,
+  },
 }
 
 const actionLogger = (state: any) => (next: any) => (action: Action<any>) => {
-  console.log("Dispatched", action.type)
+  console.log("Dispatching", action.type)
   return next(action)
 }
 

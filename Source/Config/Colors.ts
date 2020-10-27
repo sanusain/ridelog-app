@@ -1,6 +1,7 @@
 export default {
   imperialRed: "#ef233c", //.87 for lighter shade
   default_red: "red",
+  redLite: "#ff475a",
 
   manateeGrey: "#8d99ae",
   default_grey: "grey",

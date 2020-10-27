@@ -5,6 +5,7 @@ import Providers from "./Providers"
 
 const InitialProvider = () => {
   YellowBox.ignoreWarnings(["Setting a timer"]) // for timebeing added, there no fix
+  YellowBox.ignoreWarnings(["[SECURITY] node-uuid: crypto not usable"]) // for timebeing added, there no fix
   return (
     <AuthProvider>
       <Providers />

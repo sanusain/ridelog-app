@@ -1,69 +1,37 @@
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 import React, { useContext, useEffect } from "react"
 import { Dimensions, Image, ScrollView, View } from "react-native"
 import { LineChart } from "react-native-chart-kit"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import Carousel from "react-native-snap-carousel"
 import { connect } from "react-redux"
+import ScreenHeader from "../../Components/Header"
 import SquareButton from "../../Components/SquareButton"
 import TextMontserrat from "../../Components/TextMontserrat"
-import TextOpenSans from "../../Components/TextOpenSans"
 import Colors from "../../Config/Colors"
 import { AuthContext } from "../../Contexts/AuthProvider"
-import { hydrateVehiclesInfo } from "../../Database"
+import {
+  DashboardNavigationProp,
+  DashboardRouteProp,
+} from "../../Navigation/types"
 import { AppState, dispatchHandler } from "../../State-management"
 import { vehicleInfo } from "./types"
 
 type Props = {
-  vehiclesInfo: Array<vehicleInfo>
-  navigation: any
+  selectedVehicle: vehicleInfo
+  navigation: DashboardNavigationProp
   dispatch: any
-  route: any
+  route: DashboardRouteProp
 }
 
 const DashBoard: React.FunctionComponent<Props> = (props) => {
   const screenWidth = Dimensions.get("window").width
-
   const { user } = useContext(AuthContext)
-  const fakeData = {
-    vcallsign: "Storm0171",
-    maker: "Rolls",
-    model: "Ghost",
-    plate: "WB2394SF",
-    vin: "ASDFW234ASFD",
-    year: 2012,
-    images: [
-      "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQU85aYM9cVv8Ysoaki9agKiHHrlFMmtwZ_GA&usqp=CAU",
-    ],
-    vehicleData: { lastRefuelQty: 8, lastRefuelledDate: new Date(), odo: 2552 },
-  }
-
-  // useEffect(() => {
-  //   console.log("user", user)
-
-  //   firebase.auth().onAuthStateChanged((userLogged) => {
-  //     if (!userLogged)
-  //       Alert.alert(
-  //         "Re Login",
-  //         "Youre logged out of cloud, Please relogin",
-  //         [
-  //           {
-  //             text: "Re login",
-  //             onPress: () => {
-  //               logout()
-  //             },
-  //           },
-  //         ],
-  //         { cancelable: false }
-  //       )
-  //   })
-  // }, [])
 
   useEffect(() => {
-    if (!props.vehiclesInfo.length) {
-      hydrateVehiclesInfo(props.dispatch)
+    if (!props.selectedVehicle.vcallsign) {
+      //something not very proud of, ugly AF!
+      // hydrateAllState(props.dispatch)
     }
   }, [])
 
@@ -89,7 +57,6 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
       </View>
     )
   }
-  console.log("*******************vehicle count", props.vehiclesInfo.length) // keep it for now
 
   return (
     <View
@@ -99,43 +66,23 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         backgroundColor: Colors.white,
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginTop: 10,
+      <ScreenHeader
+        title={"Welcome, " + user?.callSign}
+        enableAdd={true}
+        enableCallback={() => {
+          props.navigation.navigate("addVehicle")
         }}
-      >
-        <TextOpenSans
-          fontSize={20}
-          style={{
-            marginLeft: 10,
-            opacity: 0.87,
-            color: Colors.imperialRed,
-          }}
-        >
-          Welcome, {user?.callSign}
-        </TextOpenSans>
-        {props.vehiclesInfo.length ? (
-          <TouchableOpacity
-            style={{ marginRight: 5 }}
-            onPress={() => {
-              props.navigation.navigate("addVehicle")
-            }}
-          >
-            <MaterialIcons name={"add"} size={30} color={Colors.imperialRed} />
-          </TouchableOpacity>
-        ) : null}
-      </View>
+      />
       <View
         style={{
+          marginTop: -10,
+          marginBottom: 10,
           borderTopWidth: 1, //intentional
           borderColor: Colors.imperialRed, //intentional
           marginRight: 100,
         }}
       />
-      {!props.vehiclesInfo.length ? (
+      {!props.selectedVehicle.vcallsign ? (
         <View
           style={{
             alignItems: "center",
@@ -187,7 +134,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         >
           <View>
             <Carousel
-              data={fakeData.images}
+              data={props.selectedVehicle.images}
               renderItem={renderCarouselVehicle}
               sliderWidth={screenWidth}
               itemWidth={screenWidth / 1.2}
@@ -220,7 +167,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
                 Ride
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.vcallsign}
+                {props.selectedVehicle.vcallsign}
               </TextMontserrat>
             </View>
             <View
@@ -232,10 +179,10 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
               }}
             >
               <TextMontserrat fontSize={16} weight={"medium"}>
-                Distance Logged
+                Current Odometer
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.vehicleData.odo} {"KMs"}
+                {props.selectedVehicle.odo} {"KMs"}
               </TextMontserrat>
             </View>
             <View
@@ -250,7 +197,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
                 Last Refuel
               </TextMontserrat>
               <TextMontserrat fontSize={16} weight={"medium"}>
-                {fakeData.vehicleData.lastRefuelledDate.toDateString()}
+                {new Date().toDateString()}
               </TextMontserrat>
             </View>
           </TouchableOpacity>
@@ -301,7 +248,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
           </View>
           <View style={{ marginTop: 10 }}>
             <Carousel
-              data={fakeData.images}
+              data={props.selectedVehicle.images}
               renderItem={renderCarouselTips}
               sliderWidth={screenWidth}
               itemWidth={screenWidth - 10}
@@ -316,7 +263,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  vehiclesInfo: state.vehiclesInfo,
+  selectedVehicle: state.selectedVehicle,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

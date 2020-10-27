@@ -14,6 +14,7 @@ import {
   AddVehicleNavigationProp,
   AddVehicleRouteProp,
 } from "../../Navigation/types"
+import { vehicleInfo } from "./types"
 
 type Props = {
   navigation: AddVehicleNavigationProp
@@ -46,7 +47,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
     plate: string
     vin: string
   }) => {
-    const validatedInputData = {
+    const validatedInputData: vehicleInfo = {
       vcallsign: inputValues.vcallsign,
       year: inputValues.year,
       maker: inputValues.maker,
@@ -54,6 +55,15 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
       odo: inputValues.odo,
       plate: inputValues.plate,
       vin: inputValues.vin,
+      images: [
+        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+        "https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png",
+      ],
+      refuelData: [], // for new recodrd this will be empty
+      serviceData: [], // for new recodrd this will be empty
     }
 
     if (user) {
@@ -65,6 +75,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
         .doc(validatedInputData.vcallsign)
 
       vehicleInfoRef.set(validatedInputData).then(() => {
+        // AsyncStorage.setItem("selectedVehicle", validatedInputData.vcallsign)
         props.navigation.navigate("dashboard")
       })
     }
@@ -78,7 +89,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props) => {
         backgroundColor: Colors.white,
       }}
     >
-      <ScreenHeader title={"Add new Vehicle"} />
+      <ScreenHeader title={"Add New Vehicle"} />
       <Formik
         initialValues={{
           vcallsign: "",

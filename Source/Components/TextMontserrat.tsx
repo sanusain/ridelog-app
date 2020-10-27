@@ -1,8 +1,10 @@
 import React from "react"
 import { Text } from "react-native"
+import Colors from "../Config/Colors"
 
 type Props = {
   fontSize: number
+  fontColor?: string
   style?: any
   weight?: "light" | "regular" | "bold" | "medium" | "semibold" | "italic"
   onPress?: () => any
@@ -16,6 +18,7 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
         style={{
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Regular",
+          color: props.fontColor ? props.fontColor : Colors.black,
           ...props.style,
         }}
         onPress={props.onPress}
@@ -30,6 +33,7 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
         style={{
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Bold",
+          color: props.fontColor ? props.fontColor : Colors.black,
           ...props.style,
         }}
         onPress={props.onPress}
@@ -43,6 +47,7 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
         style={{
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Medium",
+          color: props.fontColor ? props.fontColor : Colors.black,
           ...props.style,
         }}
         onPress={props.onPress}
@@ -56,6 +61,7 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
         style={{
           fontSize: props.fontSize,
           fontFamily: "Montserrat-Light",
+          color: props.fontColor ? props.fontColor : Colors.black,
           ...props.style,
         }}
         onPress={props.onPress}
@@ -69,6 +75,7 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
         style={{
           fontSize: props.fontSize,
           fontFamily: "Montserrat-SemiBold",
+          color: props.fontColor ? props.fontColor : Colors.black,
           ...props.style,
         }}
         onPress={props.onPress}
