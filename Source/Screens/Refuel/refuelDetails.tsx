@@ -103,7 +103,7 @@ const RefuelDetails: FunctionComponent<Props> = (props) => {
           backgroundColor: Colors.white,
         }}
       >
-        <ScreenHeader title={"Refuel Details"} />
+        <ScreenHeader title={"Refuel Details"} enableLeftBack={true} />
         <Carousel
           data={images}
           renderItem={renderCarousel}

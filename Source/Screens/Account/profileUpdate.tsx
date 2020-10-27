@@ -33,7 +33,7 @@ const ProfileUpdate: FunctionComponent<Props> = (props) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: Colors.white }}>
-      <ScreenHeader title={"Profile Update"} />
+      <ScreenHeader title={"Profile Update"} enableLeftBack={true} />
       <View style={{ marginTop: 10, marginBottom: 20 }}>
         <TextInput
           label={"Call Sign"}

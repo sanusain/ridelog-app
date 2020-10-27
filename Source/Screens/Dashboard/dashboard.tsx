@@ -66,13 +66,7 @@ const DashBoard: React.FunctionComponent<Props> = (props) => {
         backgroundColor: Colors.white,
       }}
     >
-      <ScreenHeader
-        title={"Welcome, " + user?.callSign}
-        enableAdd={true}
-        enableCallback={() => {
-          props.navigation.navigate("addVehicle")
-        }}
-      />
+      <ScreenHeader title={"Welcome, " + user?.callSign} enableAdd={false} />
       <View
         style={{
           marginTop: -10,

@@ -8,6 +8,7 @@ import TextMontserrat from "./TextMontserrat"
 
 type Props = {
   title: string
+  enableLeftBack?: boolean
   enableDone?: boolean
   enableAdd?: boolean
   enableCallback?: () => void
@@ -21,15 +22,21 @@ const ScreenHeader: FunctionComponent<Props> = (props) => {
       style={{
         flexDirection: "row",
         marginHorizontal: 20,
-        marginVertical: 10,
+        marginTop: 10,
+        marginBottom: 10,
       }}
     >
-      <TouchableOpacity
-        style={{ padding: 10, justifyContent: "center" }}
-        onPress={navigation.goBack}
-      >
-        <Ionicons name="ios-arrow-back" size={25} color="black" />
-      </TouchableOpacity>
+      {props.enableLeftBack ? (
+        <TouchableOpacity
+          style={{ padding: 10, justifyContent: "center" }}
+          onPress={navigation.goBack}
+        >
+          <Ionicons name="ios-arrow-back" size={25} color="black" />
+        </TouchableOpacity>
+      ) : (
+        <View style={{ height: 25, width: 25 }} />
+      )}
+
       <View style={{ flex: 1, justifyContent: "center" }}>
         <TextMontserrat
           fontSize={16}
