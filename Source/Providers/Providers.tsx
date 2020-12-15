@@ -19,11 +19,7 @@ export default function Providers(): JSX.Element {
   const dispatch = dispatchHandler(store.dispatch)
 
   async function hydrateState() {
-    console.log('in hydrate state,dispatch', dispatch)
-
     await hydrateVehicleState(dispatch)
-    console.log('out hydrate state')
-
     // await hydrateRefuelLogState()
   }
   // initializing App

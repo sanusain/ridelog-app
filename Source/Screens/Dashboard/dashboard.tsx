@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import {Dimensions, Image, ScrollView, View} from 'react-native'
 import {LineChart} from 'react-native-chart-kit'
 import {TouchableOpacity} from 'react-native-gesture-handler'
+import Carousel from 'react-native-snap-carousel'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import {connect} from 'react-redux'
 import ScreenHeader from '../../Components/Header'
@@ -15,6 +16,7 @@ import {
 } from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
 import {} from '../../State-management/hydration/actions'
+import {ImageSpecs} from '../Refuel/types'
 import {VehicleInfo} from './types'
 
 type Props = {
@@ -28,32 +30,29 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
   const screenWidth = Dimensions.get('window').width
   const {user} = useContext(AuthContext)
 
-  // useEffect(() => {}, [])
-
-  const renderCarouselVehicle = ({item}: {item: any}) => {
+  const renderCarouselVehicle = ({item}: {item: ImageSpecs}) => {
     return (
       <View style={{height: 0.5 * screenWidth}}>
         <Image
           resizeMode="cover"
-          source={{uri: item}}
+          source={{uri: item.url}}
           style={{borderRadius: 10, width: '100%', height: '100%'}}
         />
       </View>
     )
   }
 
-  const renderCarouselTips = ({item}: {item: any}) => {
+  const renderCarouselTips = ({item}: {item: ImageSpecs}) => {
     return (
       <View style={{height: 60}}>
         <Image
           resizeMode="cover"
-          source={{uri: item}}
+          source={{uri: item.url}}
           style={{borderRadius: 5, width: '100%', height: '100%'}}
         />
       </View>
     )
   }
-  // console.log('props.selectedVehicle.images', props.selectedVehicle.images)
 
   return (
     <View
@@ -133,14 +132,14 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
           showsVerticalScrollIndicator={false}
           style={{marginVertical: 5}}>
           <View>
-            {/* <Carousel
-              data={props.selectedVehicle.images}
+            <Carousel
+              data={Array.from(props.selectedVehicle.images)}
               renderItem={renderCarouselVehicle}
               sliderWidth={screenWidth}
               itemWidth={screenWidth / 1.2}
               loop
               autoplay
-            /> */}
+            />
           </View>
           <TouchableOpacity
             style={{
@@ -243,14 +242,14 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
             />
           </View>
           <View style={{marginTop: 10}}>
-            {/* <Carousel
-              data={props.selectedVehicle.images}
+            <Carousel
+              data={Array.from(props.selectedVehicle.images)}
               renderItem={renderCarouselTips}
               sliderWidth={screenWidth}
               itemWidth={screenWidth - 10}
               loop
               autoplay
-            /> */}
+            />
           </View>
         </ScrollView>
       )}

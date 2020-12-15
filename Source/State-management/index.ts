@@ -64,14 +64,9 @@ export const getStore = () => {
 
 const rootReducer = (state: AppState = initialState, action: Action<any>) => {
   if (action && action.isUserAction) {
-    console.log('currentstate', state)
-
-    const currentStateJSON = JSON.parse(JSON.stringify(state)) // deep-copy state
     let currentState: AppState = {...state}
-    console.log('action', action)
     // mutating the currentstate object in the new actions
     action.actionSelf.updateState(currentState)
-    console.log('updatedstate', currentState)
     return currentState
   }
   return state

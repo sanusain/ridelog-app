@@ -9,7 +9,6 @@ export async function hydrateVehicleState(dispatch: {
   (arg0: ActionAddVehicles): void
 }): Promise<any> {
   try {
-    // @ts-ignore
     const result = realm.objects('User')[0].vehicles
     if (!result.length) {
       console.log('NO REALM DATA, Returning')
