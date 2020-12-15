@@ -1,0 +1,1 @@
+adb shell "run-as com.ridelogg cat /data/data/com.ridelogg/files/default.realm" > /mnt/c/Users/works/Desktop/default.realm 
