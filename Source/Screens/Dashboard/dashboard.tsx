@@ -258,7 +258,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
 }
 
 const mapStateToProps = (state: AppState) => {
-  console.log('selected vehicle', state.vehicles[0])
+  // console.log('selected vehicle', state.vehicles[0])
 
   return {
     fetchVehicle: state.misc.fetchingVehicle,

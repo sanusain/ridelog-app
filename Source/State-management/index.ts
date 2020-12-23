@@ -53,7 +53,7 @@ const initialState = {
 }
 
 const actionLogger = () => (next: any) => (action: Action<any>) => {
-  console.log('Dispatching', action.type)
+  console.info('Dispatching', action.type)
   return next(action)
 }
 

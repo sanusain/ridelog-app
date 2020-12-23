@@ -38,14 +38,17 @@ export function getRealmInstance(): Realm {
     }
   }
   const realm = new Realm(schemas[schemas.length - 1])
-  // realm.addListener('change', async () => {
+  // realm.addListener('change', (arg, event) => {
   //   console.log(
   //     '============================Sync Started================================',
   //   )
-  //   await startSync()
+  //   console.log('@@@@@@@@@@@@@@@@@@@arg', arg)
+  //   // await startSync()
   //   console.log(
   //     '============================Sync finished===============================',
   //   )
   // })
   return realm
 }
+
+// realm mf isnot returning an obejct with change event, need the event for logging changes

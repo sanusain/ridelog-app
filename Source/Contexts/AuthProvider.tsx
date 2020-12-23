@@ -49,3 +49,14 @@ export const AuthProvider: React.FunctionComponent<Props> = (props) => {
     </AuthContext.Provider>
   )
 }
+
+export const getAuthToken = async (): Promise<string | null> => {
+  let token: string | undefined
+  const JsonUser = await AsyncStorage.getItem('user')
+  const user: User = JSON.parse(JsonUser || '')
+  if (user) {
+    token = user.authToken || ''
+    return token
+  }
+  return null
+}

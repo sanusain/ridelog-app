@@ -96,10 +96,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
       ],
     }
 
-    const isVehicleAdded = await addVehicleToDbAndCloud(
-      validatedInputData,
-      user?.authToken ? user.authToken : 'no_token',
-    )
+    const isVehicleAdded = await addVehicleToDbAndCloud(validatedInputData)
     console.log('isVehicleAdded', isVehicleAdded)
     if (isVehicleAdded)
       return Alert.alert(

@@ -32,7 +32,6 @@ export async function signinUserFromCloudToDb(
   try {
     const result = await apiSignInUser(credentials)
     if (!result) throw new Error('NO_TOKEN')
-    console.log('result', result)
 
     const user: User = {
       _id: result._id,

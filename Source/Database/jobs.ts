@@ -15,7 +15,6 @@ export async function dbAddUser(user: User): Promise<any> {
     try {
       realm.write(() => {
         realm.create('User', user)
-        console.log('created user', user)
       })
     } catch (error) {
       return error
@@ -32,6 +31,7 @@ export async function dbRemoveUser(user: User): Promise<any> {
         const delUser = realm.objectForPrimaryKey('User', user._id)
         realm.delete(delUser)
       })
+      // realm.close()
     } catch (error) {
       console.error('dbuser not deleted', error)
     }
@@ -41,9 +41,9 @@ export async function dbRemoveUser(user: User): Promise<any> {
 export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
   try {
     console.log('in addvehicle to db', vehicle)
+    const user = realm.objects('User')[0]
 
     realm.write(() => {
-      const user = realm.objects('User')[0]
       if (user) return user.vehicles.push(vehicle)
       throw new Error('No user')
     })

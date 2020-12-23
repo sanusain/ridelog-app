@@ -4,14 +4,13 @@ import {VehicleInfo} from './types'
 
 export async function addVehicleToDbAndCloud(
   vehicle: VehicleInfo,
-  authToken: string,
 ): Promise<boolean> {
   try {
     await addvehicleToDb(vehicle)
-    await postVehicle(vehicle, authToken)
+    await postVehicle(vehicle)
     return true
   } catch (error) {
-    console.log('Couldnt add vehicle to cloud or db', error)
+    console.info('Couldnt add vehicle to cloud or db', error)
     return false
   }
 }
