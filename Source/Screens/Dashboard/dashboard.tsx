@@ -63,7 +63,6 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
       }}>
       <ScreenHeader
         title={`Welcome, ${user?.callsign}`}
-        enableAdd
         enableCallback={() => {
           props.navigation.navigate('addVehicle')
         }}
