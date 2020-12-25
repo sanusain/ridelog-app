@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {Dimensions, Image, ScrollView, View} from 'react-native'
+import {Alert, Dimensions, Image, ScrollView, View} from 'react-native'
 import {LineChart} from 'react-native-chart-kit'
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import Carousel from 'react-native-snap-carousel'
@@ -10,6 +10,7 @@ import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
 import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
+import {removeVehicleFromDb} from '../../Database/jobs'
 import {
   DashboardNavigationProp,
   DashboardRouteProp,
@@ -151,7 +152,22 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
               elevation: 5,
             }}
             onPress={() => {
-              console.log('switch ride')
+              console.log('Remove ride')
+              Alert.alert(
+                'Remove this vehicle?',
+                `${props.selectedVehicle.vcallsign} will be deleted`,
+                [
+                  {
+                    text: 'Delete',
+                    onPress: () => removeVehicleFromDb(props.selectedVehicle),
+                  },
+                  {
+                    text: 'Cancel',
+                    style: 'cancel',
+                  },
+                ],
+                {cancelable: false},
+              )
             }}>
             <View
               style={{
@@ -258,7 +274,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
 }
 
 const mapStateToProps = (state: AppState) => {
-  // console.log('selected vehicle', state.vehicles[0])
+  console.log('selected vehicle', state.vehicles[0])
 
   return {
     fetchVehicle: state.misc.fetchingVehicle,

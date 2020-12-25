@@ -25,15 +25,17 @@ async function getRemoteVehiclesToDb() {
 export async function hydrateVehicleState() {
   console.info('Hydrating state...')
   try {
-    const result = realm.objects('User')[0].vehicles
-    result.removeAllListeners()
-    result.addListener(vehicleListener)
-    if (!result.length) {
+    // const result = realm.objects('User')[0].vehicles
+    const {vehicles, firstLaunch} = realm.objects('User')[0]
+
+    vehicles.removeAllListeners()
+    vehicles.addListener(vehicleListener)
+    if (!vehicles.length && firstLaunch) {
       getRemoteVehiclesToDb()
       return
     }
 
-    const vehiclesCopy = [...result]
+    const vehiclesCopy = [...vehicles]
     dispatch(new ActionAddVehicles(vehiclesCopy))
   } catch (error) {
     console.info('ERROR_IN_VEHICLE_HYDRATION', error)
@@ -72,15 +74,19 @@ export const vehicleListener = (
         return
       }
     } catch (error) {
-      console.log('ERROR_IN_VEHICLE_INSERTION', error)
+      console.info('ERROR_IN_VEHICLE_INSERTION', error)
     }
 
-    if (changes.deletions.length) {
-      /**
-       remove from server api, implemented when
-       multiple vehicle support will be included
-       * 
-       */
+    try {
+      if (changes.deletions.length) {
+        console.log('changes.deletions', changes.deletions)
+        // const vehicle = vehicles[changes.deletions]
+        // deleteVehicle(vehicle)
+        hydrateVehicleState()
+      }
+    } catch (error) {
+      console.info('ERROR_IN_VEHICLE_DELETION', error)
     }
   }
+  console.log('out of listener')
 }
