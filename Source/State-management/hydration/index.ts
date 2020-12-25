@@ -44,7 +44,7 @@ export const vehicleListener = (
   vehicles: any,
   changes: CollectionChangeSet,
 ) => {
-  console.info('****IN_LISTENER****')
+  console.info('____IN_LISTENER____')
 
   if (
     changes.insertions.length ||
