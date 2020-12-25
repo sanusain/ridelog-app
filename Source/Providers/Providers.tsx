@@ -36,7 +36,7 @@ export default function Providers(): JSX.Element {
      */
   }, [user])
 
-  const getUser = async () => {
+  const getUser = () => {
     AsyncStorage.getItem('user')
       .then((data) => {
         if (data) login(JSON.parse(data))

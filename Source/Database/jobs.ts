@@ -38,16 +38,14 @@ export async function dbRemoveUser(user: User): Promise<any> {
   console.warn('DB user delete:No user!')
 }
 
-export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
+export async function addvehicleToDb(vehicle: VehicleInfo) {
   try {
-    console.log('in addvehicle to db', vehicle)
     const user = realm.objects('User')[0]
-
     realm.write(() => {
-      if (user) return user.vehicles.push(vehicle)
-      throw new Error('No user')
+      if (!user) throw new Error('NO_USER')
+      user.vehicles.push(vehicle)
     })
   } catch (error) {
-    console.warn('CATCH ERROR', error)
+    console.info('ERROR_IN_addVehicleToDb', error)
   }
 }

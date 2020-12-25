@@ -6,7 +6,8 @@ import {VehicleInfo} from '../Screens/Dashboard/types'
 const BASE_URL = getServer()
 
 export async function postVehicle(vehicle: VehicleInfo): Promise<boolean> {
-  const authToken = await getAuthToken()
+  const authToken = getAuthToken()
+  if (!authToken) throw new Error('authToken missing')
   const config = {
     headers: {
       'x-auth-token': `${authToken}`,
@@ -20,5 +21,24 @@ export async function postVehicle(vehicle: VehicleInfo): Promise<boolean> {
   } catch (error) {
     console.log(error)
     return false
+  }
+}
+
+export async function getVehicles(): Promise<any> {
+  try {
+    const authToken = getAuthToken()
+    if (!authToken) throw new Error('authToken missing')
+    const config = {
+      headers: {
+        'x-auth-token': `${authToken}`,
+      },
+    }
+    const URL = `${BASE_URL}/api/vehicle`
+    const result = await Axios.get(URL, config)
+    if (result.status === 200) return result.data
+    throw new Error(result.statusText)
+  } catch (error) {
+    console.info('ERROR_FETCHING_VEHICLES', error)
+    return error
   }
 }

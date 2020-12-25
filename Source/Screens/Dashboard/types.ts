@@ -12,6 +12,8 @@ export type VehicleInfo = {
   images: Array<ImageSpecs>
   refuelData?: Array<RefuelData>
   serviceData?: Array<ServiceData>
+  uploaded?: boolean
+  modified?: boolean
 }
 
 export type RefuelData = {
