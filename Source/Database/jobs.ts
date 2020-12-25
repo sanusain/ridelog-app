@@ -35,7 +35,7 @@ export async function dbRemoveUser(user: User): Promise<any> {
     } catch (error) {
       console.error('dbuser not deleted', error)
     }
-  console.warn('DB user delete:No user!')
+  console.info('DB user delete:No user!')
 }
 
 export async function addvehicleToDb(vehicle: VehicleInfo) {
@@ -44,8 +44,24 @@ export async function addvehicleToDb(vehicle: VehicleInfo) {
     realm.write(() => {
       if (!user) throw new Error('NO_USER')
       user.vehicles.push(vehicle)
+      // mark firstlaunch as false
+      if (user.firstLaunch) user.firstLaunch = false
     })
   } catch (error) {
     console.info('ERROR_IN_addVehicleToDb', error)
+  }
+}
+
+export async function removeVehicleFromDb(vehicle: VehicleInfo) {
+  try {
+    realm.write(() => {
+      // const objTODelete = realm.objects('User')[0]
+      let delveh = realm.objectForPrimaryKey('Vehicle', vehicle._id)
+      console.log('objTODelete', delveh)
+      realm.delete(delveh)
+      console.log('possibly deleted')
+    })
+  } catch (error) {
+    console.info('ERROR_IN_removeVehicleFromDb', error)
   }
 }

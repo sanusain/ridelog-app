@@ -42,3 +42,26 @@ export async function getVehicles(): Promise<any> {
     return error
   }
 }
+
+// ep not defined yet
+
+export async function deleteVehicle(vehicle: VehicleInfo): Promise<boolean> {
+  try {
+    const authToken = getAuthToken()
+    if (!authToken) throw new Error('authToken missing')
+    const config = {
+      headers: {
+        'x-auth-token': `${authToken}`,
+      },
+    }
+    const URL = `${BASE_URL}/api/vehicle/${vehicle._id}`
+    const result = await Axios.delete(URL, config)
+    console.log('result', result)
+
+    if (result.status === 200) return true
+    return false
+  } catch (error) {
+    console.info('ERROR_IN_DELETE_VEHICLE', error)
+    return false
+  }
+}
