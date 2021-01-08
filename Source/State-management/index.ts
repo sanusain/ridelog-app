@@ -21,12 +21,13 @@ const selectedVehicle: VehicleInfo = {
 }
 const refuelLogImages: Array<ImageSpecs> = []
 const refuelLog: RefuelData = {
+  vehicleId: '',
   _id: '',
   odo: '',
   quantity: '',
   date: '',
-  price: '',
-  cost: '',
+  unitCost: '',
+  totalCost: '',
   location: '',
   images: [],
 }
@@ -49,6 +50,7 @@ const initialState = {
   misc: {
     imageUploadProgress: 0,
     fetchingVehicle: false,
+    cloudOperationStatus: false,
   },
 }
 

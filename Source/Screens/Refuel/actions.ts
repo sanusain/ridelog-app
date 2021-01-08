@@ -4,28 +4,32 @@ import {RefuelData} from '../Dashboard/types'
 import {ImageSpecs} from './types'
 
 export class ActionSetRefuelData extends Action<RefuelData> {
-  updateState(state: AppState) {
+  updateState(state: AppState): void {
     if (this.payload) state.refuel.refuelLog = this.payload
   }
 }
 
 export class ActionAddImage extends Action<ImageSpecs> {
-  updateState(state: AppState) {
-    if (this.payload) state.refuel.addRefuelLog.images.push(this.payload)
+  updateState(state: AppState): void {
+    if (this.payload)
+      state.refuel.addRefuelLog.images = [
+        ...state.refuel.addRefuelLog.images,
+        this.payload,
+      ]
   }
 }
 
 export class ActionResetImages extends Action<any> {
-  updateState(state: AppState) {
-    state.refuel.addRefuelLog.images = []
+  updateState(state: AppState): void {
+    if (!this.payload) state.refuel.addRefuelLog.images = []
   }
 }
 
 export class ActionRemoveRefuelLogImage extends Action<ImageSpecs> {
-  updateState(state: AppState) {
+  updateState(state: AppState): void {
     if (this.payload) {
       state.refuel.addRefuelLog.images.forEach((item, index) => {
-        if (item.uid === this.payload?.uid) {
+        if (item._id === this.payload?._id) {
           state.refuel.addRefuelLog.images.splice(index, 1)
         }
       })
@@ -34,24 +38,30 @@ export class ActionRemoveRefuelLogImage extends Action<ImageSpecs> {
 }
 
 export class ActionSetUploadProgress extends Action<number> {
-  updateState(state: AppState) {
+  updateState(state: AppState): void {
     if (this.payload) state.misc.imageUploadProgress += this.payload
   }
 }
 
 export class ActionResetUploadProgress extends Action<any> {
-  updateState(state: AppState) {
-    state.misc.imageUploadProgress = 0
+  updateState(state: AppState): void {
+    if (!this.payload) state.misc.imageUploadProgress = 0
   }
 }
 
 export class ActionSetImageViewInitialIndex extends Action<number> {
-  updateState(state: AppState) {
+  updateState(state: AppState): void {
     if (this.payload) state.refuel.imageViewInitialIndex = this.payload
   }
 }
 export class ActionResetImageViewInitialIndex extends Action<any> {
-  updateState(state: AppState) {
-    state.refuel.imageViewInitialIndex = 0
+  updateState(state: AppState): void {
+    if (!this.payload) state.refuel.imageViewInitialIndex = 0
+  }
+}
+
+export class ActionSetCloudOperationStatus extends Action<boolean> {
+  updateState(state: AppState): void {
+    if (this.payload) state.misc.cloudOperationStatus = this.payload
   }
 }

@@ -11,7 +11,6 @@ import TextMontserrat from './TextMontserrat'
 
 type Props = {
   refuelLogImages: Array<ImageSpecs>
-  dispatch?: any
   handleImagePress: (image: ImageSpecs) => void
   handlePlaceHolderImagePress: () => void
 }
@@ -24,7 +23,7 @@ const CustomImagePicker: React.FunctionComponent<Props> = (props: Props) => {
     <View style={{flex: 1}}>
       {props.refuelLogImages.length !== 0 &&
         props.refuelLogImages.map((image) => (
-          <View key={image.uid}>
+          <View key={image._id}>
             <TouchableOpacity
               onPress={() => {
                 setDeleteImage(image)
@@ -45,27 +44,27 @@ const CustomImagePicker: React.FunctionComponent<Props> = (props: Props) => {
                 }}
               />
             </TouchableOpacity>
-            {deleteImage.uri === image.url && deleteBlur ? ( // delete overlay
+            {deleteImage.url === image.url && deleteBlur ? ( // delete overlay
               <BlurView
                 key={new ObjectID().str}
-                blurAmount={150}
+                blurAmount={20}
+                blurType="light"
                 style={{
-                  backgroundColor: Colors.white,
                   position: 'absolute',
                   width: '90%',
                   height: 120,
                   marginTop: 5,
-                  marginBottom: 5,
-                  marginHorizontal: 20,
-                  borderRadius: 7,
+                  left: 20,
+                  borderRadius: 5,
+                  flex: 1,
                 }}>
                 <View
                   style={{
+                    overflow: 'hidden',
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-evenly',
                     alignItems: 'center',
-                    marginHorizontal: 20,
                   }}>
                   <TouchableOpacity
                     style={{
@@ -75,7 +74,6 @@ const CustomImagePicker: React.FunctionComponent<Props> = (props: Props) => {
                     }}
                     onPress={() => {
                       setDeleteBlur(false)
-                      // @ts-ignore      // doesnt need to type typechecked. used in this file only.
                       props.handleImagePress(deleteImage)
                     }}>
                     <TextMontserrat
@@ -131,9 +129,16 @@ const CustomImagePicker: React.FunctionComponent<Props> = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: AppState) => ({
-  refuelLogImages: state.refuel.addRefuelLog.images,
-})
+const mapStateToProps = (state: AppState) => {
+  console.log(
+    'state.refuel.addRefuelLog.images',
+    state.refuel.addRefuelLog.images,
+  )
+
+  return {
+    refuelLogImages: state.refuel.addRefuelLog.images,
+  }
+}
 
 const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),

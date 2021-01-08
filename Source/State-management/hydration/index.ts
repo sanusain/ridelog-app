@@ -25,7 +25,7 @@ async function getRemoteVehiclesToDb() {
 export async function hydrateVehicleState() {
   console.info('Hydrating state...')
   try {
-    // const result = realm.objects('User')[0].vehicles
+    // @ts-ignore
     const {vehicles, firstLaunch} = realm.objects('User')[0]
 
     vehicles.removeAllListeners()
@@ -43,15 +43,16 @@ export async function hydrateVehicleState() {
 }
 // changes contains the index of the item added,deleted or modified
 export const vehicleListener = (
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   vehicles: any,
   changes: CollectionChangeSet,
-) => {
+): void => {
   console.info('____IN_LISTENER____')
 
   if (
     changes.insertions.length ||
     changes.deletions.length ||
-    changes.modifications.length
+    changes.newModifications.length
   ) {
     try {
       if (changes.insertions.length) {
@@ -77,15 +78,26 @@ export const vehicleListener = (
       console.info('ERROR_IN_VEHICLE_INSERTION', error)
     }
 
-    try {
-      if (changes.deletions.length) {
-        console.log('changes.deletions', changes.deletions)
-        // const vehicle = vehicles[changes.deletions]
-        // deleteVehicle(vehicle)
-        hydrateVehicleState()
+    // try {
+    //   if (changes.deletions.length) {
+    //     console.log('changes.deletions', changes.deletions)
+    //     // const vehicle = vehicles[changes.deletions]
+    //     // deleteVehicle(vehicle)
+    //     hydrateVehicleState()
+    //   }
+    // } catch (error) {
+    //   console.info('ERROR_IN_VEHICLE_DELETION', error)
+    // }
+
+    if (changes.newModifications.length) {
+      try {
+        console.log(
+          'changes.newModifications.length',
+          changes.newModifications.length,
+        )
+      } catch (error) {
+        console.info('ERROR_IN_Realm_Modification', error)
       }
-    } catch (error) {
-      console.info('ERROR_IN_VEHICLE_DELETION', error)
     }
   }
   console.log('out of listener')

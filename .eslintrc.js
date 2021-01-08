@@ -133,6 +133,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [1, {args: 'none'}],
     '@typescript-eslint/no-non-null-assertion': 0,
     '@typescript-eslint/camelcase': 0,
-    '@typescript-eslint/ban-ts-ignore': 0,
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
 }

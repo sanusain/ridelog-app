@@ -22,6 +22,7 @@ import {
   ActionResetImageViewInitialIndex,
   ActionSetImageViewInitialIndex,
 } from './actions'
+import {removeLogFromDB} from './backgroundJobs'
 // import {removeLogFromDB} from './backgroundJobs'
 
 type Props = {
@@ -207,7 +208,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.price}
+                {props.refuelData.unitCost}
               </TextMontserrat>
             </View>
           </View>
@@ -230,7 +231,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.cost}
+                {props.refuelData.totalCost}
               </TextMontserrat>
             </View>
           </View>

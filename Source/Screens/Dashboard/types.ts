@@ -18,11 +18,12 @@ export type VehicleInfo = {
 
 export type RefuelData = {
   _id: string
+  vehicleId: string
   odo: string
   quantity: string
   date: string
-  price: string
-  cost: string
+  unitCost: string
+  totalCost: string
   location: string
   images: Array<ImageSpecs>
 }

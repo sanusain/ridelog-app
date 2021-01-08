@@ -1,6 +1,6 @@
 import {getRealmInstance} from '.'
 import {User} from '../Contexts/AuthProvider'
-import {VehicleInfo} from '../Screens/Dashboard/types'
+import {RefuelData, VehicleInfo} from '../Screens/Dashboard/types'
 
 const realm = getRealmInstance()
 let realmUser: User
@@ -38,21 +38,34 @@ export async function dbRemoveUser(user: User): Promise<any> {
   console.info('DB user delete:No user!')
 }
 
-export async function addvehicleToDb(vehicle: VehicleInfo) {
+export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
   try {
     const user = realm.objects('User')[0]
     realm.write(() => {
       if (!user) throw new Error('NO_USER')
+      // @ts-ignore
       user.vehicles.push(vehicle)
       // mark firstlaunch as false
+      // @ts-ignore
       if (user.firstLaunch) user.firstLaunch = false
     })
   } catch (error) {
     console.info('ERROR_IN_addVehicleToDb', error)
   }
 }
+export async function addRefuelLogToDb(log: RefuelData): Promise<any> {
+  try {
+    const vehicle = realm.objectForPrimaryKey('Vehicle', log.vehicleId)
+    if (vehicle) {
+      // @ts-ignore
+      realm.write(() => vehicle.refuelLogs.push(log))
+    }
+  } catch (error) {
+    console.info('ERROR_IN_addRefuelLogToDb', error)
+  }
+}
 
-export async function removeVehicleFromDb(vehicle: VehicleInfo) {
+export async function removeVehicleFromDb(vehicle: VehicleInfo): Promise<any> {
   try {
     realm.write(() => {
       // const objTODelete = realm.objects('User')[0]
