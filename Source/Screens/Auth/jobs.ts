@@ -20,7 +20,7 @@ export async function signupUserToDbAndCloud(
     login(user)
     return user._id
   } catch (error) {
-    return console.warn('Could not add user to db', error)
+    return console.info('Could not add user to db', error)
   }
 }
 
@@ -32,7 +32,6 @@ export async function signinUserFromCloudToDb(
   try {
     const result = await apiSignInUser(credentials)
     if (!result) throw new Error('NO_TOKEN')
-    console.log('result', result)
 
     const user: User = {
       _id: result._id,

@@ -4,6 +4,7 @@ export const RefuelLogSchema: Realm.ObjectSchema = {
   name: 'RefuelLog',
   properties: {
     _id: {type: 'string', indexed: true},
+    vehicleId: 'string',
     date: 'date',
     odo: 'string',
     quantity: 'string',
@@ -57,6 +58,7 @@ export const UserSchema: Realm.ObjectSchema = {
     phone: 'string?',
     avatar: 'string?',
     vehicles: {type: 'Vehicle[]', default: []},
+    firstLaunch: {type: 'bool', default: true},
   },
   primaryKey: '_id',
 }

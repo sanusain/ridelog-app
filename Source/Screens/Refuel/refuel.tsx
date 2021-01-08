@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {View} from 'react-native'
+import {Alert, View} from 'react-native'
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
 import {connect} from 'react-redux'
 import ScreenHeader from '../../Components/Header'
@@ -10,10 +10,11 @@ import Colors from '../../Config/Colors'
 import {RefuelNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
 import {noop} from '../../Util'
-import {RefuelData} from '../Dashboard/types'
+import {RefuelData, VehicleInfo} from '../Dashboard/types'
 import {ActionSetRefuelData} from './actions'
 
 type Props = {
+  selectedVehicle: VehicleInfo
   refuelData: Array<RefuelData>
   dispatch: any
   navigation: RefuelNavigationProps
@@ -34,7 +35,15 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   const handleAddLog = () => {
-    props.navigation.navigate('addRefuelLog')
+    if (!props.selectedVehicle)
+      return Alert.alert(
+        'No vehicles',
+        'Add a vehicle first',
+        [{text: 'Ok', style: 'default'}],
+        {cancelable: true},
+      )
+
+    return props.navigation.navigate('addRefuelLog')
   }
 
   const renderList = ({item}: {item: any}) => {
@@ -94,7 +103,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
           <FlatList
             data={props.refuelData}
             renderItem={renderList}
-            keyExtractor={(item) => item.uid}
+            keyExtractor={(item) => item._id}
           />
         ) : (
           <NoLog noLogType="noRefuelLog" handleOnPress={handleAddLog} />
@@ -104,6 +113,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
   )
 }
 const mapStateToProps = (state: AppState) => ({
+  selectedVehicle: state.vehicles[0],
   refuelData: state.selectedVehicle.refuelData,
 })
 const mapDispatchToProps = (dispatch: any) => ({

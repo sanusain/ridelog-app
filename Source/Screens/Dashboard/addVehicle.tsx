@@ -14,7 +14,7 @@ import {
   AddVehicleNavigationProp,
   AddVehicleRouteProp,
 } from '../../Navigation/types'
-import {addVehicleToDbAndCloud} from './job'
+import {addVehicleToDb} from './job'
 import {VehicleInfo} from './types'
 
 type Props = {
@@ -96,10 +96,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
       ],
     }
 
-    const isVehicleAdded = await addVehicleToDbAndCloud(
-      validatedInputData,
-      user?.authToken ? user.authToken : 'no_token',
-    )
+    const isVehicleAdded = await addVehicleToDb(validatedInputData)
     console.log('isVehicleAdded', isVehicleAdded)
     if (isVehicleAdded)
       return Alert.alert(
@@ -121,13 +118,13 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
       <ScreenHeader title="Add New Vehicle" enableBack />
       <Formik
         initialValues={{
-          vcallsign: '',
-          year: '',
-          maker: '',
-          model: '',
-          odo: '',
-          plate: '',
-          vin: '',
+          vcallsign: 'myvehicle',
+          year: '2020',
+          maker: 'ghost',
+          model: 'phantom',
+          odo: '2300',
+          plate: 'dontpanick',
+          vin: 'afdsafadf32423',
         }}
         onSubmit={(values, actions) => {
           handleSubmit(values)

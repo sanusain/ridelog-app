@@ -10,7 +10,6 @@ export class ActionAddVehicles extends Action<Array<VehicleInfo>> {
       this.payload.map((vehicle) => {
         return state.vehicles.push(vehicle)
       })
-      console.log('in action state', state)
     }
   }
 }

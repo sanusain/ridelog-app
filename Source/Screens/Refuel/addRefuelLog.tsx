@@ -2,39 +2,32 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import ObjectID from 'bson-objectid'
 // import {firestore} from 'firebase'
 import LottieView from 'lottie-react-native'
-import React, {
-  createRef,
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import React, {createRef, FunctionComponent, useEffect, useState} from 'react'
 import {Animated, Keyboard, Modal, ScrollView, View} from 'react-native'
 import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler'
+import ImagePicker from 'react-native-image-crop-picker'
 import {TextInput} from 'react-native-paper'
 import * as Progress from 'react-native-progress'
 import {connect} from 'react-redux'
 import BottomSheet from 'reanimated-bottom-sheet'
+import {uploadRefuelLog} from '../../api/refuel'
 import ScreenHeader from '../../Components/Header'
-import CustomImagePicker from '../../Components/ImagePicker'
 import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
 import TextOpenSans from '../../Components/TextOpenSans'
 import Colors from '../../Config/Colors'
-import {AuthContext} from '../../Contexts/AuthProvider'
+import {addRefuelLogToDb} from '../../Database/jobs'
 import {AddRefuelLogNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
 import {RefuelData, VehicleInfo} from '../Dashboard/types'
 import {
   ActionAddImage,
-  ActionRemoveRefuelLogImage,
   ActionResetImages,
-  ActionSetUploadProgress,
+  ActionSetCloudOperationStatus,
 } from './actions'
-import {uploadImages} from './functions'
 import {ImageSpecs} from './types'
 
 type Props = {
@@ -43,18 +36,15 @@ type Props = {
   selectedVehicle: VehicleInfo
   imageUploadProgress: number
   dispatch: any
-  uploadedImageURLs: Array<string>
 }
 
 const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
-  const {user} = useContext(AuthContext)
-
   const [date, setDate] = useState(new Date())
-  const [mode, setMode] = useState('date')
+  const [mode, setMode] = useState('undefined')
   const [show, setShow] = useState(false)
   const [currentOdo, setCurrentOdo] = useState('')
   const [odoError, setOdoError] = useState(false)
-  const [lastOdo, setLastOdo] = useState('0000')
+  const [lastOdo, setLastOdo] = useState('')
   const [fuelQuantity, setFuelQuantity] = useState('')
   const [pricePerQty, setPricePerQty] = useState('')
   const [cost, setCost] = useState('')
@@ -73,13 +63,15 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
   }, [])
 
   const updateCost = () => {
-    const cost = (parseFloat(fuelQuantity) * parseFloat(pricePerQty)).toFixed(2)
-    if (cost !== 'NaN') setCost(cost)
+    const fuelCost = (
+      parseFloat(fuelQuantity) * parseFloat(pricePerQty)
+    ).toFixed(2)
+    if (fuelCost !== 'NaN') setCost(fuelCost)
     else setCost('')
   }
 
-  const setBackgroundOpacity = (mode: boolean) => {
-    if (mode) {
+  const setBackgroundOpacity = (type: boolean) => {
+    if (type) {
       Animated.timing(animatedOpacity, {
         toValue: 0.3, // sets opacity
         duration: 100,
@@ -105,8 +97,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
     showMode('date')
   }
 
-  const showMode = (mode: string) => {
-    setMode(mode)
+  const showMode = (type: string) => {
+    setMode(type)
     setShow(true)
   }
 
@@ -116,126 +108,65 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
     setDate(currentDate)
   }
 
-  const handleAddLog = () => {
-    setModalOpen(true)
-
-    if (props.refuelLogImages.length) {
-      uploadImages(
-        user ? user.uid : '',
-        props.selectedVehicle.vcallsign,
-        'refuelLog',
-        props.refuelLogImages,
-        date,
-        props.dispatch,
-      ).then((imageURLs: Array<ImageSpecs>) => {
-        const urls = imageURLs.map((item) => item.url)
-
-        const data: RefuelData = {
-          uid: new ObjectID().str,
-          odo: currentOdo,
-          date: date.toISOString(),
-          price: pricePerQty,
-          cost,
-          quantity: fuelQuantity,
-          location,
-          // @ts-ignore
-          images: [...urls],
-        }
-
-        const vehicleInfoRef = firebase
-          .firestore()
-          .collection('vehicleInfo')
-          .doc(user?.uid)
-          .collection('vehicles')
-          .doc(props.selectedVehicle.vcallsign)
-
-        vehicleInfoRef
-          .update({refuelData: firestore.FieldValue.arrayUnion(data)})
-          .then(() => {
-            vehicleInfoRef.update({odo: currentOdo}).then(() => {
-              console.log('odo updated aswell')
-            })
-          })
-      })
-    } else {
-      const data: RefuelData = {
-        uid: new ObjectID().str,
-        odo: currentOdo,
-        date: date.toISOString(),
-        price: pricePerQty,
-        cost,
-        quantity: fuelQuantity,
-        location,
-        images: [],
-      }
-      const vehicleInfoRef = firebase
-        .firestore()
-        .collection('vehicleInfo')
-        .doc(user?.uid)
-        .collection('vehicles')
-        .doc(props.selectedVehicle.vcallsign)
-
-      vehicleInfoRef
-        .update({refuelData: firestore.FieldValue.arrayUnion(data)})
-        .then(() => {
-          if (!props.refuelLogImages.length)
-            props.dispatch(new ActionSetUploadProgress(100))
-          vehicleInfoRef.update({odo: currentOdo}).then(() => {
-            console.log('odo updated aswell')
-          })
-        })
+  const handleSubmitLog = async () => {
+    const refuelData: RefuelData = {
+      _id: new ObjectID().str,
+      vehicleId: props.selectedVehicle._id,
+      odo: currentOdo,
+      date: date.toISOString(),
+      unitCost: pricePerQty,
+      quantity: fuelQuantity,
+      totalCost: cost,
+      location,
+      images: props.refuelLogImages.length ? props.refuelLogImages : [],
     }
+    await addRefuelLogToDb(refuelData)
+
+    props.dispatch(new ActionSetCloudOperationStatus(true))
+    await uploadRefuelLog(refuelData)
+    props.dispatch(new ActionSetCloudOperationStatus(false))
   }
 
   const handleTakePicture = async () => {
     hideBottomSheet()
-
-    const {status} = await ImagePicker.requestCameraPermissionsAsync()
-    if (status !== 'granted') return
-
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [9, 16],
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      exif: true,
-      quality: 1,
+    ImagePicker.openCamera({
+      compressImageQuality: 0.7,
+      cropping: true,
     })
-
-    if (!result.cancelled) {
-      const image: ImageSpecs = {
-        uid: new ObjectID().str,
-        url: result.uri,
-        height: result.height,
-        width: result.width,
-      }
-      props.dispatch(new ActionAddImage(image))
-    }
+      .then((img) => {
+        const image: ImageSpecs = {
+          _id: new ObjectID().str,
+          height: img.height,
+          width: img.width,
+          url: img.path,
+        }
+        props.dispatch(new ActionAddImage(image))
+        console.log(image)
+      })
+      .catch((error) => {
+        console.info('ERROR_SNAPPING_IMG', error)
+      })
   }
 
   const handleFromGallery = async () => {
     hideBottomSheet()
-
-    const {status} = await ImagePicker.requestCameraRollPermissionsAsync()
-    if (status !== 'granted') {
-      console.log('permission denied')
-      return
-    }
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [9, 16],
-      quality: 1,
+    ImagePicker.openPicker({
+      compressImageQuality: 0.7,
+      cropping: true,
     })
-
-    if (!result.cancelled) {
-      const image: ImageSpecs = {
-        uid: uuid.v4(),
-        url: result.uri,
-        height: result.height,
-        width: result.width,
-      }
-      props.dispatch(new ActionAddImage(image))
-    }
+      .then((img) => {
+        console.log(img)
+        const image: ImageSpecs = {
+          _id: new ObjectID().str,
+          height: img.height,
+          width: img.width,
+          url: img.path,
+        }
+        props.dispatch(new ActionAddImage(image))
+      })
+      .catch((error) => {
+        console.info('ERROR_PICKING_IMG', error)
+      })
   }
 
   const renderBottomSheetContent = () => (
@@ -277,7 +208,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           paddingHorizontal: '10%',
         }}>
         <TouchableWithoutFeedback
-          // onPress={handleTakePicture}
+          onPress={handleTakePicture}
           style={{alignItems: 'center'}}>
           <SquareButton
             title="Take Picture"
@@ -384,11 +315,9 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            // @ts-ignore
             mode={mode}
             is24Hour
             display="default"
-            // @ts-ignore
             onChange={onChangeDate}
           />
         )}
@@ -410,6 +339,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
             setCurrentOdo(inputText)
           }}
           onBlur={() => {
+            // eslint-disable-next-line radix
             if (parseInt(currentOdo) < parseInt(lastOdo)) setOdoError(true)
             else setOdoError(false)
           }}
@@ -505,7 +435,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
             setLocation(inputText)
           }}
         />
-        <CustomImagePicker
+        {/* <CustomImagePicker
           handleImagePress={(image: ImageSpecs) => {
             props.dispatch(new ActionRemoveRefuelLogImage(image))
           }}
@@ -513,18 +443,18 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
             setIsBottomSheetOpen(true)
             bottomSheetRef.current?.snapTo(0)
           }}
-        />
+        /> */}
 
         <SquareButton
           title="ADD LOG"
-          // onPress={handleAddLog}
+          onPress={handleSubmitLog}
           buttonBackgroundColor={Colors.imperialRed}
           style={{
             alignSelf: 'center',
             marginTop: 5,
             marginBottom: 20,
           }}
-          disabled={!!(!currentOdo || !fuelQuantity || !pricePerQty)}
+          // disabled={!!(!currentOdo || !fuelQuantity || !pricePerQty)}
         />
       </Animated.View>
     </ScrollView>
@@ -533,7 +463,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
 
 const mapStateToProps = (state: AppState) => ({
   refuelLogImages: state.refuel.addRefuelLog.images,
-  selectedVehicle: state.selectedVehicle,
+  selectedVehicle: state.vehicles[0],
+  // selectedVehicle: state.selectedVehicle,
   imageUploadProgress: state.misc.imageUploadProgress,
 })
 
