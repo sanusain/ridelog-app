@@ -1,11 +1,11 @@
 import Axios from 'axios'
 import {getServer} from '../Config'
 import {getAuthToken} from '../Contexts/AuthProvider'
-import {RefuelData} from '../Screens/Dashboard/types'
+import {RefuelLog} from '../Screens/Dashboard/types'
 
 const BASE_URL = getServer()
 
-export async function uploadRefuelLog(log: RefuelData): Promise<boolean> {
+export async function uploadRefuelLog(log: RefuelLog): Promise<any> {
   try {
     console.log('log', log)
     const authToken = getAuthToken()
@@ -17,9 +17,8 @@ export async function uploadRefuelLog(log: RefuelData): Promise<boolean> {
     })
 
     if (result.status !== 201) throw new Error('201_NOT_CREATED')
-    return true
+    return console.info('REFUEL_LOG_UPLOADED')
   } catch (error) {
-    console.info('ERROR_IN_uploadRefuelLog', error.response.data)
-    return false
+    return console.info('ERROR_IN_uploadRefuelLog', error.response.data)
   }
 }

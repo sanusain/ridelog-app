@@ -91,14 +91,11 @@ export const vehicleListener = (
 
     if (changes.newModifications.length) {
       try {
-        console.log(
-          'changes.newModifications.length',
-          changes.newModifications.length,
-        )
+        hydrateVehicleState()
       } catch (error) {
         console.info('ERROR_IN_Realm_Modification', error)
       }
     }
   }
-  console.log('out of listener')
+  console.info('OUT_OF_LISTENER')
 }

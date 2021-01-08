@@ -17,17 +17,16 @@ import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
 import {RefuelDetailsNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
-import {RefuelData} from '../Dashboard/types'
+import {RefuelLog} from '../Dashboard/types'
 import {
   ActionResetImageViewInitialIndex,
   ActionSetImageViewInitialIndex,
 } from './actions'
 import {removeLogFromDB} from './backgroundJobs'
-// import {removeLogFromDB} from './backgroundJobs'
 
 type Props = {
   dispatch: any
-  refuelData: RefuelData
+  refuelData: RefuelLog
   navigation: RefuelDetailsNavigationProps
 }
 
@@ -99,7 +98,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
         style={{
           backgroundColor: Colors.white,
         }}>
-        <ScreenHeader title="Refuel Details" />
+        <ScreenHeader title="Refuel Details" enableBack />
         <Carousel
           data={images}
           renderItem={renderCarousel}

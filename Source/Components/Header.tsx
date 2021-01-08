@@ -12,10 +12,20 @@ type Props = {
   enableDone?: boolean
   enableAdd?: boolean
   enableBack?: boolean
+  style?: any
   enableCallback?: () => void
 }
 
 const ScreenHeader: React.FunctionComponent<Props> = (props: Props) => {
+  ScreenHeader.defaultProps = {
+    enableAdd: false,
+    enableDone: false,
+    enableBack: false,
+    style: {},
+    enableCallback: () => {
+      noop()
+    },
+  }
   const navigation = useNavigation()
   return (
     <View
@@ -26,7 +36,7 @@ const ScreenHeader: React.FunctionComponent<Props> = (props: Props) => {
       }}>
       {props.enableBack ? (
         <TouchableOpacity
-          style={{padding: 10, justifyContent: 'center'}}
+          style={{padding: 10, justifyContent: 'center', ...props.style}}
           onPress={navigation.goBack}>
           <Ionicons name="ios-arrow-back" size={25} color="black" />
         </TouchableOpacity>

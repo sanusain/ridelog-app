@@ -1,6 +1,6 @@
 import {getRealmInstance} from '.'
 import {User} from '../Contexts/AuthProvider'
-import {RefuelData, VehicleInfo} from '../Screens/Dashboard/types'
+import {RefuelLog, VehicleInfo} from '../Screens/Dashboard/types'
 
 const realm = getRealmInstance()
 let realmUser: User
@@ -53,12 +53,15 @@ export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
     console.info('ERROR_IN_addVehicleToDb', error)
   }
 }
-export async function addRefuelLogToDb(log: RefuelData): Promise<any> {
+export async function addRefuelLogToDb(log: RefuelLog): Promise<any> {
   try {
     const vehicle = realm.objectForPrimaryKey('Vehicle', log.vehicleId)
     if (vehicle) {
       // @ts-ignore
       realm.write(() => vehicle.refuelLogs.push(log))
+      realm.write(() => {
+        vehicle.odo = log.odo
+      })
     }
   } catch (error) {
     console.info('ERROR_IN_addRefuelLogToDb', error)

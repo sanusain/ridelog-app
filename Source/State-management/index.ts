@@ -1,9 +1,9 @@
 import {applyMiddleware, createStore} from 'redux'
-import {RefuelData, ServiceData, VehicleInfo} from '../Screens/Dashboard/types'
+import {RefuelLog, ServiceData, VehicleInfo} from '../Screens/Dashboard/types'
 import {ImageSpecs} from '../Screens/Refuel/types'
 import {Action} from './root-action'
 
-const refuelData: Array<RefuelData> | undefined = []
+const refuelData: Array<RefuelLog> | undefined = []
 const serviceData: Array<ServiceData> = []
 const vehicles: Array<VehicleInfo> = []
 const selectedVehicle: VehicleInfo = {
@@ -16,11 +16,11 @@ const selectedVehicle: VehicleInfo = {
   vin: '',
   year: '',
   images: [],
-  refuelData,
+  refuelLogs: refuelData,
   serviceData,
 }
 const refuelLogImages: Array<ImageSpecs> = []
-const refuelLog: RefuelData = {
+const refuelLog: RefuelLog = {
   vehicleId: '',
   _id: '',
   odo: '',

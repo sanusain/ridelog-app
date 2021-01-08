@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {Alert, View} from 'react-native'
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
 import {connect} from 'react-redux'
@@ -10,12 +10,11 @@ import Colors from '../../Config/Colors'
 import {RefuelNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
 import {noop} from '../../Util'
-import {RefuelData, VehicleInfo} from '../Dashboard/types'
+import {RefuelLog, VehicleInfo} from '../Dashboard/types'
 import {ActionSetRefuelData} from './actions'
 
 type Props = {
   selectedVehicle: VehicleInfo
-  refuelData: Array<RefuelData>
   dispatch: any
   navigation: RefuelNavigationProps
 }
@@ -25,11 +24,9 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
   const conversionDistance = 'Km'
   const currency = '₹'
 
-  useEffect(() => {
-    // if (!props.refuelData.length) hydrateRefuelLogs(props.dispatch)
-  }, [])
+  console.log('refuellogss', props.selectedVehicle.refuelLogs)
 
-  const handleRefuelItem = (refuelLog: RefuelData) => {
+  const handleRefuelItem = (refuelLog: RefuelLog) => {
     props.dispatch(new ActionSetRefuelData(refuelLog))
     props.navigation.navigate('refuelDetails')
   }
@@ -46,15 +43,17 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
     return props.navigation.navigate('addRefuelLog')
   }
 
-  const renderList = ({item}: {item: any}) => {
+  const renderList = ({item}: {item: RefuelLog}) => {
     return (
       <TouchableOpacity
         style={{
           marginHorizontal: 10,
-          elevation: 1,
+          // elevation: 1,
+          borderWidth: 1,
+          borderColor: Colors.default_grey,
           borderRadius: 10,
           marginVertical: 5,
-          paddingVertical: 10,
+          paddingVertical: 5,
         }}
         onPress={() => handleRefuelItem(item)}>
         <View
@@ -71,14 +70,14 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
             fontSize={18}
             weight="semibold"
             style={{color: Colors.imperialRed, opacity: 0.7}}>
-            {currency} {item.cost}
+            {currency} {item.totalCost}
           </TextMontserrat>
         </View>
         <View
           style={{
             flexDirection: 'row',
             marginHorizontal: 15,
-            paddingVertical: 2,
+            paddingVertical: 5,
           }}>
           <TextOpenSans fontSize={16} style={{color: Colors.default_grey}}>
             Quantity {item.quantity} {conversionLiquid}
@@ -95,13 +94,15 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
     <View style={{flex: 1, backgroundColor: Colors.white}}>
       <ScreenHeader
         title="Refuel"
-        enableAdd={!!props.refuelData?.length}
-        enableCallback={props.refuelData?.length ? handleAddLog : noop}
+        enableAdd={!!props.selectedVehicle?.refuelLogs?.length}
+        enableCallback={
+          props.selectedVehicle?.refuelLogs?.length ? handleAddLog : noop
+        }
       />
       <View style={{flex: 1, marginTop: -10}}>
-        {props.refuelData && props.refuelData.length ? (
+        {props.selectedVehicle?.refuelLogs?.length ? (
           <FlatList
-            data={props.refuelData}
+            data={props.selectedVehicle?.refuelLogs}
             renderItem={renderList}
             keyExtractor={(item) => item._id}
           />
@@ -114,7 +115,6 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
 }
 const mapStateToProps = (state: AppState) => ({
   selectedVehicle: state.vehicles[0],
-  refuelData: state.selectedVehicle.refuelData,
 })
 const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),

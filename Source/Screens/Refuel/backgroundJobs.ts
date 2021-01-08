@@ -1,10 +1,10 @@
 import {User} from '../../Contexts/AuthProvider'
-import {RefuelData} from '../Dashboard/types'
+import {RefuelLog} from '../Dashboard/types'
 
 export function removeLogFromDB(
   dispatch: any,
   user: User,
-  refuelData: RefuelData,
+  refuelData: RefuelLog,
   selectedVehicle: string,
 ) {
   /**

@@ -1,9 +1,9 @@
 import {AppState} from '../../State-management'
 import {Action} from '../../State-management/root-action'
-import {RefuelData} from '../Dashboard/types'
+import {RefuelLog} from '../Dashboard/types'
 import {ImageSpecs} from './types'
 
-export class ActionSetRefuelData extends Action<RefuelData> {
+export class ActionSetRefuelData extends Action<RefuelLog> {
   updateState(state: AppState): void {
     if (this.payload) state.refuel.refuelLog = this.payload
   }
