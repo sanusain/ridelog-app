@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, {FunctionComponent, useContext, useState} from 'react'
 import {Dimensions, Image, Modal, TouchableOpacity, View} from 'react-native'
 import {ScrollView} from 'react-native-gesture-handler'
@@ -9,12 +8,14 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {connect} from 'react-redux'
+import {removeCloudRefuelLog} from '../../api/refuel'
 import ScreenHeader from '../../Components/Header'
 import ImageView from '../../Components/ImageView'
 import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
 import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
+import {removeRefuelLogFromDb} from '../../Database/jobs'
 import {RefuelDetailsNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
 import {RefuelLog} from '../Dashboard/types'
@@ -22,11 +23,10 @@ import {
   ActionResetImageViewInitialIndex,
   ActionSetImageViewInitialIndex,
 } from './actions'
-import {removeLogFromDB} from './backgroundJobs'
 
 type Props = {
   dispatch: any
-  refuelData: RefuelLog
+  refuelLog: RefuelLog
   navigation: RefuelDetailsNavigationProps
 }
 
@@ -35,7 +35,7 @@ const screenWidth = Dimensions.get('window').width
 const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const {user} = useContext(AuthContext)
-  const images = props.refuelData.images.filter((image) => image != null)
+  const images = props.refuelLog.images.filter((image) => image != null)
 
   const closeModal = () => {
     props.dispatch(new ActionResetImageViewInitialIndex())
@@ -43,10 +43,8 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
   }
 
   const deleteLog = async () => {
-    // delete record using uid, delete images using date
-    const selectedVehicle = await AsyncStorage.getItem('selectedVehicle')
-    if (selectedVehicle)
-      removeLogFromDB(props.dispatch, user, props.refuelData, selectedVehicle)
+    removeRefuelLogFromDb(props.refuelLog)
+    await removeCloudRefuelLog(props.refuelLog)
     props.navigation.goBack()
   }
 
@@ -138,7 +136,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {new Date(props.refuelData.date).toDateString()}
+                {new Date(props.refuelLog.date).toDateString()}
               </TextMontserrat>
             </View>
           </View>
@@ -161,7 +159,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.odo}
+                {props.refuelLog.odo}
               </TextMontserrat>
             </View>
           </View>
@@ -184,7 +182,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.quantity}
+                {props.refuelLog.quantity}
               </TextMontserrat>
             </View>
           </View>
@@ -207,7 +205,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.unitCost}
+                {props.refuelLog.unitCost}
               </TextMontserrat>
             </View>
           </View>
@@ -230,7 +228,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.totalCost}
+                {props.refuelLog.totalCost}
               </TextMontserrat>
             </View>
           </View>
@@ -253,7 +251,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
             </View>
             <View>
               <TextMontserrat fontSize={18}>
-                {props.refuelData.location}
+                {props.refuelLog.location}
               </TextMontserrat>
             </View>
           </View>
@@ -268,7 +266,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
           title="DELETE LOG"
           buttonBackgroundColor={Colors.redLite}
           style={{alignSelf: 'center', width: '95%'}}
-          // onPress={deleteLog}
+          onPress={deleteLog}
         />
       </View>
     </View>
@@ -276,7 +274,7 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  refuelData: state.refuel.refuelLog,
+  refuelLog: state.refuel.refuelLog,
 })
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -125,6 +125,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
     props.dispatch(new ActionSetCloudOperationStatus(true))
     await uploadRefuelLog(refuelData)
     props.dispatch(new ActionSetCloudOperationStatus(false))
+    props.navigation.navigate('refuel')
   }
 
   const handleTakePicture = async () => {

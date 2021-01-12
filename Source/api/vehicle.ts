@@ -5,7 +5,7 @@ import {VehicleInfo} from '../Screens/Dashboard/types'
 
 const BASE_URL = getServer()
 
-export async function postVehicle(vehicle: VehicleInfo): Promise<boolean> {
+export async function uploadVehicle(vehicle: VehicleInfo): Promise<boolean> {
   const authToken = getAuthToken()
   if (!authToken) throw new Error('authToken missing')
   const config = {

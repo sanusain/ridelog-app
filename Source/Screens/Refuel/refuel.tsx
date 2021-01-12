@@ -24,8 +24,6 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
   const conversionDistance = 'Km'
   const currency = '₹'
 
-  console.log('refuellogss', props.selectedVehicle.refuelLogs)
-
   const handleRefuelItem = (refuelLog: RefuelLog) => {
     props.dispatch(new ActionSetRefuelData(refuelLog))
     props.navigation.navigate('refuelDetails')

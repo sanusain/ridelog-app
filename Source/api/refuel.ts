@@ -6,9 +6,12 @@ import {RefuelLog} from '../Screens/Dashboard/types'
 const BASE_URL = getServer()
 
 export async function uploadRefuelLog(log: RefuelLog): Promise<any> {
+  console.log('refuel log', log)
+
   try {
-    console.log('log', log)
     const authToken = getAuthToken()
+    console.log('###############################3authToken', authToken)
+
     if (!authToken) throw new Error('authToken Missing!')
 
     const URL = `${BASE_URL}/api/refuellog`
@@ -20,5 +23,20 @@ export async function uploadRefuelLog(log: RefuelLog): Promise<any> {
     return console.info('REFUEL_LOG_UPLOADED')
   } catch (error) {
     return console.info('ERROR_IN_uploadRefuelLog', error.response.data)
+  }
+}
+
+export async function removeCloudRefuelLog(log: RefuelLog): Promise<any> {
+  try {
+    const authToken = getAuthToken()
+    if (!authToken) throw new Error('authToken Missing!')
+    const URL = `${BASE_URL}/api/refuellog/:${log._id}`
+    const result = await Axios.delete(URL, {
+      headers: {'x-auth-token': authToken},
+    })
+    if (result.status !== 200) throw new Error('201_NOT_CREATED')
+    return console.info('REMOVED_REFUEL_LOG_FROM_SERVER')
+  } catch (error) {
+    return console.info('ERROR_IN_removeCloudRefuelLog', error.message)
   }
 }

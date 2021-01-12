@@ -1,4 +1,4 @@
-import {applyMiddleware, createStore} from 'redux'
+import {applyMiddleware, createStore, Store} from 'redux'
 import {RefuelLog, ServiceData, VehicleInfo} from '../Screens/Dashboard/types'
 import {ImageSpecs} from '../Screens/Refuel/types'
 import {Action} from './root-action'
@@ -59,7 +59,7 @@ const actionLogger = () => (next: any) => (action: Action<any>) => {
   return next(action)
 }
 
-export const getStore = () => {
+export const getStore = (): Store => {
   if (__DEV__) return createStore(rootReducer, applyMiddleware(actionLogger))
   return createStore(rootReducer)
 }

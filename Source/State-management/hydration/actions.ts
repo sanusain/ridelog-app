@@ -5,11 +5,7 @@ import {Action} from '../root-action'
 export class ActionAddVehicles extends Action<Array<VehicleInfo>> {
   updateState(state: AppState) {
     if (this.payload) {
-      //   this.payload.map((vehicle) => delete vehicle.modified)
-      // console.log('in actionaddvehicles', this.payload)
-      this.payload.map((vehicle) => {
-        return state.vehicles.push(vehicle)
-      })
+      state.vehicles = this.payload
     }
   }
 }

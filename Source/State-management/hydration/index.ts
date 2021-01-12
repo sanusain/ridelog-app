@@ -1,5 +1,5 @@
 import {CollectionChangeSet} from 'realm'
-import {getVehicles, postVehicle} from '../../api/vehicle'
+import {getVehicles, uploadVehicle} from '../../api/vehicle'
 import {getRealmInstance} from '../../Database/index'
 import {addvehicleToDb} from '../../Database/jobs'
 import {dispatch} from '../../Providers/Providers'
@@ -22,7 +22,7 @@ async function getRemoteVehiclesToDb() {
   }
 }
 
-export async function hydrateVehicleState() {
+export async function hydrateVehicleState(): Promise<any> {
   console.info('Hydrating state...')
   try {
     // @ts-ignore
@@ -55,47 +55,46 @@ export const vehicleListener = (
     changes.newModifications.length
   ) {
     try {
+      /** For this single vehicle operation, everthing that is changed inside a
+       * vehicle is considered a change, rather than addition or deletion.
+       * Hence, tracking only the modifications for hydration.
+       */
       if (changes.insertions.length) {
+        // @ts-ignore
         const vehicle = vehicles[changes.insertions]
         if (!vehicle.uploaded) {
-          postVehicle(vehicle)
+          // @ts-ignore
+          const veh = realm.objects('User')[0].vehicles[changes.insertions]
+          uploadVehicle(vehicle)
             .then((uploadStatus) => {
               realm.write(() => {
-                const veh = realm.objects('User')[0].vehicles[
-                  changes.insertions
-                ]
                 veh.uploaded = uploadStatus
               })
             })
             .catch((error) => {
-              console.info('Error in postVehicle', error)
+              console.info('Error in uploadVehicle', error)
             })
         }
-        hydrateVehicleState()
-        return
       }
     } catch (error) {
       console.info('ERROR_IN_VEHICLE_INSERTION', error)
     }
 
-    // try {
-    //   if (changes.deletions.length) {
-    //     console.log('changes.deletions', changes.deletions)
-    //     // const vehicle = vehicles[changes.deletions]
-    //     // deleteVehicle(vehicle)
-    //     hydrateVehicleState()
-    //   }
-    // } catch (error) {
-    //   console.info('ERROR_IN_VEHICLE_DELETION', error)
-    // }
-
-    if (changes.newModifications.length) {
-      try {
-        hydrateVehicleState()
-      } catch (error) {
-        console.info('ERROR_IN_Realm_Modification', error)
-      }
-    }
+    // if (changes.deletions.length)
+    //   console.log(
+    //     '@@@@@@@@@@@@@@@@@@@@@@@changes.deletions.length',
+    //     changes.deletions.length,
+    //   )
+    // if (changes.newModifications.length)
+    //   console.log(
+    //     '@@@@@@@@@@@@@@@@@@@@@@changes.modification.length',
+    //     vehicles[changes.newModifications.length],
+    //   )
+    console.log(
+      '************************changes',
+      changes.newModifications(vehicles[changes.newModifications]),
+    )
+    hydrateVehicleState()
   }
   console.info('OUT_OF_LISTENER')
 }

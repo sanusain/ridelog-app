@@ -53,20 +53,6 @@ export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
     console.info('ERROR_IN_addVehicleToDb', error)
   }
 }
-export async function addRefuelLogToDb(log: RefuelLog): Promise<any> {
-  try {
-    const vehicle = realm.objectForPrimaryKey('Vehicle', log.vehicleId)
-    if (vehicle) {
-      // @ts-ignore
-      realm.write(() => vehicle.refuelLogs.push(log))
-      realm.write(() => {
-        vehicle.odo = log.odo
-      })
-    }
-  } catch (error) {
-    console.info('ERROR_IN_addRefuelLogToDb', error)
-  }
-}
 
 export async function removeVehicleFromDb(vehicle: VehicleInfo): Promise<any> {
   try {
@@ -79,5 +65,35 @@ export async function removeVehicleFromDb(vehicle: VehicleInfo): Promise<any> {
     })
   } catch (error) {
     console.info('ERROR_IN_removeVehicleFromDb', error)
+  }
+}
+
+export async function addRefuelLogToDb(log: RefuelLog): Promise<any> {
+  try {
+    const vehicle = realm.objectForPrimaryKey('Vehicle', log.vehicleId)
+    if (vehicle) {
+      // @ts-ignore
+      realm.write(() => vehicle.refuelLogs.push(log))
+      realm.write(() => {
+        // @ts-ignore
+        vehicle.odo = log.odo
+      })
+    }
+  } catch (error) {
+    console.info('ERROR_IN_addRefuelLogToDb', error)
+  }
+}
+export async function removeRefuelLogFromDb(
+  refuelLog: RefuelLog,
+): Promise<any> {
+  try {
+    const log = realm.objectForPrimaryKey('RefuelLog', refuelLog._id)
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@refuel log to be deleted', log)
+
+    if (log) {
+      realm.write(() => realm.delete(log))
+    }
+  } catch (error) {
+    console.info('ERROR_IN_removeRefuelLogFromDb', error)
   }
 }

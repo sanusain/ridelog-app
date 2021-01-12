@@ -62,3 +62,14 @@ export const UserSchema: Realm.ObjectSchema = {
   },
   primaryKey: '_id',
 }
+
+export const UploadTracker: Realm.ObjectSchema = {
+  name: 'UploadTracker',
+  primaryKey: '_id',
+  properties: {
+    _id: {type: 'string'},
+    uploadStatus: 'bool',
+    logId: 'string',
+    uploadType: 'string',
+  },
+}
