@@ -59,17 +59,21 @@ export const UserSchema: Realm.ObjectSchema = {
     avatar: 'string?',
     vehicles: {type: 'Vehicle[]', default: []},
     firstLaunch: {type: 'bool', default: true},
+    uploadTracker: {type: 'UploadTracker[]', default: []},
   },
   primaryKey: '_id',
 }
 
-export const UploadTracker: Realm.ObjectSchema = {
+export const UploadTrackerSchema: Realm.ObjectSchema = {
   name: 'UploadTracker',
   primaryKey: '_id',
   properties: {
-    _id: {type: 'string'},
-    uploadStatus: 'bool',
+    _id: 'string',
     logId: 'string',
+    logType: 'string',
+    uploaded: {type: 'bool', default: false},
     uploadType: 'string',
   },
 }
+
+// where to set the listner for uploadtracker

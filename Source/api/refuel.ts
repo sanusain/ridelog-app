@@ -5,24 +5,31 @@ import {RefuelLog} from '../Screens/Dashboard/types'
 
 const BASE_URL = getServer()
 
-export async function uploadRefuelLog(log: RefuelLog): Promise<any> {
-  console.log('refuel log', log)
-
+export async function addCloudRefuelLog(log: RefuelLog): Promise<any> {
+  const uploadableLog: any = {
+    _id: log._id,
+    vehicleId: log.vehicleId,
+    odo: log.odo,
+    quantity: log.quantity,
+    date: log.date,
+    unitCost: log.unitCost,
+    totalCost: log.totalCost,
+    location: log.location,
+    images: log.images,
+  }
   try {
     const authToken = getAuthToken()
-    console.log('###############################3authToken', authToken)
-
     if (!authToken) throw new Error('authToken Missing!')
 
     const URL = `${BASE_URL}/api/refuellog`
-    const result = await Axios.post(URL, log, {
+    const result = await Axios.post(URL, uploadableLog, {
       headers: {'x-auth-token': authToken},
     })
 
     if (result.status !== 201) throw new Error('201_NOT_CREATED')
     return console.info('REFUEL_LOG_UPLOADED')
   } catch (error) {
-    return console.info('ERROR_IN_uploadRefuelLog', error.response.data)
+    return console.info('ERROR_IN_addCloudRefuelLog', error.response.data)
   }
 }
 
@@ -30,13 +37,14 @@ export async function removeCloudRefuelLog(log: RefuelLog): Promise<any> {
   try {
     const authToken = getAuthToken()
     if (!authToken) throw new Error('authToken Missing!')
-    const URL = `${BASE_URL}/api/refuellog/:${log._id}`
+    const URL = `${BASE_URL}/api/refuellog/:${log.vehicleId}/:${log._id}`
     const result = await Axios.delete(URL, {
       headers: {'x-auth-token': authToken},
     })
     if (result.status !== 200) throw new Error('201_NOT_CREATED')
     return console.info('REMOVED_REFUEL_LOG_FROM_SERVER')
   } catch (error) {
+    console.log('****THIS EP HAS NOT BEEN CREATED YET****')
     return console.info('ERROR_IN_removeCloudRefuelLog', error.message)
   }
 }

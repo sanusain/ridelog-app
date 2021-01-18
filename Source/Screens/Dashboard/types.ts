@@ -26,9 +26,13 @@ export type RefuelLog = {
   totalCost: string
   location: string
   images: Array<ImageSpecs>
+  uploaded: boolean
+  modified: boolean
 }
 
 export type ServiceData = {
   date: string
   images: Array<ImageSpecs>
+  uploaded: boolean
+  modified: boolean
 }

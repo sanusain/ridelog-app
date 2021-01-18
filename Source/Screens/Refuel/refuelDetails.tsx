@@ -8,7 +8,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import {connect} from 'react-redux'
-import {removeCloudRefuelLog} from '../../api/refuel'
 import ScreenHeader from '../../Components/Header'
 import ImageView from '../../Components/ImageView'
 import SquareButton from '../../Components/SquareButton'
@@ -44,7 +43,6 @@ const RefuelDetails: FunctionComponent<Props> = (props: Props) => {
 
   const deleteLog = async () => {
     removeRefuelLogFromDb(props.refuelLog)
-    await removeCloudRefuelLog(props.refuelLog)
     props.navigation.goBack()
   }
 

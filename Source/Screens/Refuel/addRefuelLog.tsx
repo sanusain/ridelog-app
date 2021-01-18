@@ -14,7 +14,6 @@ import {TextInput} from 'react-native-paper'
 import * as Progress from 'react-native-progress'
 import {connect} from 'react-redux'
 import BottomSheet from 'reanimated-bottom-sheet'
-import {uploadRefuelLog} from '../../api/refuel'
 import ScreenHeader from '../../Components/Header'
 import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
@@ -120,10 +119,12 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
       totalCost,
       location,
       images: props.refuelLogImages.length ? props.refuelLogImages : [],
+      uploaded: false,
+      modified: false,
     }
     await addRefuelLogToDb(refuelData)
     props.dispatch(new ActionSetCloudOperationStatus(true))
-    await uploadRefuelLog(refuelData)
+    // await uploadRefuelLog(refuelData)
     props.dispatch(new ActionSetCloudOperationStatus(false))
     props.navigation.navigate('refuel')
   }
