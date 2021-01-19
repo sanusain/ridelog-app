@@ -1,7 +1,7 @@
 import ObjectID from 'bson-objectid'
 import {firebase} from '../../Config/firebase'
+import {ImageSpecs} from '../../Types'
 import {ActionResetUploadProgress, ActionSetUploadProgress} from './actions'
-import {ImageSpecs} from './types'
 
 export function uploadImages(
   uid: string,

@@ -1,8 +1,14 @@
 import ObjectID from 'bson-objectid'
 import {getRealmInstance} from '.'
-import {UPLOAD_TYPE_ADD, UPLOAD_TYPE_REMOVE} from '../../Constant'
+import {
+  REFUEL,
+  SERVICE,
+  UPLOAD_TYPE_ADD,
+  UPLOAD_TYPE_REMOVE,
+  VEHICLE,
+} from '../../Constant'
 import {User} from '../Contexts/AuthProvider'
-import {RefuelLog, VehicleInfo} from '../Screens/Dashboard/types'
+import {RefuelLog, ServiceLog, VehicleInfo} from '../Types'
 
 const realm = getRealmInstance()
 let realmUser: User
@@ -54,7 +60,7 @@ export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
         user.uploadTracker.push({
           _id: new ObjectID().str,
           logId: vehicle._id,
-          logType: 'vehicle',
+          logType: VEHICLE,
           uploaded: vehicle.uploaded,
           uploadType: UPLOAD_TYPE_ADD,
         })
@@ -77,7 +83,7 @@ export async function removeVehicleFromDb(vehicle: VehicleInfo): Promise<any> {
         user.uploadTracker.push({
           _id: new ObjectID().str,
           logId: vehicle._id,
-          logType: 'vehicle',
+          logType: VEHICLE,
           uploaded: vehicle.uploaded,
           uploadType: UPLOAD_TYPE_REMOVE,
         })
@@ -105,7 +111,7 @@ export async function addRefuelLogToDb(log: RefuelLog): Promise<any> {
           user.uploadTracker.push({
             _id: new ObjectID().str,
             logId: log._id,
-            logType: 'refuel',
+            logType: REFUEL,
             uploaded: log.uploaded,
             uploadType: UPLOAD_TYPE_ADD,
           })
@@ -126,7 +132,7 @@ export async function removeRefuelLogFromDb(log: RefuelLog): Promise<any> {
         uploadTracker.push({
           _id: new ObjectID().str,
           logId: log._id,
-          logType: 'refuel',
+          logType: REFUEL,
           uploaded: log.uploaded,
           uploadType: UPLOAD_TYPE_REMOVE,
         })
@@ -135,5 +141,55 @@ export async function removeRefuelLogFromDb(log: RefuelLog): Promise<any> {
     }
   } catch (error) {
     console.info('ERROR_IN_removeRefuelLogFromDb', error)
+  }
+}
+
+export async function addServiceLogToDb(log: ServiceLog): Promise<any> {
+  try {
+    const vehicle = realm.objectForPrimaryKey('Vehicle', log.vehicleId)
+    const user = realm.objects('User')[0]
+
+    if (vehicle) {
+      realm.write(() => {
+        // @ts-ignore
+        vehicle.serviceLogs.push(log)
+        // @ts-ignore
+        vehicle.odo = log.odo
+        if (!log.uploaded) {
+          // @ts-ignore
+          user.uploadTracker.push({
+            _id: new ObjectID().str,
+            logId: log._id,
+            logType: SERVICE,
+            uploaded: log.uploaded,
+            uploadType: UPLOAD_TYPE_ADD,
+          })
+        }
+      })
+    }
+  } catch (error) {
+    console.info('ERROR_IN_addServiceLogToDb', error)
+  }
+}
+
+export async function removeServiceLogFromDb(log: ServiceLog): Promise<any> {
+  try {
+    const realmServiceLog = realm.objectForPrimaryKey('ServiceLog', log._id)
+    // @ts-ignore
+    const {uploadTracker} = realm.objects('User')[0]
+    if (realmServiceLog) {
+      realm.write(() => {
+        uploadTracker.push({
+          _id: new ObjectID().str,
+          logId: log._id,
+          logType: SERVICE,
+          uploaded: log.uploaded,
+          uploadType: UPLOAD_TYPE_REMOVE,
+        })
+        realm.delete(realmServiceLog)
+      })
+    }
+  } catch (error) {
+    console.info('ERROR_IN_removeServiceLogFromDb', error)
   }
 }

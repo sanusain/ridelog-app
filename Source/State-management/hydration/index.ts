@@ -171,7 +171,7 @@ const uploadTrackerListener = (
           break
         }
         case SERVICE:
-          console.log(ut.logType)
+          console.log('ut.logType', ut.logType)
           break
 
         default:

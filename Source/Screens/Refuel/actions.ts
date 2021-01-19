@@ -1,7 +1,6 @@
 import {AppState} from '../../State-management'
 import {Action} from '../../State-management/root-action'
-import {RefuelLog} from '../Dashboard/types'
-import {ImageSpecs} from './types'
+import {ImageSpecs, RefuelLog} from '../../Types'
 
 export class ActionSetRefuelData extends Action<RefuelLog> {
   updateState(state: AppState): void {

@@ -10,7 +10,7 @@ import Colors from '../Config/Colors'
 import Accounts from '../Screens/Account/userAccount'
 import DashBoard from '../Screens/Dashboard/dashboard'
 import RefuelLog from '../Screens/Refuel/refuel'
-import ServiceLog from '../Screens/Service/userServiceLog'
+import ServiceLogScreen from '../Screens/Service/service'
 import {BottomTabsParamList} from './types'
 
 const BottomTabsNavigator = (): JSX.Element => {
@@ -118,7 +118,7 @@ const BottomTabsNavigator = (): JSX.Element => {
       <TabsComponent.Screen name="dashboard" component={DashBoard} />
       <TabsComponent.Screen name="refuel" component={RefuelLog} />
       <TabsComponent.Screen name="unassigned" component={DashBoard} />
-      <TabsComponent.Screen name="service" component={ServiceLog} />
+      <TabsComponent.Screen name="service" component={ServiceLogScreen} />
       <TabsComponent.Screen name="account" component={Accounts} />
     </TabsComponent.Navigator>
   )

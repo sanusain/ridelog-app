@@ -14,8 +14,7 @@ import {removeVehicleFromDb} from '../../Database/jobs'
 import {DashboardNavigationProp} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
 import {} from '../../State-management/hydration/actions'
-import {ImageSpecs} from '../Refuel/types'
-import {VehicleInfo} from './types'
+import {ImageSpecs, VehicleInfo} from '../../Types'
 
 type Props = {
   selectedVehicle: VehicleInfo

@@ -2,6 +2,7 @@ import Realm from 'realm'
 import {
   ImageSpecSchema,
   RefuelLogSchema,
+  ServiceLogSchema,
   UploadTrackerSchema,
   UserSchema,
   VehicleSchema,
@@ -16,6 +17,7 @@ export const schemas: Array<Realm.Configuration> = [
       VehicleSchema,
       ImageSpecSchema,
       RefuelLogSchema,
+      ServiceLogSchema,
       UploadTrackerSchema,
     ],
   },
@@ -45,17 +47,5 @@ export function getRealmInstance(): Realm {
     }
   }
   const realm = new Realm(schemas[schemas.length - 1])
-  // realm.addListener('change', (arg, event) => {
-  //   console.log(
-  //     '============================Sync Started================================',
-  //   )
-  //   console.log('@@@@@@@@@@@@@@@@@@@arg', arg)
-  //   // await startSync()
-  //   console.log(
-  //     '============================Sync finished===============================',
-  //   )
-  // })
   return realm
 }
-
-// realm mf isnot returning an obejct with change event, need the event for logging changes

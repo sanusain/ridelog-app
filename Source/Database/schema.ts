@@ -1,5 +1,23 @@
 import Realm from 'realm'
 
+export const ServiceLogSchema: Realm.ObjectSchema = {
+  name: 'ServiceLog',
+  properties: {
+    _id: {type: 'string', indexed: true},
+    vehicleId: 'string',
+    date: 'date',
+    odo: 'string',
+    totalCost: 'string',
+    serviceCount: 'string',
+    location: 'string',
+    images: {type: 'ImageSpec[]', default: []},
+    notes: 'string',
+    uploaded: {type: 'bool', default: false},
+    modified: {type: 'bool', default: false},
+  },
+  primaryKey: '_id',
+}
+
 export const RefuelLogSchema: Realm.ObjectSchema = {
   name: 'RefuelLog',
   properties: {
@@ -42,6 +60,7 @@ export const VehicleSchema: Realm.ObjectSchema = {
     plate: 'string',
     images: {type: 'ImageSpec[]', default: []},
     refuelLogs: {type: 'RefuelLog[]', default: []},
+    serviceLogs: {type: 'ServiceLog[]', default: []},
     uploaded: {type: 'bool', default: false},
     modified: {type: 'bool', default: false},
   },
@@ -75,5 +94,3 @@ export const UploadTrackerSchema: Realm.ObjectSchema = {
     uploadType: 'string',
   },
 }
-
-// where to set the listner for uploadtracker
