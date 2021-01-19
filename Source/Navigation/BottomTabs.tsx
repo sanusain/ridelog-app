@@ -131,7 +131,6 @@ const BottomTabsNavigator = (): JSX.Element => {
         })}>
         <TabsComponent.Screen name="dashboard" component={DashBoard} />
         <TabsComponent.Screen name="refuel" component={RefuelLog} />
-        <TabsComponent.Screen name="unassigned" component={DashBoard} />
         <TabsComponent.Screen name="service" component={ServiceLog} />
         <TabsComponent.Screen name="account" component={Accounts} />
       </TabsComponent.Navigator>
