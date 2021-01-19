@@ -35,6 +35,9 @@ const NoLog: React.FunctionComponent<Props> = (props: Props) => {
             style={style}
           />
         )
+
+      default:
+        return null
     }
   }
 
@@ -55,7 +58,6 @@ const NoLog: React.FunctionComponent<Props> = (props: Props) => {
     <View
       style={{
         flex: 1,
-
         justifyContent: 'center',
         alignItems: 'center',
       }}>
@@ -74,7 +76,13 @@ const NoLog: React.FunctionComponent<Props> = (props: Props) => {
         title="ADD LOG"
         onPress={props.handleOnPress}
         buttonBackgroundColor={Colors.imperialRed}
-        style={{marginTop: 30, width: '60%'}}
+        style={{
+          position: 'absolute',
+          // left: 0,
+          // right: 0,
+          bottom: 30,
+          width: '60%',
+        }}
       />
     </View>
   )

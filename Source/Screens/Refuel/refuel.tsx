@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {View} from 'react-native'
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
+import LinearGradient from 'react-native-linear-gradient'
 import {connect} from 'react-redux'
 import ScreenHeader from '../../Components/Header'
 import NoLog from '../../Components/NoData'
@@ -83,7 +84,12 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.white}}>
+    // <View style={{flex: 1, backgroundColor: Colors.white}}>
+    <LinearGradient
+      style={{
+        flex: 1,
+      }}
+      colors={[Colors.softRed, Colors.paleRed]}>
       <ScreenHeader
         title="Refuel"
         enableAdd={!!props.refuelData?.length}
@@ -100,7 +106,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
           <NoLog noLogType="noRefuelLog" handleOnPress={handleAddLog} />
         )}
       </View>
-    </View>
+    </LinearGradient>
   )
 }
 const mapStateToProps = (state: AppState) => ({
