@@ -1,10 +1,9 @@
 import {applyMiddleware, createStore, Store} from 'redux'
-import {RefuelLog, ServiceData, VehicleInfo} from '../Screens/Dashboard/types'
-import {ImageSpecs} from '../Screens/Refuel/types'
+import {ImageSpecs, RefuelLog, ServiceLog, VehicleInfo} from '../Types'
 import {Action} from './root-action'
 
 const refuelData: Array<RefuelLog> | undefined = []
-const serviceData: Array<ServiceData> = []
+const serviceData: Array<ServiceLog> = []
 const vehicles: Array<VehicleInfo> = []
 const selectedVehicle: VehicleInfo = {
   _id: '',
@@ -17,9 +16,10 @@ const selectedVehicle: VehicleInfo = {
   year: '',
   images: [],
   refuelLogs: refuelData,
-  serviceData,
+  serviceLogs: serviceData,
 }
 const refuelLogImages: Array<ImageSpecs> = []
+const serviceLogImages: Array<ImageSpecs> = []
 const refuelLog: RefuelLog = {
   vehicleId: '',
   _id: '',
@@ -30,7 +30,24 @@ const refuelLog: RefuelLog = {
   totalCost: '',
   location: '',
   images: [],
+  uploaded: false,
+  modified: false,
 }
+
+const serviceLog: ServiceLog = {
+  vehicleId: '',
+  _id: '',
+  odo: '',
+  date: '',
+  totalCost: '',
+  serviceCount: '',
+  notes: '',
+  location: '',
+  images: [],
+  uploaded: false,
+  modified: false,
+}
+
 const initialState = {
   userInfo: {
     userCallsign: '',
@@ -45,6 +62,13 @@ const initialState = {
       images: refuelLogImages,
     },
     refuelLog,
+    imageViewInitialIndex: 0,
+  },
+  service: {
+    addServiceLog: {
+      images: serviceLogImages,
+    },
+    serviceLog,
     imageViewInitialIndex: 0,
   },
   misc: {

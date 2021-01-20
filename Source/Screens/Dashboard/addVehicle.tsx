@@ -10,16 +10,12 @@ import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
 import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
-import {
-  AddVehicleNavigationProp,
-  AddVehicleRouteProp,
-} from '../../Navigation/types'
+import {AddVehicleNavigationProp} from '../../Navigation/types'
+import {VehicleInfo} from '../../Types'
 import {addVehicleToDb} from './job'
-import {VehicleInfo} from './types'
 
 type Props = {
   navigation: AddVehicleNavigationProp
-  route: AddVehicleRouteProp
 }
 
 const addVehicleSchema = yup.object({
@@ -131,14 +127,14 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
           // actions.resetForm()
         }}
         validationSchema={addVehicleSchema}>
-        {(props) => (
+        {(prop) => (
           <View style={{alignItems: 'center', marginVertical: 10}}>
             <LightTextInput
               placeholder="Vehicle Callsign"
               // @ts-ignore
-              value={props.values.vcallsign}
-              onChangeText={props.handleChange('vcallsign')}
-              OnBlur={props.handleBlur('vcallsign')}
+              value={prop.values.vcallsign}
+              onChangeText={prop.handleChange('vcallsign')}
+              OnBlur={prop.handleBlur('vcallsign')}
             />
             <TextMontserrat
               fontSize={16}
@@ -148,15 +144,15 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
                 marginVertical: 6,
               }}
               weight="semibold">
-              {props.touched.vcallsign && props.errors.vcallsign}
+              {prop.touched.vcallsign && prop.errors.vcallsign}
             </TextMontserrat>
             <LightTextInput
               placeholder="Year"
               // @ts-ignore
-              value={props.values.year}
+              value={prop.values.year}
               keyboardType="numeric"
-              onChangeText={props.handleChange('year')}
-              onBlur={props.handleBlur('year')}
+              onChangeText={prop.handleChange('year')}
+              onBlur={prop.handleBlur('year')}
             />
             <TextMontserrat
               fontSize={16}
@@ -166,14 +162,14 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
                 marginVertical: 6,
               }}
               weight="semibold">
-              {props.touched.year && props.errors.year}
+              {prop.touched.year && prop.errors.year}
             </TextMontserrat>
             <LightTextInput
               placeholder="Maker"
               // @ts-ignore
-              value={props.values.maker}
-              onChangeText={props.handleChange('maker')}
-              onBlur={props.handleBlur('maker')}
+              value={prop.values.maker}
+              onChangeText={prop.handleChange('maker')}
+              onBlur={prop.handleBlur('maker')}
             />
             <TextMontserrat
               fontSize={16}
@@ -183,14 +179,14 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
                 marginVertical: 6,
               }}
               weight="semibold">
-              {props.touched.maker && props.errors.maker}
+              {prop.touched.maker && prop.errors.maker}
             </TextMontserrat>
             <LightTextInput
               placeholder="Model"
               // @ts-ignore
-              value={props.values.model}
-              onChangeText={props.handleChange('model')}
-              onBlur={props.handleBlur('model')}
+              value={prop.values.model}
+              onChangeText={prop.handleChange('model')}
+              onBlur={prop.handleBlur('model')}
             />
             <TextMontserrat
               fontSize={16}
@@ -200,15 +196,15 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
                 marginVertical: 6,
               }}
               weight="semibold">
-              {props.touched.model && props.errors.model}
+              {prop.touched.model && prop.errors.model}
             </TextMontserrat>
             <LightTextInput
               placeholder="Odometer"
               // @ts-ignore
-              value={props.values.odo}
+              value={prop.values.odo}
               keyboardType="numeric"
-              onChangeText={props.handleChange('odo')}
-              onBlur={props.handleBlur('odo')}
+              onChangeText={prop.handleChange('odo')}
+              onBlur={prop.handleBlur('odo')}
             />
             <TextMontserrat
               fontSize={16}
@@ -218,14 +214,14 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
                 marginVertical: 6,
               }}
               weight="semibold">
-              {props.touched.odo && props.errors.odo}
+              {prop.touched.odo && prop.errors.odo}
             </TextMontserrat>
             <LightTextInput
               placeholder="Plate"
               // @ts-ignore
-              value={props.values.plate}
-              onChangeText={props.handleChange('plate')}
-              onBlur={props.handleBlur('plate')}
+              value={prop.values.plate}
+              onChangeText={prop.handleChange('plate')}
+              onBlur={prop.handleBlur('plate')}
             />
             <TextMontserrat
               fontSize={16}
@@ -235,14 +231,14 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
                 marginVertical: 6,
               }}
               weight="semibold">
-              {props.touched.plate && props.errors.plate}
+              {prop.touched.plate && prop.errors.plate}
             </TextMontserrat>
             <LightTextInput
               placeholder="Vehicle Identification Number"
               // @ts-ignore
-              value={props.values.vin}
-              onChangeText={props.handleChange('vin')}
-              onBlur={props.handleBlur('vin')}
+              value={prop.values.vin}
+              onChangeText={prop.handleChange('vin')}
+              onBlur={prop.handleBlur('vin')}
             />
             <TextMontserrat
               fontSize={16}
@@ -252,10 +248,10 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
                 marginVertical: 6,
               }}
               weight="semibold">
-              {props.touched.vin && props.errors.vin}
+              {prop.touched.vin && prop.errors.vin}
             </TextMontserrat>
 
-            <SquareButton title="SUBMIT" onPress={props.handleSubmit} />
+            <SquareButton title="SUBMIT" onPress={prop.handleSubmit} />
           </View>
         )}
       </Formik>

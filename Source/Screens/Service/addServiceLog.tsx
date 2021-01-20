@@ -18,35 +18,32 @@ import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
 import TextOpenSans from '../../Components/TextOpenSans'
 import Colors from '../../Config/Colors'
-import {addRefuelLogToDb} from '../../Database/jobs'
+import {addServiceLogToDb} from '../../Database/jobs'
 import {AddRefuelLogNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
-import {ImageSpecs, RefuelLog, VehicleInfo} from '../../Types'
-import {
-  ActionAddImage,
-  ActionResetImages,
-  ActionSetCloudOperationStatus,
-} from './actions'
+import {ImageSpecs, ServiceLog, VehicleInfo} from '../../Types'
+import {ActionSetCloudOperationStatus} from '../Refuel/actions'
+// import {ActionAddImage, ActionResetImages} from './actions'
 
 type Props = {
   navigation: AddRefuelLogNavigationProps
-  refuelLogImages: Array<ImageSpecs>
+  serviceLogImages: Array<ImageSpecs>
   selectedVehicle: VehicleInfo
   imageUploadProgress: number
   dispatch: any
 }
 
-const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
+const AddServiceLog: FunctionComponent<Props> = (props: Props) => {
   const [date, setDate] = useState(new Date())
   const [mode, setMode] = useState('undefined')
   const [show, setShow] = useState(false)
   const [currentOdo, setCurrentOdo] = useState('')
   const [odoError, setOdoError] = useState(false)
   const [lastOdo, setLastOdo] = useState('')
-  const [fuelQuantity, setFuelQuantity] = useState('')
-  const [unitCost, setUnitCost] = useState('')
   const [totalCost, setTotalCost] = useState('')
   const [location, setLocation] = useState('')
+  const [notes, setNotes] = useState('')
+  const [serviceCount, setServiceCount] = useState('')
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -56,17 +53,9 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
   useEffect(() => {
     setLastOdo(props.selectedVehicle.odo)
     return () => {
-      props.dispatch(new ActionResetImages())
+      // props.dispatch(new ActionResetImages())
     }
   }, [])
-
-  const updateCost = () => {
-    const fuelCost = (parseFloat(fuelQuantity) * parseFloat(unitCost)).toFixed(
-      2,
-    )
-    if (fuelCost !== 'NaN') setTotalCost(fuelCost)
-    else setTotalCost('')
-  }
 
   const setBackgroundOpacity = (type: boolean) => {
     if (type) {
@@ -107,24 +96,26 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
   }
 
   const handleSubmitLog = async () => {
-    const refuelData: RefuelLog = {
+    const serviceData: ServiceLog = {
       _id: new ObjectID().str,
       vehicleId: props.selectedVehicle._id,
       odo: currentOdo,
       date: date.toISOString(),
-      unitCost,
-      quantity: fuelQuantity,
+      serviceCount,
+      notes: JSON.stringify(notes),
       totalCost,
       location,
-      images: props.refuelLogImages.length ? props.refuelLogImages : [],
+      images: props.serviceLogImages.length ? props.serviceLogImages : [],
       uploaded: false,
       modified: false,
     }
-    await addRefuelLogToDb(refuelData)
+    console.log('serviceData', serviceData)
+
+    await addServiceLogToDb(serviceData)
     props.dispatch(new ActionSetCloudOperationStatus(true))
     // await uploadRefuelLog(refuelData)
     props.dispatch(new ActionSetCloudOperationStatus(false))
-    props.navigation.navigate('refuel')
+    props.navigation.navigate('service')
   }
 
   const handleTakePicture = async () => {
@@ -140,7 +131,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           width: img.width,
           url: img.path,
         }
-        props.dispatch(new ActionAddImage(image))
+        // props.dispatch(new ActionAddImage(image))
         console.log(image)
       })
       .catch((error) => {
@@ -162,7 +153,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           width: img.width,
           url: img.path,
         }
-        props.dispatch(new ActionAddImage(image))
+        // props.dispatch(new ActionAddImage(image))
       })
       .catch((error) => {
         console.info('ERROR_PICKING_IMG', error)
@@ -293,7 +284,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           hideBottomSheet()
         }}
       />
-      <ScreenHeader title="Refuel Log" enableBack />
+      <ScreenHeader title="Service Log" enableBack />
       <Animated.View
         style={{marginTop: -10, opacity: animatedOpacity}}
         pointerEvents={isBottomSheetOpen ? 'none' : undefined}>
@@ -323,6 +314,22 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
             onChange={onChangeDate}
           />
         )}
+        <TextInput
+          label="Service Count"
+          mode="outlined"
+          style={{
+            color: Colors.imperialRed,
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}
+          theme={{
+            colors: {primary: Colors.imperialRed, background: Colors.white},
+          }}
+          value={serviceCount}
+          onChangeText={(inputText) => {
+            setServiceCount(inputText)
+          }}
+        />
         <TextInput
           label="Current Odometer"
           error={odoError}
@@ -375,42 +382,6 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           editable={false}
         />
         <TextInput
-          label="Fuel Quantity"
-          mode="outlined"
-          style={{
-            color: Colors.imperialRed,
-            marginHorizontal: 20,
-            marginVertical: 5,
-          }}
-          keyboardType="number-pad"
-          theme={{
-            colors: {primary: Colors.imperialRed, background: Colors.white},
-          }}
-          value={fuelQuantity}
-          onChangeText={(inputText) => {
-            setFuelQuantity(inputText)
-          }}
-          onEndEditing={updateCost}
-        />
-        <TextInput
-          label="Price/L"
-          mode="outlined"
-          style={{
-            color: Colors.imperialRed,
-            marginHorizontal: 20,
-            marginVertical: 5,
-          }}
-          theme={{
-            colors: {primary: Colors.imperialRed, background: Colors.white},
-          }}
-          keyboardType="number-pad"
-          value={unitCost}
-          onChangeText={(inputText) => {
-            setUnitCost(inputText)
-          }}
-          onEndEditing={updateCost}
-        />
-        <TextInput
           label="Cost"
           mode="outlined"
           style={{
@@ -422,7 +393,27 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
             colors: {primary: Colors.imperialRed, background: Colors.white},
           }}
           value={totalCost}
-          editable={false}
+          onChangeText={(inputText) => {
+            setTotalCost(inputText)
+          }}
+        />
+        <TextInput
+          label="Notes"
+          mode="outlined"
+          style={{
+            color: Colors.imperialRed,
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}
+          multiline
+          numberOfLines={5}
+          theme={{
+            colors: {primary: Colors.imperialRed, background: Colors.white},
+          }}
+          value={notes}
+          onChangeText={(inputText) => {
+            setNotes(inputText)
+          }}
         />
         <TextInput
           label="Location"
@@ -467,7 +458,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  refuelLogImages: state.refuel.addRefuelLog.images,
+  serviceLogImages: state.service.addServiceLog.images,
   selectedVehicle: state.vehicles[0],
   // selectedVehicle: state.selectedVehicle,
   imageUploadProgress: state.misc.imageUploadProgress,
@@ -477,4 +468,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddRefuelLog)
+export default connect(mapStateToProps, mapDispatchToProps)(AddServiceLog)

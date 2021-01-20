@@ -15,8 +15,6 @@ export async function signupUserToDbAndCloud(
       throw new Error('NO_TOKEN')
     }
     user.authToken = result.token
-    console.log('###################in signup', user)
-
     login(user)
     return user._id
   } catch (error) {

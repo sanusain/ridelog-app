@@ -1,4 +1,9 @@
-import {ImageSpecs} from '../Refuel/types'
+export type ImageSpecs = {
+  _id: string
+  url: string
+  height: number
+  width: number
+}
 
 export type VehicleInfo = {
   _id: string
@@ -11,7 +16,7 @@ export type VehicleInfo = {
   year: string
   images: Array<ImageSpecs>
   refuelLogs?: Array<RefuelLog>
-  serviceData?: Array<ServiceData>
+  serviceLogs?: Array<ServiceLog>
   uploaded?: boolean
   modified?: boolean
 }
@@ -30,8 +35,15 @@ export type RefuelLog = {
   modified: boolean
 }
 
-export type ServiceData = {
+export type ServiceLog = {
+  _id: string
+  vehicleId: string
   date: string
+  odo: string
+  totalCost: string
+  serviceCount: string
+  location: string
+  notes: string
   images: Array<ImageSpecs>
   uploaded: boolean
   modified: boolean
