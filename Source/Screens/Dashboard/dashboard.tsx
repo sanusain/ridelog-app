@@ -11,10 +11,7 @@ import TextMontserrat from '../../Components/TextMontserrat'
 import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
 import {removeVehicleFromDb} from '../../Database/jobs'
-import {
-  DashboardNavigationProp,
-  DashboardRouteProp,
-} from '../../Navigation/types'
+import {DashboardNavigationProp} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
 import {} from '../../State-management/hydration/actions'
 import {ImageSpecs} from '../Refuel/types'
@@ -23,8 +20,6 @@ import {VehicleInfo} from './types'
 type Props = {
   selectedVehicle: VehicleInfo
   navigation: DashboardNavigationProp
-  dispatch: any
-  route: DashboardRouteProp
 }
 
 const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
@@ -118,14 +113,6 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
             onPress={() => props.navigation.navigate('addVehicle')}
             width="50%"
             style={{opacity: 0.87, marginTop: 40}}
-          />
-          <SquareButton
-            title="sync"
-            onPress={() => {
-              console.log('pressed sync')
-              props.dispatch(new ActionSetFetchingVehicle())
-              // startSync()
-            }}
           />
         </View>
       ) : (

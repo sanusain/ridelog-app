@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import DateTimePicker from '@react-native-community/datetimepicker'
 import ObjectID from 'bson-objectid'
 // import {firestore} from 'firebase'
@@ -13,7 +14,6 @@ import {TextInput} from 'react-native-paper'
 import * as Progress from 'react-native-progress'
 import {connect} from 'react-redux'
 import BottomSheet from 'reanimated-bottom-sheet'
-import {uploadRefuelLog} from '../../api/refuel'
 import ScreenHeader from '../../Components/Header'
 import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
@@ -22,7 +22,7 @@ import Colors from '../../Config/Colors'
 import {addRefuelLogToDb} from '../../Database/jobs'
 import {AddRefuelLogNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
-import {RefuelData, VehicleInfo} from '../Dashboard/types'
+import {RefuelLog, VehicleInfo} from '../Dashboard/types'
 import {
   ActionAddImage,
   ActionResetImages,
@@ -46,8 +46,8 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
   const [odoError, setOdoError] = useState(false)
   const [lastOdo, setLastOdo] = useState('')
   const [fuelQuantity, setFuelQuantity] = useState('')
-  const [pricePerQty, setPricePerQty] = useState('')
-  const [cost, setCost] = useState('')
+  const [unitCost, setUnitCost] = useState('')
+  const [totalCost, setTotalCost] = useState('')
   const [location, setLocation] = useState('')
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -63,11 +63,11 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
   }, [])
 
   const updateCost = () => {
-    const fuelCost = (
-      parseFloat(fuelQuantity) * parseFloat(pricePerQty)
-    ).toFixed(2)
-    if (fuelCost !== 'NaN') setCost(fuelCost)
-    else setCost('')
+    const fuelCost = (parseFloat(fuelQuantity) * parseFloat(unitCost)).toFixed(
+      2,
+    )
+    if (fuelCost !== 'NaN') setTotalCost(fuelCost)
+    else setTotalCost('')
   }
 
   const setBackgroundOpacity = (type: boolean) => {
@@ -109,22 +109,24 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
   }
 
   const handleSubmitLog = async () => {
-    const refuelData: RefuelData = {
+    const refuelData: RefuelLog = {
       _id: new ObjectID().str,
       vehicleId: props.selectedVehicle._id,
       odo: currentOdo,
       date: date.toISOString(),
-      unitCost: pricePerQty,
+      unitCost,
       quantity: fuelQuantity,
-      totalCost: cost,
+      totalCost,
       location,
       images: props.refuelLogImages.length ? props.refuelLogImages : [],
+      uploaded: false,
+      modified: false,
     }
     await addRefuelLogToDb(refuelData)
-
     props.dispatch(new ActionSetCloudOperationStatus(true))
-    await uploadRefuelLog(refuelData)
+    // await uploadRefuelLog(refuelData)
     props.dispatch(new ActionSetCloudOperationStatus(false))
+    props.navigation.navigate('refuel')
   }
 
   const handleTakePicture = async () => {
@@ -315,9 +317,11 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
+            // @ts-ignore
             mode={mode}
             is24Hour
             display="default"
+            // @ts-ignore
             onChange={onChangeDate}
           />
         )}
@@ -339,8 +343,11 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
             setCurrentOdo(inputText)
           }}
           onBlur={() => {
-            // eslint-disable-next-line radix
-            if (parseInt(currentOdo) < parseInt(lastOdo)) setOdoError(true)
+            if (
+              !parseInt(currentOdo) ||
+              parseInt(currentOdo) < parseInt(lastOdo)
+            )
+              setOdoError(true)
             else setOdoError(false)
           }}
         />
@@ -399,9 +406,9 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
             colors: {primary: Colors.imperialRed, background: Colors.white},
           }}
           keyboardType="number-pad"
-          value={pricePerQty}
+          value={unitCost}
           onChangeText={(inputText) => {
-            setPricePerQty(inputText)
+            setUnitCost(inputText)
           }}
           onEndEditing={updateCost}
         />
@@ -416,7 +423,7 @@ const AddRefuelLog: FunctionComponent<Props> = (props: Props) => {
           theme={{
             colors: {primary: Colors.imperialRed, background: Colors.white},
           }}
-          value={cost}
+          value={totalCost}
           editable={false}
         />
         <TextInput

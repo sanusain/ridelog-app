@@ -2,6 +2,7 @@ import Realm from 'realm'
 import {
   ImageSpecSchema,
   RefuelLogSchema,
+  UploadTrackerSchema,
   UserSchema,
   VehicleSchema,
 } from './schema'
@@ -10,7 +11,13 @@ export const schemas: Array<Realm.Configuration> = [
   {
     schemaVersion: 0,
     path: Realm.defaultPath,
-    schema: [UserSchema, VehicleSchema, ImageSpecSchema, RefuelLogSchema],
+    schema: [
+      UserSchema,
+      VehicleSchema,
+      ImageSpecSchema,
+      RefuelLogSchema,
+      UploadTrackerSchema,
+    ],
   },
   //   {
   //     schemaVersion: 1,

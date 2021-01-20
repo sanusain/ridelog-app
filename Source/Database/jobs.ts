@@ -1,6 +1,8 @@
+import ObjectID from 'bson-objectid'
 import {getRealmInstance} from '.'
+import {UPLOAD_TYPE_ADD, UPLOAD_TYPE_REMOVE} from '../../Constant'
 import {User} from '../Contexts/AuthProvider'
-import {RefuelData, VehicleInfo} from '../Screens/Dashboard/types'
+import {RefuelLog, VehicleInfo} from '../Screens/Dashboard/types'
 
 const realm = getRealmInstance()
 let realmUser: User
@@ -31,7 +33,6 @@ export async function dbRemoveUser(user: User): Promise<any> {
         const delUser = realm.objectForPrimaryKey('User', user._id)
         realm.delete(delUser)
       })
-      // realm.close()
     } catch (error) {
       console.error('dbuser not deleted', error)
     }
@@ -48,33 +49,91 @@ export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
       // mark firstlaunch as false
       // @ts-ignore
       if (user.firstLaunch) user.firstLaunch = false
+      if (!vehicle.uploaded) {
+        // @ts-ignore
+        user.uploadTracker.push({
+          _id: new ObjectID().str,
+          logId: vehicle._id,
+          logType: 'vehicle',
+          uploaded: vehicle.uploaded,
+          uploadType: UPLOAD_TYPE_ADD,
+        })
+      }
     })
   } catch (error) {
     console.info('ERROR_IN_addVehicleToDb', error)
   }
 }
-export async function addRefuelLogToDb(log: RefuelData): Promise<any> {
+
+export async function removeVehicleFromDb(vehicle: VehicleInfo): Promise<any> {
+  try {
+    const user = realm.objects('User')[0]
+    let delveh = realm.objectForPrimaryKey('Vehicle', vehicle._id)
+    realm.write(() => {
+      console.log('objTODelete', delveh)
+      realm.write(() => {
+        realm.delete(delveh)
+        // @ts-ignore
+        user.uploadTracker.push({
+          _id: new ObjectID().str,
+          logId: vehicle._id,
+          logType: 'vehicle',
+          uploaded: vehicle.uploaded,
+          uploadType: UPLOAD_TYPE_REMOVE,
+        })
+      })
+      console.log('possibly deleted')
+    })
+  } catch (error) {
+    console.info('ERROR_IN_removeVehicleFromDb', error)
+  }
+}
+
+export async function addRefuelLogToDb(log: RefuelLog): Promise<any> {
   try {
     const vehicle = realm.objectForPrimaryKey('Vehicle', log.vehicleId)
+    const user = realm.objects('User')[0]
+
     if (vehicle) {
-      // @ts-ignore
-      realm.write(() => vehicle.refuelLogs.push(log))
+      realm.write(() => {
+        // @ts-ignore
+        vehicle.refuelLogs.push(log)
+        // @ts-ignore
+        vehicle.odo = log.odo
+        if (!log.uploaded) {
+          // @ts-ignore
+          user.uploadTracker.push({
+            _id: new ObjectID().str,
+            logId: log._id,
+            logType: 'refuel',
+            uploaded: log.uploaded,
+            uploadType: UPLOAD_TYPE_ADD,
+          })
+        }
+      })
     }
   } catch (error) {
     console.info('ERROR_IN_addRefuelLogToDb', error)
   }
 }
-
-export async function removeVehicleFromDb(vehicle: VehicleInfo): Promise<any> {
+export async function removeRefuelLogFromDb(log: RefuelLog): Promise<any> {
   try {
-    realm.write(() => {
-      // const objTODelete = realm.objects('User')[0]
-      let delveh = realm.objectForPrimaryKey('Vehicle', vehicle._id)
-      console.log('objTODelete', delveh)
-      realm.delete(delveh)
-      console.log('possibly deleted')
-    })
+    const realmRefuelLog = realm.objectForPrimaryKey('RefuelLog', log._id)
+    // @ts-ignore
+    const {uploadTracker} = realm.objects('User')[0]
+    if (realmRefuelLog) {
+      realm.write(() => {
+        uploadTracker.push({
+          _id: new ObjectID().str,
+          logId: log._id,
+          logType: 'refuel',
+          uploaded: log.uploaded,
+          uploadType: UPLOAD_TYPE_REMOVE,
+        })
+        realm.delete(realmRefuelLog)
+      })
+    }
   } catch (error) {
-    console.info('ERROR_IN_removeVehicleFromDb', error)
+    console.info('ERROR_IN_removeRefuelLogFromDb', error)
   }
 }

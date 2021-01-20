@@ -5,7 +5,7 @@ import {VehicleInfo} from '../Screens/Dashboard/types'
 
 const BASE_URL = getServer()
 
-export async function postVehicle(vehicle: VehicleInfo): Promise<boolean> {
+export async function uploadVehicle(vehicle: VehicleInfo): Promise<boolean> {
   const authToken = getAuthToken()
   if (!authToken) throw new Error('authToken missing')
   const config = {
@@ -17,6 +17,7 @@ export async function postVehicle(vehicle: VehicleInfo): Promise<boolean> {
   try {
     const result = await Axios.post(URL, vehicle, config)
     if (result.status !== 201) throw new Error(`${result}`)
+    console.info('VEHICLE_UPLOADED')
     return true
   } catch (error) {
     console.log(error)

@@ -10,13 +10,13 @@ export type VehicleInfo = {
   vin: string
   year: string
   images: Array<ImageSpecs>
-  refuelData?: Array<RefuelData>
+  refuelLogs?: Array<RefuelLog>
   serviceData?: Array<ServiceData>
   uploaded?: boolean
   modified?: boolean
 }
 
-export type RefuelData = {
+export type RefuelLog = {
   _id: string
   vehicleId: string
   odo: string
@@ -26,9 +26,13 @@ export type RefuelData = {
   totalCost: string
   location: string
   images: Array<ImageSpecs>
+  uploaded: boolean
+  modified: boolean
 }
 
 export type ServiceData = {
   date: string
   images: Array<ImageSpecs>
+  uploaded: boolean
+  modified: boolean
 }

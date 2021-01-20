@@ -1,8 +1,19 @@
 import {CollectionChangeSet} from 'realm'
-import {getVehicles, postVehicle} from '../../api/vehicle'
+import {
+  REFUEL,
+  SERVICE,
+  UPLOAD_TYPE_ADD,
+  UPLOAD_TYPE_MODIFIED,
+  UPLOAD_TYPE_REMOVE,
+  VEHICLE,
+} from '../../../Constant'
+import {addCloudRefuelLog, removeCloudRefuelLog} from '../../api/refuel'
+import {deleteVehicle, getVehicles, uploadVehicle} from '../../api/vehicle'
 import {getRealmInstance} from '../../Database/index'
 import {addvehicleToDb} from '../../Database/jobs'
+import {UploadTrackerSchema} from '../../Database/schema'
 import {dispatch} from '../../Providers/Providers'
+import {RefuelLog, VehicleInfo} from '../../Screens/Dashboard/types'
 import {ActionAddVehicles} from './actions'
 
 const realm = getRealmInstance()
@@ -22,13 +33,13 @@ async function getRemoteVehiclesToDb() {
   }
 }
 
-export async function hydrateVehicleState() {
+export async function hydrateVehicleState(): Promise<any> {
   console.info('Hydrating state...')
   try {
     // @ts-ignore
-    const {vehicles, firstLaunch} = realm.objects('User')[0]
-
-    vehicles.removeAllListeners()
+    const {vehicles, firstLaunch, uploadTracker} = realm.objects('User')[0]
+    uploadTracker.removeAllListeners()
+    uploadTracker.addListener(uploadTrackerListener)
     vehicles.addListener(vehicleListener)
     if (!vehicles.length && firstLaunch) {
       getRemoteVehiclesToDb()
@@ -42,63 +53,130 @@ export async function hydrateVehicleState() {
   }
 }
 // changes contains the index of the item added,deleted or modified
-export const vehicleListener = (
+const vehicleListener = (
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   vehicles: any,
   changes: CollectionChangeSet,
 ): void => {
   console.info('____IN_LISTENER____')
-
   if (
     changes.insertions.length ||
     changes.deletions.length ||
     changes.newModifications.length
-  ) {
-    try {
-      if (changes.insertions.length) {
-        const vehicle = vehicles[changes.insertions]
-        if (!vehicle.uploaded) {
-          postVehicle(vehicle)
-            .then((uploadStatus) => {
-              realm.write(() => {
-                const veh = realm.objects('User')[0].vehicles[
-                  changes.insertions
-                ]
-                veh.uploaded = uploadStatus
-              })
-            })
-            .catch((error) => {
-              console.info('Error in postVehicle', error)
-            })
-        }
-        hydrateVehicleState()
+  )
+    hydrateVehicleState()
+  console.info('OUT_OF_LISTENER')
+}
+
+const uploadTrackerListener = (
+  uploadTrackers: Array<typeof UploadTrackerSchema.properties>,
+  changes: CollectionChangeSet,
+) => {
+  /**
+   * checking only for addition of records, we dont care about
+   * deletion or modification as it doesnt matter.
+   */
+  if (changes.insertions.length) {
+    uploadTrackers.forEach((ut: typeof UploadTrackerSchema.properties) => {
+      if (ut.uploaded) {
+        realm.write(() => {
+          realm.delete(ut)
+        })
         return
       }
-    } catch (error) {
-      console.info('ERROR_IN_VEHICLE_INSERTION', error)
-    }
+      switch (ut.logType) {
+        case VEHICLE: {
+          // @ts-ignore
+          const vehicle: VehicleInfo = realm.objectForPrimaryKey(
+            'Vehicle',
+            ut.logId,
+          )
 
-    // try {
-    //   if (changes.deletions.length) {
-    //     console.log('changes.deletions', changes.deletions)
-    //     // const vehicle = vehicles[changes.deletions]
-    //     // deleteVehicle(vehicle)
-    //     hydrateVehicleState()
-    //   }
-    // } catch (error) {
-    //   console.info('ERROR_IN_VEHICLE_DELETION', error)
-    // }
+          if (vehicle) {
+            switch (ut.uploadType) {
+              case UPLOAD_TYPE_ADD:
+                uploadVehicle(vehicle)
+                  .then(() => {
+                    realm.write(() => {
+                      realm.delete(ut)
+                      console.info('VEHICLE_ADD_TASK_REQUESTED', ut)
+                    })
+                  })
+                  .catch((error) => {
+                    console.info('ERROR_IN_CASE_VEHICLE_ADD', error)
+                  })
+                break
+              case UPLOAD_TYPE_REMOVE:
+                deleteVehicle(vehicle)
+                  .then(() => {
+                    realm.write(() => {
+                      realm.delete(ut)
+                      console.info('VEHICLE_REMOVE_TASK_REQUESTED', ut)
+                    })
+                  })
+                  .catch((error) => {
+                    console.info('ERROR_IN_CASE_VEHICLE_REMOVE', error)
+                  })
+                break
+              case UPLOAD_TYPE_MODIFIED:
+                // implementd later
+                break
 
-    if (changes.newModifications.length) {
-      try {
-        console.log(
-          'changes.newModifications.length',
-          changes.newModifications.length,
-        )
-      } catch (error) {
-        console.info('ERROR_IN_Realm_Modification', error)
+              default:
+                console.info('uploadType mismatch')
+            }
+          }
+          break
+        }
+        case REFUEL: {
+          // @ts-ignore
+          const refuelLog: RefuelLog = realm.objectForPrimaryKey(
+            'RefuelLog',
+            ut.logId,
+          )
+          if (refuelLog) {
+            switch (ut.uploadType) {
+              case UPLOAD_TYPE_ADD:
+                addCloudRefuelLog(refuelLog)
+                  .then(() => {
+                    realm.write(() => {
+                      realm.delete(ut)
+                      console.info('REFUELLOG_ADD_TASK_REQUESTED', ut)
+                    })
+                  })
+                  .catch((error) => {
+                    console.info('ERROR_IN_CASE_REFUEL', error)
+                  })
+                break
+              case UPLOAD_TYPE_REMOVE:
+                removeCloudRefuelLog(refuelLog)
+                  .then(() => {
+                    realm.write(() => {
+                      realm.delete(ut)
+                      console.info('REFUELLOG_REMOVE_TASK_REQUESTED', ut)
+                    })
+                  })
+                  .catch((error) => {
+                    console.info('ERROR_IN_CASE_REFUEL_REMOVE', error)
+                  })
+                break
+              case UPLOAD_TYPE_MODIFIED:
+                // implemented later
+                break
+
+              default:
+                console.info('uploadType mismatch')
+            }
+          }
+          break
+        }
+        case SERVICE:
+          console.log(ut.logType)
+          break
+
+        default:
+          console.log('invalid option')
       }
-    }
+    })
   }
-  console.log('out of listener')
 }
