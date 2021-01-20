@@ -1,9 +1,28 @@
 import Realm from 'realm'
 
+export const ServiceLogSchema: Realm.ObjectSchema = {
+  name: 'ServiceLog',
+  properties: {
+    _id: {type: 'string', indexed: true},
+    vehicleId: 'string',
+    date: 'date',
+    odo: 'string',
+    totalCost: 'string',
+    serviceCount: 'string',
+    location: 'string',
+    images: {type: 'ImageSpec[]', default: []},
+    notes: 'string',
+    uploaded: {type: 'bool', default: false},
+    modified: {type: 'bool', default: false},
+  },
+  primaryKey: '_id',
+}
+
 export const RefuelLogSchema: Realm.ObjectSchema = {
   name: 'RefuelLog',
   properties: {
     _id: {type: 'string', indexed: true},
+    vehicleId: 'string',
     date: 'date',
     odo: 'string',
     quantity: 'string',
@@ -41,6 +60,7 @@ export const VehicleSchema: Realm.ObjectSchema = {
     plate: 'string',
     images: {type: 'ImageSpec[]', default: []},
     refuelLogs: {type: 'RefuelLog[]', default: []},
+    serviceLogs: {type: 'ServiceLog[]', default: []},
     uploaded: {type: 'bool', default: false},
     modified: {type: 'bool', default: false},
   },
@@ -57,6 +77,20 @@ export const UserSchema: Realm.ObjectSchema = {
     phone: 'string?',
     avatar: 'string?',
     vehicles: {type: 'Vehicle[]', default: []},
+    firstLaunch: {type: 'bool', default: true},
+    uploadTracker: {type: 'UploadTracker[]', default: []},
   },
   primaryKey: '_id',
+}
+
+export const UploadTrackerSchema: Realm.ObjectSchema = {
+  name: 'UploadTracker',
+  primaryKey: '_id',
+  properties: {
+    _id: 'string',
+    logId: 'string',
+    logType: 'string',
+    uploaded: {type: 'bool', default: false},
+    uploadType: 'string',
+  },
 }

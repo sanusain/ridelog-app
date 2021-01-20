@@ -2,6 +2,8 @@ import Realm from 'realm'
 import {
   ImageSpecSchema,
   RefuelLogSchema,
+  ServiceLogSchema,
+  UploadTrackerSchema,
   UserSchema,
   VehicleSchema,
 } from './schema'
@@ -10,7 +12,14 @@ export const schemas: Array<Realm.Configuration> = [
   {
     schemaVersion: 0,
     path: Realm.defaultPath,
-    schema: [UserSchema, VehicleSchema, ImageSpecSchema, RefuelLogSchema],
+    schema: [
+      UserSchema,
+      VehicleSchema,
+      ImageSpecSchema,
+      RefuelLogSchema,
+      ServiceLogSchema,
+      UploadTrackerSchema,
+    ],
   },
   //   {
   //     schemaVersion: 1,
@@ -38,14 +47,5 @@ export function getRealmInstance(): Realm {
     }
   }
   const realm = new Realm(schemas[schemas.length - 1])
-  // realm.addListener('change', async () => {
-  //   console.log(
-  //     '============================Sync Started================================',
-  //   )
-  //   await startSync()
-  //   console.log(
-  //     '============================Sync finished===============================',
-  //   )
-  // })
   return realm
 }

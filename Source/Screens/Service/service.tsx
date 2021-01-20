@@ -1,33 +1,32 @@
 import React from 'react'
 import {Alert, View} from 'react-native'
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
-import LinearGradient from 'react-native-linear-gradient'
 import {connect} from 'react-redux'
 import ScreenHeader from '../../Components/Header'
 import NoLog from '../../Components/NoData'
 import TextMontserrat from '../../Components/TextMontserrat'
 import TextOpenSans from '../../Components/TextOpenSans'
 import Colors from '../../Config/Colors'
-import {RefuelNavigationProps} from '../../Navigation/types'
+import {ServiceNavigationProps} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
-import {RefuelLog, VehicleInfo} from '../../Types'
+import {ServiceLog, VehicleInfo} from '../../Types'
 import {noop} from '../../Util'
-import {ActionSetRefuelData} from './actions'
+import {ActionSetServiceData} from './actions'
 
 type Props = {
   selectedVehicle: VehicleInfo
   dispatch: any
-  navigation: RefuelNavigationProps
+  navigation: ServiceNavigationProps
 }
 
-const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
+const ServiceLogScreen: React.FunctionComponent<Props> = (props: Props) => {
   const conversionLiquid = 'L'
   const conversionDistance = 'Km'
   const currency = '₹'
 
-  const handleRefuelItem = (refuelLog: RefuelLog) => {
-    props.dispatch(new ActionSetRefuelData(refuelLog))
-    props.navigation.navigate('refuelDetails')
+  const handleServiceItem = (serviceLog: ServiceLog) => {
+    props.dispatch(new ActionSetServiceData(serviceLog))
+    props.navigation.navigate('serviceDetails')
   }
 
   const handleAddLog = () => {
@@ -39,10 +38,10 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
         {cancelable: true},
       )
 
-    return props.navigation.navigate('addRefuelLog')
+    return props.navigation.navigate('addServiceLog')
   }
 
-  const renderList = ({item}: {item: RefuelLog}) => {
+  const renderList = ({item}: {item: ServiceLog}) => {
     return (
       <TouchableOpacity
         style={{
@@ -54,7 +53,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
           marginVertical: 5,
           paddingVertical: 5,
         }}
-        onPress={() => handleRefuelItem(item)}>
+        onPress={() => handleServiceItem(item)}>
         <View
           style={{
             flexDirection: 'row',
@@ -79,7 +78,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
             paddingVertical: 5,
           }}>
           <TextOpenSans fontSize={16} style={{color: Colors.default_grey}}>
-            Quantity {item.quantity} {conversionLiquid}
+            Service # {item.serviceCount}
           </TextOpenSans>
           <TextOpenSans fontSize={16} style={{color: Colors.default_grey}}>
             {'   '}Odometer {item.odo} {conversionDistance}
@@ -90,31 +89,26 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    // <View style={{flex: 1, backgroundColor: Colors.white}}>
-    <LinearGradient
-      style={{
-        flex: 1,
-      }}
-      colors={[Colors.softRed, Colors.paleRed]}>
+    <View style={{flex: 1, backgroundColor: Colors.white}}>
       <ScreenHeader
-        title="Refuel"
-        enableAdd={!!props.selectedVehicle?.refuelLogs?.length}
+        title="Service"
+        enableAdd={!!props.selectedVehicle?.serviceLogs?.length}
         enableCallback={
-          props.selectedVehicle?.refuelLogs?.length ? handleAddLog : noop
+          props.selectedVehicle?.serviceLogs?.length ? handleAddLog : noop
         }
       />
       <View style={{flex: 1, marginTop: -10}}>
-        {props.selectedVehicle?.refuelLogs?.length ? (
+        {props.selectedVehicle?.serviceLogs?.length ? (
           <FlatList
-            data={props.selectedVehicle?.refuelLogs}
+            data={props.selectedVehicle?.serviceLogs}
             renderItem={renderList}
             keyExtractor={(item) => item._id}
           />
         ) : (
-          <NoLog noLogType="noRefuelLog" handleOnPress={handleAddLog} />
+          <NoLog noLogType="noServiceLog" handleOnPress={handleAddLog} />
         )}
       </View>
-    </LinearGradient>
+    </View>
   )
 }
 const mapStateToProps = (state: AppState) => ({
@@ -124,4 +118,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   dispatch: dispatchHandler(dispatch),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserRefuelLog)
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceLogScreen)

@@ -15,8 +15,6 @@ import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
 import {DashboardNavigationProp} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
-import {ImageSpecs} from '../Refuel/types'
-import {VehicleInfo} from './types'
 
 type Props = {
   selectedVehicle: VehicleInfo

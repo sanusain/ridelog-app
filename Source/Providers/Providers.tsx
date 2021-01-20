@@ -11,20 +11,20 @@ import AuthStack from '../Navigation/AuthStack'
 import {dispatchHandler, getStore} from '../State-management'
 import {hydrateVehicleState} from '../State-management/hydration'
 
+const store = getStore()
+export const dispatch: any = dispatchHandler(store.dispatch)
+
 export default function Providers(): JSX.Element {
-  const store = getStore()
   // const [fontsLoaded, setFontsLoaded] = useState(false)
   const {user, login} = useContext(AuthContext)
 
-  const dispatch = dispatchHandler(store.dispatch)
-
   async function hydrateState() {
-    await hydrateVehicleState(dispatch)
+    await hydrateVehicleState()
     // await hydrateRefuelLogState()
   }
   // initializing App
   useEffect(() => {
-    hydrateState()
+    if (user) hydrateState()
     // getFonts()
     if (!user) getUser()
     // getDB()
@@ -34,11 +34,9 @@ export default function Providers(): JSX.Element {
      * at first app run, by default theres no key, so value is null. if that is null, then
      * we knw app is running first time.
      */
+  }, [user])
 
-    console.log('in provider useeffeect')
-  }, [])
-
-  const getUser = async () => {
+  const getUser = () => {
     AsyncStorage.getItem('user')
       .then((data) => {
         if (data) login(JSON.parse(data))

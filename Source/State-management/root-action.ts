@@ -13,12 +13,12 @@ export class Action<T> {
     this.actionSelf = this
   }
 
-  updateState(state: AppState) {
+  updateState(state: AppState): void {
+    if (!this.payload) console.warn('NO_PAYLOAD')
     console.warn('ERROR: update state from child', state)
-    return state
   }
 
-  plainObj() {
+  plainObj(): any {
     return {
       actionSelf: this,
       type: this.type,

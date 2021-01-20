@@ -11,6 +11,8 @@ export type User = {
   avatar?: string
 } | null
 
+let globalUser: User
+
 export const AuthContext = React.createContext<{
   user: User
   login: (user: User) => void
@@ -29,6 +31,7 @@ type Props = {children: any}
 
 export const AuthProvider: React.FunctionComponent<Props> = (props) => {
   const [user, setUser] = useState<User>(null)
+  globalUser = user
   return (
     <AuthContext.Provider
       value={{
@@ -48,4 +51,9 @@ export const AuthProvider: React.FunctionComponent<Props> = (props) => {
       {props.children}
     </AuthContext.Provider>
   )
+}
+
+export function getAuthToken(): string | undefined {
+  if (globalUser) return globalUser.authToken
+  return undefined
 }

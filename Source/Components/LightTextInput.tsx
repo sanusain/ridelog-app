@@ -40,6 +40,12 @@ type Props = {
 }
 
 const LightTextInput: React.FunctionComponent<Props> = (props: Props) => {
+  LightTextInput.defaultProps = {
+    secureTextEntry: false,
+    keyboardType: 'default',
+    style: {},
+    onBlur: () => null,
+  }
   return (
     <TextInput
       keyboardType={props.keyboardType ? props.keyboardType : 'default'}

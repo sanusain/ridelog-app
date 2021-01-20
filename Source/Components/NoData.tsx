@@ -35,7 +35,6 @@ const NoLog: React.FunctionComponent<Props> = (props: Props) => {
             style={style}
           />
         )
-
       default:
         return null
     }
@@ -48,7 +47,11 @@ const NoLog: React.FunctionComponent<Props> = (props: Props) => {
           'No Refuel Logs',
           'Press Add log to add a new fuel log for your current vehicle',
         ]
-
+      case 'noServiceLog':
+        return [
+          'No Service Logs',
+          'Press Add log to add a new service log for your current vehicle',
+        ]
       default:
         return ['default', 'default']
     }

@@ -11,7 +11,7 @@ import Colors from '../Config/Colors'
 import Accounts from '../Screens/Account/userAccount'
 import DashBoard from '../Screens/Dashboard/dashboard'
 import RefuelLog from '../Screens/Refuel/refuel'
-import ServiceLog from '../Screens/Service/userServiceLog'
+import ServiceLogScreen from '../Screens/Service/service'
 import {BottomTabsParamList} from './types'
 
 const BottomTabsNavigator = (): JSX.Element => {
