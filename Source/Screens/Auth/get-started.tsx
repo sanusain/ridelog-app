@@ -4,6 +4,8 @@ import Onboarding from 'react-native-onboarding-swiper'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import SquareButton from '../../Components/SquareButton'
+import TextMontserrat from '../../Components/TextMontserrat'
+import TextOpenSans from '../../Components/TextOpenSans'
 import Colors from '../../Config/Colors'
 
 type Props = {navigation: any}
@@ -32,9 +34,25 @@ const GetStarted: React.FunctionComponent<Props> = (props: Props) => {
                 style={{opacity: 0.8}}
               />
             ),
-            title: 'Ridelogg',
-            subtitle:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            title: (
+              <TextMontserrat fontSize={24} weight="medium">
+                Ridelogg
+              </TextMontserrat>
+            ),
+            subtitle: (
+              <TextOpenSans
+                fontSize={18}
+                fontColor={Colors.default_grey}
+                weight="regular"
+                style={{
+                  letterSpacing: 0.6,
+                  textAlign: 'center',
+                  paddingHorizontal: 10,
+                  margin: 20,
+                }}>
+                Helps you keep your refuelling logs, service logs digitally.
+              </TextOpenSans>
+            ),
             subTitleStyles: {color: Colors.default_grey},
           },
           {
@@ -47,9 +65,28 @@ const GetStarted: React.FunctionComponent<Props> = (props: Props) => {
                 style={{opacity: 0.8}}
               />
             ),
-            title: 'Placeholder',
-            subtitle:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            title: (
+              <TextMontserrat
+                fontColor={Colors.spaceCadetPurple}
+                fontSize={24}
+                weight="medium">
+                Keep a tab on your Costs
+              </TextMontserrat>
+            ),
+            subtitle: (
+              <TextOpenSans
+                fontSize={18}
+                fontColor={Colors.default_grey}
+                weight="regular"
+                style={{
+                  letterSpacing: 0.6,
+                  textAlign: 'center',
+                  paddingHorizontal: 10,
+                  margin: 20,
+                }}>
+                Track your fuel and maintainance service costs.
+              </TextOpenSans>
+            ),
             subTitleStyles: {color: Colors.default_grey},
           },
         ]}

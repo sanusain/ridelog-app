@@ -12,20 +12,6 @@ type Props = {
 
 // @ts-ignore
 const TextMontserrat: React.FunctionComponent<Props> = (props) => {
-  if (!props.weight)
-    return (
-      <Text
-        style={{
-          fontSize: props.fontSize,
-          fontFamily: 'Montserrat-Regular',
-          color: props.fontColor ? props.fontColor : Colors.black,
-          ...props.style,
-        }}
-        onPress={props.onPress}>
-        {props.children}
-      </Text>
-    )
-
   if (props.weight === 'bold')
     return (
       <Text
@@ -78,6 +64,19 @@ const TextMontserrat: React.FunctionComponent<Props> = (props) => {
         {props.children}
       </Text>
     )
+
+  return (
+    <Text
+      style={{
+        fontSize: props.fontSize,
+        fontFamily: 'Montserrat-Regular',
+        color: props.fontColor ? props.fontColor : Colors.black,
+        ...props.style,
+      }}
+      onPress={props.onPress}>
+      {props.children}
+    </Text>
+  )
 }
 
 export default TextMontserrat
