@@ -1,7 +1,6 @@
 import React from 'react'
 import {Alert, View} from 'react-native'
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler'
-import LinearGradient from 'react-native-linear-gradient'
 import {connect} from 'react-redux'
 import ScreenHeader from '../../Components/Header'
 import NoLog from '../../Components/NoData'
@@ -47,12 +46,11 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
       <TouchableOpacity
         style={{
           marginHorizontal: 10,
-          // elevation: 1,
           borderWidth: 1,
           borderColor: Colors.default_grey,
           borderRadius: 10,
           marginVertical: 5,
-          paddingVertical: 5,
+          paddingVertical: 10,
         }}
         onPress={() => handleRefuelItem(item)}>
         <View
@@ -91,11 +89,13 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
 
   return (
     // <View style={{flex: 1, backgroundColor: Colors.white}}>
-    <LinearGradient
+    <View
       style={{
         flex: 1,
+        backgroundColor: Colors.white,
       }}
-      colors={[Colors.softRed, Colors.paleRed]}>
+      // colors={[Colors.softRed, Colors.paleRed]}
+    >
       <ScreenHeader
         title="Refuel"
         enableAdd={!!props.selectedVehicle?.refuelLogs?.length}
@@ -114,7 +114,7 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
           <NoLog noLogType="noRefuelLog" handleOnPress={handleAddLog} />
         )}
       </View>
-    </LinearGradient>
+    </View>
   )
 }
 const mapStateToProps = (state: AppState) => ({

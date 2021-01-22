@@ -1,8 +1,7 @@
 import React, {useContext, useState} from 'react'
-import {Animated, Dimensions, Image, View} from 'react-native'
-import {LineChart} from 'react-native-chart-kit'
-import LinearGradient from 'react-native-linear-gradient'
+import {Animated, View} from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import Feather from 'react-native-vector-icons/Feather'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -15,6 +14,7 @@ import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
 import {DashboardNavigationProp} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
+import {VehicleInfo} from '../../Types'
 
 type Props = {
   selectedVehicle: VehicleInfo
@@ -22,35 +22,8 @@ type Props = {
 }
 
 const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
-  const screenWidth = Dimensions.get('window').width
   const {user} = useContext(AuthContext)
-
   const [scrollY] = useState(new Animated.Value(0))
-
-  const renderCarouselVehicle = ({item}: {item: ImageSpecs}) => {
-    return (
-      <View style={{height: 0.5 * screenWidth}}>
-        <Image
-          resizeMode="cover"
-          source={{uri: item.url}}
-          style={{borderRadius: 10, width: '100%', height: '100%'}}
-        />
-      </View>
-    )
-  }
-
-  const renderCarouselTips = ({item}: {item: ImageSpecs}) => {
-    return (
-      <View style={{height: 60}}>
-        <Image
-          resizeMode="cover"
-          source={{uri: item.url}}
-          style={{borderRadius: 5, width: '100%', height: '100%'}}
-        />
-      </View>
-    )
-  }
-
   const headerMaxHeight = 200
   const headerMinHeight = 70
 
@@ -61,11 +34,11 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
   })
 
   return (
-    <LinearGradient
+    <View
       style={{
         flex: 1,
-      }}
-      colors={[Colors.softRed, Colors.paleRed]}>
+        backgroundColor: Colors.white,
+      }}>
       <View
         style={{
           flex: 1,
@@ -149,11 +122,12 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                   alignItems: 'center',
                   paddingVertical: 15,
                   paddingHorizontal: 7,
-                  backgroundColor: Colors.paleRed,
                   borderRadius: 20,
                   zIndex: 10,
                   marginHorizontal: 15,
                   marginVertical: 5,
+                  borderColor: Colors.imperialRed,
+                  borderWidth: 1,
                 }}>
                 <View
                   style={{
@@ -168,8 +142,21 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                     size={40}
                   />
                 </View>
-                <TextOpenSans fontSize={20}>Current Odometer</TextOpenSans>
-                <TextOpenSans fontSize={20}>
+                <TextMontserrat fontSize={20} weight="medium">
+                  Current Odometer
+                </TextMontserrat>
+                <TextOpenSans
+                  fontSize={18}
+                  fontColor={Colors.imperialRed}
+                  style={{
+                    paddingHorizontal: 10,
+                    paddingVertical: 10,
+                    borderColor: Colors.imperialRed,
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    marginVertical: 10,
+                  }}
+                  weight="semibold">
                   {props.selectedVehicle.odo}
                 </TextOpenSans>
               </Animated.View>
@@ -181,11 +168,12 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                   alignItems: 'center',
                   paddingVertical: 15,
                   paddingHorizontal: 15,
-                  backgroundColor: Colors.paleRed,
                   borderRadius: 20,
                   zIndex: 100,
                   marginHorizontal: 15,
                   marginVertical: 5,
+                  borderColor: Colors.imperialRed,
+                  borderWidth: 1,
                 }}>
                 <View
                   style={{
@@ -211,9 +199,12 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                 </View>
 
                 <View style={{flex: 2}}>
-                  <TextOpenSans fontSize={20} style={{alignSelf: 'center'}}>
+                  <TextMontserrat
+                    fontSize={20}
+                    weight="medium"
+                    style={{alignSelf: 'center', margin: 2}}>
                     Last Refuel
-                  </TextOpenSans>
+                  </TextMontserrat>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -225,7 +216,13 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                       color={Colors.default_red}
                       size={20}
                     />
-                    <TextOpenSans fontSize={20} style={{alignSelf: 'center'}}>
+                    <TextOpenSans
+                      fontSize={20}
+                      style={{
+                        letterSpacing: 0.2,
+                        alignSelf: 'center',
+                        margin: 2,
+                      }}>
                       {new Date().toDateString()}
                     </TextOpenSans>
                   </View>
@@ -234,77 +231,60 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
+                      margin: 10,
                     }}>
                     <View
                       style={{
                         flex: 1,
                         flexDirection: 'row',
-                        justifyContent: 'space-around',
+                        justifyContent: 'center',
                         alignItems: 'center',
+                        borderColor: Colors.imperialRed,
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        margin: 2,
                       }}>
                       <MaterialCommunityIcons
                         name="currency-usd"
-                        color={Colors.default_red}
+                        color={Colors.imperialRed}
                         size={25}
                       />
-                      <TextMontserrat fontSize={18}>1000</TextMontserrat>
+                      <TextMontserrat
+                        fontSize={18}
+                        weight="semibold"
+                        fontColor={Colors.imperialRed}>
+                        1000
+                      </TextMontserrat>
                     </View>
-                    <View style={{borderWidth: 1, borderColor: Colors.tGrey}} />
+                    <View style={{width: 10}} />
                     <View
                       style={{
                         flex: 1,
                         flexDirection: 'row',
                         justifyContent: 'space-around',
                         alignItems: 'center',
+                        borderColor: Colors.imperialRed,
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        margin: 2,
+                        paddingVertical: 10,
                       }}>
                       <Feather
                         name="droplet"
-                        color={Colors.default_red}
+                        color={Colors.imperialRed}
                         size={20}
                       />
-                      <TextMontserrat fontSize={18}>2.8L</TextMontserrat>
+                      <TextMontserrat
+                        fontSize={18}
+                        weight="semibold"
+                        fontColor={Colors.imperialRed}>
+                        2.8 L
+                      </TextMontserrat>
                     </View>
                   </View>
                 </View>
               </View>
-              {/* **************************fuel consumed in month */}
-              <View style={{marginTop: 5}}>
-                <LineChart
-                  data={{
-                    labels: ['January', 'February', 'March', 'April', 'May'],
-                    datasets: [
-                      {
-                        data: [
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                        ],
-                      },
-                    ],
-                  }}
-                  width={screenWidth - 10}
-                  height={220}
-                  yAxisSuffix="L"
-                  chartConfig={{
-                    backgroundGradientFrom: '#eff3ff',
-                    backgroundGradientTo: '#efefef',
-                    decimalPlaces: 1, // optional, defaults to 2dp
-                    color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                      flex: 1,
-                      borderRadius: 10, // line radius
-                    },
-                  }}
-                  bezier
-                  style={{
-                    borderRadius: 20,
-                    alignSelf: 'center',
-                  }}
-                />
-              </View>
-              <View style={{marginTop: 10}}>
+              <View>
                 <View
                   style={{
                     flex: 3,
@@ -313,11 +293,12 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                     alignItems: 'center',
                     paddingVertical: 15,
                     paddingHorizontal: 15,
-                    backgroundColor: Colors.paleRed,
                     borderRadius: 20,
                     zIndex: 100,
                     marginHorizontal: 15,
                     marginVertical: 5,
+                    borderWidth: 1,
+                    borderColor: Colors.imperialRed,
                   }}>
                   <View
                     style={{
@@ -332,8 +313,8 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         padding: 15,
                         borderWidth: 1,
                       }}>
-                      <AntDesign
-                        name="tool"
+                      <EvilIcons
+                        name="gear"
                         color={Colors.default_red}
                         size={40}
                       />
@@ -343,9 +324,12 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                   </View>
 
                   <View style={{flex: 2}}>
-                    <TextOpenSans fontSize={20} style={{alignSelf: 'center'}}>
+                    <TextMontserrat
+                      fontSize={20}
+                      weight="medium"
+                      style={{alignSelf: 'center', margin: 2}}>
                       Last Service
-                    </TextOpenSans>
+                    </TextMontserrat>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -357,7 +341,13 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         color={Colors.default_red}
                         size={20}
                       />
-                      <TextOpenSans fontSize={20} style={{alignSelf: 'center'}}>
+                      <TextOpenSans
+                        fontSize={20}
+                        style={{
+                          letterSpacing: 0.2,
+                          alignSelf: 'center',
+                          margin: 2,
+                        }}>
                         {new Date().toDateString()}
                       </TextOpenSans>
                     </View>
@@ -366,84 +356,160 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
+                        margin: 10,
                       }}>
                       <View
                         style={{
                           flex: 1,
                           flexDirection: 'row',
-                          justifyContent: 'space-around',
+                          justifyContent: 'center',
                           alignItems: 'center',
+                          backgroundColor: Colors.white,
+                          borderColor: Colors.imperialRed,
+                          borderWidth: 1,
+                          borderRadius: 10,
+                          margin: 2,
                         }}>
                         <MaterialCommunityIcons
                           name="currency-usd"
-                          color={Colors.default_red}
+                          color={Colors.imperialRed}
                           size={25}
                         />
-                        <TextMontserrat fontSize={18}>1000</TextMontserrat>
+                        <TextMontserrat
+                          fontSize={18}
+                          weight="semibold"
+                          fontColor={Colors.imperialRed}>
+                          1000
+                        </TextMontserrat>
                       </View>
-                      <View
-                        style={{borderWidth: 1, borderColor: Colors.tGrey}}
-                      />
+                      <View style={{width: 10}} />
                       <View
                         style={{
                           flex: 1,
                           flexDirection: 'row',
-                          justifyContent: 'space-around',
+                          justifyContent: 'center',
                           alignItems: 'center',
+                          borderWidth: 1,
+                          borderColor: Colors.imperialRed,
+                          borderRadius: 10,
+                          margin: 2,
+                          paddingVertical: 10,
                         }}>
                         <Feather
                           name="repeat"
-                          color={Colors.default_red}
+                          color={Colors.imperialRed}
                           size={20}
                         />
-                        <TextMontserrat fontSize={18}>2</TextMontserrat>
+                        <TextMontserrat
+                          fontSize={18}
+                          weight="semibold"
+                          fontColor={Colors.imperialRed}
+                          style={{marginLeft: 10}}>
+                          2
+                        </TextMontserrat>
                       </View>
                     </View>
                   </View>
                 </View>
               </View>
               <View style={{marginTop: 5}}>
-                {/* a pie chart representing aggregate expenses in fuel and services from beginning */}
-                <LineChart
-                  data={{
-                    labels: ['January', 'February', 'March', 'April', 'May'],
-                    datasets: [
-                      {
-                        data: [
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                          Math.random() * 100,
-                        ],
-                      },
-                    ],
-                  }}
-                  width={screenWidth - 10}
-                  height={220}
-                  yAxisSuffix="L"
-                  chartConfig={{
-                    backgroundGradientFrom: '#eff3ff',
-                    backgroundGradientTo: '#efefef',
-                    decimalPlaces: 1, // optional, defaults to 2dp
-                    color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
-                    style: {
-                      flex: 1,
-                      borderRadius: 10, // line radius
-                    },
-                  }}
-                  bezier
+                <View
                   style={{
+                    flex: 1,
+                    borderColor: Colors.imperialRed,
+                    borderWidth: 1,
                     borderRadius: 20,
-                    alignSelf: 'center',
-                  }}
-                />
+                    marginHorizontal: 15,
+                    padding: 10,
+                    marginBottom: 20,
+                  }}>
+                  <TextOpenSans
+                    fontSize={18}
+                    weight="semibold"
+                    style={{padding: 10}}>
+                    Lifetime Expense
+                  </TextOpenSans>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flex: 1,
+                      justifyContent: 'space-around',
+                      marginVertical: 5,
+                    }}>
+                    <View
+                      style={{
+                        flex: 1,
+                        borderColor: Colors.imperialRed,
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        marginHorizontal: 15,
+                        padding: 15,
+                      }}>
+                      <View
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <TextMontserrat fontSize={24} weight="regular">
+                          Fuel
+                        </TextMontserrat>
+                        <TextOpenSans
+                          fontSize={18}
+                          fontColor={Colors.imperialRed}
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 10,
+                            borderColor: Colors.imperialRed,
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            marginVertical: 10,
+                          }}
+                          weight="semibold">
+                          $1000000
+                        </TextOpenSans>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        borderColor: Colors.imperialRed,
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        marginHorizontal: 15,
+                        padding: 15,
+                      }}>
+                      <View
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <TextMontserrat fontSize={24} weight="regular">
+                          Service
+                        </TextMontserrat>
+                        <TextOpenSans
+                          fontSize={18}
+                          weight="semibold"
+                          fontColor={Colors.imperialRed}
+                          style={{
+                            paddingHorizontal: 10,
+                            paddingVertical: 10,
+                            borderColor: Colors.imperialRed,
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            marginVertical: 10,
+                          }}>
+                          $1000000
+                        </TextOpenSans>
+                      </View>
+                    </View>
+                  </View>
+                </View>
               </View>
             </Animated.ScrollView>
           </View>
         )}
       </View>
-    </LinearGradient>
+    </View>
   )
 }
 
