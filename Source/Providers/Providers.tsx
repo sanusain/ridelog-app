@@ -6,24 +6,32 @@ import SplashScreen from 'react-native-splash-screen'
 import {Provider} from 'react-redux'
 import SafeAreaView from '../Components/SafeAreaView'
 import {AuthContext} from '../Contexts/AuthProvider'
+import {getRealmInstance} from '../Database'
 import AppNavigation from '../Navigation'
 import AuthStack from '../Navigation/AuthStack'
 import {dispatchHandler, getStore} from '../State-management'
-import {hydrateVehicleState} from '../State-management/hydration'
+import {
+  hydrateVehicleState,
+  uploadTrackerListener,
+} from '../State-management/hydration'
 
 const store = getStore()
+const realm = getRealmInstance()
+
 export const dispatch: any = dispatchHandler(store.dispatch)
 
 export default function Providers(): JSX.Element {
   const {user, login} = useContext(AuthContext)
 
-  async function hydrateState() {
-    await hydrateVehicleState()
-  }
   // initializing App
   useEffect(() => {
-    if (user) hydrateState()
-    else getUser()
+    if (user) {
+      hydrateVehicleState()
+      // @ts-ignore
+      const {uploadTracker} = realm.objects('User')[0]
+      uploadTracker.removeAllListeners()
+      uploadTracker.addListener(uploadTrackerListener)
+    } else getUser()
     SplashScreen.hide()
   }, [user])
 
