@@ -52,13 +52,18 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
             zIndex: 1,
             left: 0,
             right: 0,
+            borderWidth: 1,
+            borderRadius: 15,
+            borderColor: Colors.default_grey,
+            margin: 15,
+
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TextOpenSans fontSize={20} style={{marginTop: 5}}>
+          <TextOpenSans fontSize={20} style={{paddingTop: 10}}>
             Hello
           </TextOpenSans>
-          <TextMontserrat fontSize={28} style={{marginTop: 5}}>
+          <TextMontserrat fontSize={28} style={{paddingBottom: 10}}>
             {user?.callsign}
           </TextMontserrat>
         </Animated.View>
