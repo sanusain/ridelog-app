@@ -22,6 +22,7 @@ type Props = {
 }
 
 const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
+  const unit = 'KM'
   const {user} = useContext(AuthContext)
   const [scrollY] = useState(new Animated.Value(0))
   const headerMaxHeight = 200
@@ -54,8 +55,10 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TextMontserrat fontSize={20}>Hello,</TextMontserrat>
-          <TextMontserrat fontSize={24} weight="bold">
+          <TextOpenSans fontSize={20} style={{marginTop: 5}}>
+            Hello
+          </TextOpenSans>
+          <TextMontserrat fontSize={28} style={{marginTop: 5}}>
             {user?.callsign}
           </TextMontserrat>
         </Animated.View>
@@ -142,23 +145,27 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                     size={40}
                   />
                 </View>
-                <TextMontserrat fontSize={20} weight="medium">
-                  Current Odometer
-                </TextMontserrat>
-                <TextOpenSans
-                  fontSize={18}
-                  fontColor={Colors.imperialRed}
-                  style={{
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    borderColor: Colors.imperialRed,
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    marginVertical: 10,
-                  }}
-                  weight="semibold">
-                  {props.selectedVehicle.odo}
-                </TextOpenSans>
+                <View>
+                  <TextMontserrat fontSize={20} weight="medium">
+                    Current Odometer
+                  </TextMontserrat>
+                  <TextOpenSans
+                    fontSize={18}
+                    fontColor={Colors.imperialRed}
+                    style={{
+                      flex: 1,
+                      paddingHorizontal: 10,
+                      paddingVertical: 10,
+                      borderColor: Colors.imperialRed,
+                      borderWidth: 1,
+                      borderRadius: 10,
+                      marginVertical: 10,
+                      alignSelf: 'center',
+                    }}
+                    weight="semibold">
+                    {props.selectedVehicle.odo} {unit}
+                  </TextOpenSans>
+                </View>
               </Animated.View>
               <View
                 style={{
