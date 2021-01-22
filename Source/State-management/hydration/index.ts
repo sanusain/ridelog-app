@@ -38,9 +38,7 @@ export async function hydrateVehicleState(): Promise<any> {
   console.info('Hydrating state...')
   try {
     // @ts-ignore
-    const {vehicles, firstLaunch, uploadTracker} = realm.objects('User')[0]
-    uploadTracker.removeAllListeners()
-    uploadTracker.addListener(uploadTrackerListener)
+    const {vehicles, firstLaunch} = realm.objects('User')[0]
     vehicles.removeAllListeners()
     vehicles.addListener(vehicleListener)
     if (!vehicles.length && firstLaunch) {
@@ -70,16 +68,14 @@ const vehicleListener = (
   console.info('OUT_OF_LISTENER')
 }
 
-const uploadTrackerListener = (
+export const uploadTrackerListener = (
   uploadTrackers: Array<typeof UploadTrackerSchema.properties>,
   changes: CollectionChangeSet,
-) => {
+): void => {
   /**
    * checking only for addition of records, we dont care about
    * deletion or modification as it doesnt matter.
    */
-  console.log('*****************************uploadTrackers', uploadTrackers)
-
   if (uploadTrackers.length) {
     // if (changes.insertions.length) {
     uploadTrackers.forEach((ut: typeof UploadTrackerSchema.properties) => {
@@ -90,8 +86,6 @@ const uploadTrackerListener = (
         })
         return
       }
-      console.log('******************upload type', ut.logType)
-
       switch (ut.logType) {
         case VEHICLE: {
           // @ts-ignore
