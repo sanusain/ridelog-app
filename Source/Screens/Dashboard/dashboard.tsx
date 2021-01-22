@@ -133,7 +133,8 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                   borderRadius: 20,
                   zIndex: 10,
                   marginHorizontal: 15,
-                  marginVertical: 5,
+                  marginBottom: 5,
+                  marginTop: 10,
                   borderColor: Colors.imperialRed,
                   borderWidth: 1,
                 }}>
