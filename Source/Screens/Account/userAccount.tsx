@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {View} from 'react-native'
+import {Linking, View} from 'react-native'
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
@@ -32,12 +32,15 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   const handleRateUs = () => console.log('leave a 5 star rating')
-  const handleFAQs = () => console.log('Read more at docs')
-  const handleContactUs = () => console.log('Contact us')
+
+  const handleFAQs = () => props.navigation.navigate('faq')
+
+  const handleContactUs = () => {
+    Linking.openURL('mailto:work.sanwar.hussain@gmail.com')
+  }
 
   return (
     <ScrollView style={{backgroundColor: Colors.white}}>
-      {/* Accounts setting section +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/}
       <View style={{marginHorizontal: 20, marginTop: 24, marginBottom: 10}}>
         <TextMontserrat fontSize={28}>Account Settings</TextMontserrat>
         <TextMontserrat
@@ -272,7 +275,7 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
             <View style={{flex: 1}}>
               <TextOpenSans fontSize={18}>Contact Us</TextOpenSans>
               <TextMontserrat fontSize={14}>
-                Leave a suggestion or feedback
+                Mail us your suggestion or feedback
               </TextMontserrat>
             </View>
             <SimpleLineIcons
@@ -282,6 +285,14 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
               style={{marginRight: 10}}
             />
           </TouchableOpacity>
+          <View
+            style={{
+              marginLeft: 60,
+              borderBottomWidth: 1,
+              borderColor: Colors.default_grey,
+              opacity: 0.2,
+            }}
+          />
           <TouchableOpacity
             style={{
               flexDirection: 'row',
@@ -298,7 +309,9 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
             />
             <View style={{flex: 1}}>
               <TextOpenSans fontSize={18}>Logout</TextOpenSans>
-              <TextMontserrat fontSize={14}>Signout of Ridelogg</TextMontserrat>
+              <TextMontserrat fontSize={14}>
+                Sign out of Ridelogg
+              </TextMontserrat>
             </View>
             <SimpleLineIcons
               name="arrow-right"

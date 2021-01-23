@@ -44,6 +44,7 @@ export type AppStackParamsList = {
   serviceDetails: undefined
   addRefuelLog: undefined
   addServiceLog: undefined
+  faq: undefined
 }
 
 // ################## NAVIGATION PROPS ###################
@@ -95,6 +96,7 @@ export type AddServiceLogNavigationProps = StackNavigationProp<
   AppStackParamsList,
   'addServiceLog'
 >
+export type FaqNavigationProps = StackNavigationProp<AppStackParamsList, 'faq'>
 
 // ################## ROUTE PROPS ###################
 // MAIN SCREENS

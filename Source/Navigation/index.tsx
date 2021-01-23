@@ -1,5 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack'
 import React from 'react'
+import Faq from '../Screens/Account/faq'
 import ProfileUpdate from '../Screens/Account/profileUpdate'
 import AddVehicle from '../Screens/Dashboard/addVehicle'
 import AddRefuelLog from '../Screens/Refuel/addRefuelLog'
@@ -20,6 +21,7 @@ const AppNavigation = (): JSX.Element => {
       <AppStack.Screen name="serviceDetails" component={ServiceDetails} />
       <AppStack.Screen name="addRefuelLog" component={AddRefuelLog} />
       <AppStack.Screen name="addServiceLog" component={AddServiceLog} />
+      <AppStack.Screen name="faq" component={Faq} />
     </AppStack.Navigator>
   )
 }
