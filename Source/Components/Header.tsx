@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Colors from '../Config/Colors'
 import {noop} from '../Util'
-import TextMontserrat from './TextMontserrat'
+import TextOpenSans from './TextOpenSans'
 
 type Props = {
   title: string
@@ -45,12 +45,9 @@ const ScreenHeader: React.FunctionComponent<Props> = (props: Props) => {
       )}
 
       <View style={{flex: 1, justifyContent: 'center'}}>
-        <TextMontserrat
-          fontSize={16}
-          style={{alignSelf: 'center'}}
-          weight="semibold">
+        <TextOpenSans fontSize={20} style={{alignSelf: 'center'}}>
           {props.title}
-        </TextMontserrat>
+        </TextOpenSans>
       </View>
       <TouchableOpacity
         style={{justifyContent: 'center', padding: 10}}

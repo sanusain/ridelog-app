@@ -46,12 +46,11 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
       <TouchableOpacity
         style={{
           marginHorizontal: 10,
-          // elevation: 1,
           borderWidth: 1,
           borderColor: Colors.default_grey,
           borderRadius: 10,
           marginVertical: 5,
-          paddingVertical: 5,
+          paddingVertical: 10,
         }}
         onPress={() => handleRefuelItem(item)}>
         <View
@@ -89,7 +88,14 @@ const UserRefuelLog: React.FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.white}}>
+    // <View style={{flex: 1, backgroundColor: Colors.white}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: Colors.white,
+      }}
+      // colors={[Colors.softRed, Colors.paleRed]}
+    >
       <ScreenHeader
         title="Refuel"
         enableAdd={!!props.selectedVehicle?.refuelLogs?.length}

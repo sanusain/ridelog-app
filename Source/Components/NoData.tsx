@@ -61,18 +61,18 @@ const NoLog: React.FunctionComponent<Props> = (props: Props) => {
     <View
       style={{
         flex: 1,
-
         justifyContent: 'center',
         alignItems: 'center',
       }}>
       {getNoLogIcon(props.noLogType)}
       <View style={{alignItems: 'center'}}>
-        <TextMontserrat fontSize={20} weight="medium">
+        <TextMontserrat fontSize={20} style={{marginTop: 10}} weight="medium">
           {getNoLogText(props.noLogType)[0]}
         </TextMontserrat>
         <TextOpenSans
           fontSize={18}
-          style={{textAlign: 'center', marginTop: 10}}>
+          fontColor={Colors.default_grey}
+          style={{textAlign: 'center', padding: 20}}>
           {getNoLogText(props.noLogType)[1]}
         </TextOpenSans>
       </View>
@@ -80,7 +80,13 @@ const NoLog: React.FunctionComponent<Props> = (props: Props) => {
         title="ADD LOG"
         onPress={props.handleOnPress}
         buttonBackgroundColor={Colors.imperialRed}
-        style={{marginTop: 30, width: '60%'}}
+        style={{
+          position: 'absolute',
+          // left: 0,
+          // right: 0,
+          bottom: 30,
+          width: '60%',
+        }}
       />
     </View>
   )

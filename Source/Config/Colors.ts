@@ -1,7 +1,9 @@
-export default {
+const Colors = {
   imperialRed: '#ef233c', // .87 for lighter shade
   default_red: 'red',
   redLite: '#ff475a',
+  softRed: '#ee9ca7',
+  paleRed: '#ffdde1',
 
   manateeGrey: '#8d99ae',
   default_grey: 'grey',
@@ -18,3 +20,17 @@ export default {
   black: '#000',
   lightGreen: '#22A45D',
 }
+
+const colorThemes = {
+  ReddishWhite: {
+    primary: Colors.imperialRed,
+    componentBackground: Colors.paleRed,
+    gradientMain: {
+      from: Colors.softRed,
+      to: Colors.paleRed,
+    },
+  },
+  bluishWhite: {},
+}
+
+export default Colors
