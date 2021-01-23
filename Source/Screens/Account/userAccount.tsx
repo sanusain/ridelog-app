@@ -1,12 +1,7 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 import {View} from 'react-native'
-import {
-  ScrollView,
-  Switch,
-  TouchableOpacity,
-} from 'react-native-gesture-handler'
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import Feather from 'react-native-vector-icons/Feather'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import {connect} from 'react-redux'
@@ -21,26 +16,10 @@ type Props = {navigation: AccountsNavigationProps}
 
 const Accounts: React.FunctionComponent<Props> = (props: Props) => {
   const {logout} = useContext(AuthContext)
-  const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
-  const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
+  // const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
+  // const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
   const handleLogout = () => {
     logout()
-    // db.transaction(
-    // 	(txn) => {
-    // 		txn.executeSql('drop table vehicles')
-    // 		txn.executeSql('drop table refuelLog')
-    // 	},
-    // 	(error) => {},
-    // 	() => {
-    // 		console.log('All Db tables removed')
-    // 	},
-    // )
-    // firebase
-    // 	.auth()
-    // 	.signOut()
-    // 	.then(() => {
-    // 		logout()
-    // 	})
   }
 
   const handleProfileInfo = () => {
@@ -54,6 +33,7 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
 
   const handleRateUs = () => console.log('leave a 5 star rating')
   const handleFAQs = () => console.log('Read more at docs')
+  const handleContactUs = () => console.log('Contact us')
 
   return (
     <ScrollView style={{backgroundColor: Colors.white}}>
@@ -63,8 +43,7 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
         <TextMontserrat
           fontSize={16}
           style={{marginTop: 10, letterSpacing: 0.55}}>
-          Update you account settings like profile edits,notifications, payments
-          etc
+          Update your Profile settings, password update, or contact us.
         </TextMontserrat>
       </View>
       <View>
@@ -72,7 +51,7 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             marginVertical: 10,
           }}
           onPress={handleProfileInfo}>
@@ -80,12 +59,41 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
             name="user"
             size={24}
             color={Colors.imperialRed}
-            style={{marginLeft: 20}}
+            style={{
+              marginHorizontal: 20,
+            }}
           />
-          <View style={{marginLeft: -50}}>
+          <View style={{flex: 1}}>
             <TextOpenSans fontSize={18}>Profile Information</TextOpenSans>
             <TextMontserrat fontSize={14}>
               Change your account information
+            </TextMontserrat>
+          </View>
+          <SimpleLineIcons
+            name="arrow-right"
+            size={24}
+            color="black"
+            style={{marginRight: 10}}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginVertical: 10,
+          }}
+          onPress={handleUpdatePassword}>
+          <SimpleLineIcons
+            name="lock"
+            size={24}
+            color={Colors.imperialRed}
+            style={{marginHorizontal: 20}}
+          />
+          <View style={{flex: 1}}>
+            <TextOpenSans fontSize={18}>Update Password</TextOpenSans>
+            <TextMontserrat fontSize={14}>
+              Change your current password
             </TextMontserrat>
           </View>
           <SimpleLineIcons
@@ -103,37 +111,9 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
             opacity: 0.2,
           }}
         />
-        {/* <TouchableOpacity
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginVertical: 10,
-          }}
-          onPress={handleUpdatePassword}
-        >
-          <SimpleLineIcons
-            name="lock"
-            size={24}
-            color={Colors.imperialRed}
-            style={{ marginLeft: 20 }}
-          />
-          <View style={{ marginLeft: -65 }}>
-            <TextOpenSans fontSize={18}>Update Password</TextOpenSans>
-            <TextMontserrat fontSize={14}>
-              Change your current password
-            </TextMontserrat>
-          </View>
-          <SimpleLineIcons
-            name="arrow-right"
-            size={24}
-            color="black"
-            style={{ marginRight: 10 }}
-          />
-        </TouchableOpacity> */}
 
         {/* notifications section +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/}
-        <View>
+        {/* <View>
           <TextMontserrat
             fontSize={16}
             style={{
@@ -209,7 +189,7 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
               value={SMSNotificationToggler}
             />
           </View>
-        </View>
+        </View> */}
         {/* MORE section +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/}
         <View>
           <TextMontserrat
@@ -227,7 +207,7 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               marginVertical: 10,
             }}
             onPress={handleRateUs}>
@@ -235,9 +215,9 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
               name="star"
               size={24}
               color={Colors.imperialRed}
-              style={{marginLeft: 20}}
+              style={{marginHorizontal: 20}}
             />
-            <View style={{marginLeft: -150}}>
+            <View style={{flex: 1}}>
               <TextOpenSans fontSize={18}>Rate Us</TextOpenSans>
               <TextMontserrat fontSize={14}>Leave us a rating</TextMontserrat>
             </View>
@@ -252,7 +232,7 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               marginVertical: 10,
             }}
             onPress={handleFAQs}>
@@ -260,9 +240,9 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
               name="book"
               size={24}
               color={Colors.imperialRed}
-              style={{marginLeft: 20}}
+              style={{marginHorizontal: 20}}
             />
-            <View style={{marginLeft: -70}}>
+            <View style={{flex: 1}}>
               <TextOpenSans fontSize={18}>FAQs</TextOpenSans>
               <TextMontserrat fontSize={14}>
                 Frequently asked questions
@@ -279,7 +259,34 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
+              marginVertical: 10,
+            }}
+            onPress={handleContactUs}>
+            <AntDesign
+              name="mail"
+              size={24}
+              color={Colors.imperialRed}
+              style={{marginHorizontal: 20}}
+            />
+            <View style={{flex: 1}}>
+              <TextOpenSans fontSize={18}>Contact Us</TextOpenSans>
+              <TextMontserrat fontSize={14}>
+                Leave a suggestion or feedback
+              </TextMontserrat>
+            </View>
+            <SimpleLineIcons
+              name="arrow-right"
+              size={24}
+              color="black"
+              style={{marginRight: 10}}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
               marginVertical: 30,
             }}
             onPress={handleLogout}>
@@ -287,9 +294,9 @@ const Accounts: React.FunctionComponent<Props> = (props: Props) => {
               name="logout"
               size={24}
               color={Colors.imperialRed}
-              style={{marginLeft: 20}}
+              style={{marginHorizontal: 20}}
             />
-            <View style={{marginLeft: -120}}>
+            <View style={{flex: 1}}>
               <TextOpenSans fontSize={18}>Logout</TextOpenSans>
               <TextMontserrat fontSize={14}>Signout of Ridelogg</TextMontserrat>
             </View>
