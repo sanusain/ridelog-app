@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react'
 import {Animated, View} from 'react-native'
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import Feather from 'react-native-vector-icons/Feather'
@@ -14,7 +15,7 @@ import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
 import {DashboardNavigationProp} from '../../Navigation/types'
 import {AppState, dispatchHandler} from '../../State-management'
-import {VehicleInfo} from '../../Types'
+import {RefuelLog, ServiceLog, VehicleInfo} from '../../Types'
 
 type Props = {
   selectedVehicle: VehicleInfo
@@ -27,6 +28,21 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
   const [scrollY] = useState(new Animated.Value(0))
   const headerMaxHeight = 200
   const headerMinHeight = 70
+
+  const getLifetimeRefullingCost = (rls: Array<RefuelLog>) => {
+    let cost = 0
+    rls.forEach((item: RefuelLog) => {
+      cost += parseFloat(item.totalCost)
+    })
+    return cost
+  }
+  const getLifetimeServicingCost = (sls: Array<ServiceLog>) => {
+    let cost = 0
+    sls.forEach((item: ServiceLog) => {
+      cost += parseFloat(item.totalCost)
+    })
+    return cost
+  }
 
   const callsignHeaderHeight = scrollY.interpolate({
     inputRange: [0, headerMaxHeight - headerMinHeight],
@@ -122,7 +138,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                 [{nativeEvent: {contentOffset: {y: scrollY}}}],
                 {useNativeDriver: false},
               )}>
-              <Animated.View
+              <View
                 style={{
                   flex: 1,
                   flexDirection: 'row',
@@ -172,8 +188,8 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                     {props.selectedVehicle.odo} {unit}
                   </TextOpenSans>
                 </View>
-              </Animated.View>
-              <View
+              </View>
+              <TouchableOpacity
                 style={{
                   flex: 3,
                   flexDirection: 'row',
@@ -187,7 +203,8 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                   marginVertical: 5,
                   borderColor: Colors.imperialRed,
                   borderWidth: 1,
-                }}>
+                }}
+                onPress={() => props.navigation.navigate('refuel')}>
                 <View
                   style={{
                     flex: 1,
@@ -236,7 +253,14 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         alignSelf: 'center',
                         margin: 2,
                       }}>
-                      {new Date().toDateString()}
+                      {
+                        // @ts-ignore
+                        props.selectedVehicle.refuelLogs[
+                          // @ts-ignore
+                          props.selectedVehicle.refuelLogs?.length - 1
+                          // @ts-ignore
+                        ].date.toDateString()
+                      }
                     </TextOpenSans>
                   </View>
 
@@ -266,7 +290,13 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         fontSize={18}
                         weight="semibold"
                         fontColor={Colors.imperialRed}>
-                        1000
+                        {
+                          // @ts-ignore
+                          props.selectedVehicle.refuelLogs[
+                            // @ts-ignore
+                            props.selectedVehicle.refuelLogs?.length - 1
+                          ].totalCost
+                        }
                       </TextMontserrat>
                     </View>
                     <View style={{width: 10}} />
@@ -291,13 +321,21 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         fontSize={18}
                         weight="semibold"
                         fontColor={Colors.imperialRed}>
-                        2.8 L
+                        {
+                          // @ts-ignore
+                          props.selectedVehicle.refuelLogs[
+                            // @ts-ignore
+                            props.selectedVehicle.refuelLogs?.length - 1
+                          ].quantity
+                        }{' '}
+                        L
                       </TextMontserrat>
                     </View>
                   </View>
                 </View>
-              </View>
-              <View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('service')}>
                 <View
                   style={{
                     flex: 3,
@@ -361,7 +399,14 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                           alignSelf: 'center',
                           margin: 2,
                         }}>
-                        {new Date().toDateString()}
+                        {
+                          // @ts-ignore
+                          props.selectedVehicle.serviceLogs[
+                            // @ts-ignore
+                            props.selectedVehicle.serviceLogs?.length - 1
+                            // @ts-ignore
+                          ].date.toDateString()
+                        }
                       </TextOpenSans>
                     </View>
 
@@ -392,7 +437,13 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                           fontSize={18}
                           weight="semibold"
                           fontColor={Colors.imperialRed}>
-                          1000
+                          {
+                            // @ts-ignore
+                            props.selectedVehicle.serviceLogs[
+                              // @ts-ignore
+                              props.selectedVehicle.serviceLogs?.length - 1
+                            ].totalCost
+                          }
                         </TextMontserrat>
                       </View>
                       <View style={{width: 10}} />
@@ -418,13 +469,19 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                           weight="semibold"
                           fontColor={Colors.imperialRed}
                           style={{marginLeft: 10}}>
-                          2
+                          {
+                            // @ts-ignore
+                            props.selectedVehicle.serviceLogs[
+                              // @ts-ignore
+                              props.selectedVehicle.serviceLogs?.length - 1
+                            ].serviceCount
+                          }
                         </TextMontserrat>
                       </View>
                     </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
               <View style={{marginTop: 5}}>
                 <View
                   style={{
@@ -478,7 +535,11 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                             marginVertical: 10,
                           }}
                           weight="semibold">
-                          $1000000
+                          $
+                          {getLifetimeRefullingCost(
+                            // @ts-ignore
+                            props.selectedVehicle.refuelLogs,
+                          )}
                         </TextOpenSans>
                       </View>
                     </View>
@@ -511,7 +572,11 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                             borderRadius: 10,
                             marginVertical: 10,
                           }}>
-                          $1000000
+                          $
+                          {getLifetimeServicingCost(
+                            // @ts-ignore
+                            props.selectedVehicle.serviceLogs,
+                          )}
                         </TextOpenSans>
                       </View>
                     </View>

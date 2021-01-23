@@ -322,6 +322,7 @@ const AddServiceLog: FunctionComponent<Props> = (props: Props) => {
             marginHorizontal: 20,
             marginVertical: 5,
           }}
+          keyboardType="number-pad"
           theme={{
             colors: {primary: Colors.imperialRed, background: Colors.white},
           }}
@@ -393,6 +394,7 @@ const AddServiceLog: FunctionComponent<Props> = (props: Props) => {
             colors: {primary: Colors.imperialRed, background: Colors.white},
           }}
           value={totalCost}
+          keyboardType="number-pad"
           onChangeText={(inputText) => {
             setTotalCost(inputText)
           }}
