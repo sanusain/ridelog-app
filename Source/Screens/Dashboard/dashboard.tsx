@@ -281,17 +281,15 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                       <TextMontserrat
                         fontSize={18}
                         weight="semibold"
-                        fontColor={Colors.imperialRed}
-                        // style={{paddingHorizontal: 10}}
-                      >
-                        $
-                        {
+                        fontColor={Colors.imperialRed}>
+                        ₹{' '}
+                        {Math.trunc(
                           // @ts-ignore
                           props.selectedVehicle.refuelLogs[
                             // @ts-ignore
                             props.selectedVehicle.refuelLogs?.length - 1
-                          ].totalCost
-                        }
+                          ].totalCost,
+                        )}
                       </TextMontserrat>
                     </View>
                     <View style={{width: 10}} />
@@ -316,13 +314,13 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         fontSize={18}
                         weight="semibold"
                         fontColor={Colors.imperialRed}>
-                        {
+                        {Math.trunc(
                           // @ts-ignore
                           props.selectedVehicle.refuelLogs[
                             // @ts-ignore
                             props.selectedVehicle.refuelLogs?.length - 1
-                          ].quantity
-                        }{' '}
+                          ].quantity,
+                        )}{' '}
                         L
                       </TextMontserrat>
                     </View>
@@ -421,15 +419,11 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                           borderRadius: 10,
                           margin: 2,
                         }}>
-                        <MaterialCommunityIcons
-                          name="currency-usd"
-                          color={Colors.imperialRed}
-                          size={25}
-                        />
                         <TextMontserrat
                           fontSize={18}
                           weight="semibold"
                           fontColor={Colors.imperialRed}>
+                          ₹{' '}
                           {
                             // @ts-ignore
                             props.selectedVehicle.serviceLogs[
@@ -527,7 +521,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                             marginVertical: 10,
                           }}
                           weight="semibold">
-                          $
+                          ₹{' '}
                           {getLifetimeRefullingCost(
                             // @ts-ignore
                             props.selectedVehicle.refuelLogs,
@@ -564,7 +558,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                             borderRadius: 10,
                             marginVertical: 10,
                           }}>
-                          $
+                          ₹{' '}
                           {getLifetimeServicingCost(
                             // @ts-ignore
                             props.selectedVehicle.serviceLogs,
