@@ -61,34 +61,37 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
           flex: 1,
           width: '100%',
         }}>
-        <Animated.View
-          style={{
-            height: callsignHeaderHeight,
-            position: 'absolute',
-            zIndex: 1,
-            left: 0,
-            right: 0,
-            borderWidth: 1,
-            borderRadius: 15,
-            borderColor: Colors.default_grey,
-            margin: 15,
+        {props.selectedVehicle ? (
+          <Animated.View
+            style={{
+              height: callsignHeaderHeight,
+              position: 'absolute',
+              zIndex: 1,
+              left: 0,
+              right: 0,
+              borderWidth: 1,
+              borderRadius: 15,
+              borderColor: Colors.default_grey,
+              margin: 15,
 
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TextOpenSans fontSize={20} style={{paddingTop: 10}}>
-            Hello
-          </TextOpenSans>
-          <TextMontserrat fontSize={28} style={{paddingBottom: 10}}>
-            {user?.callsign}
-          </TextMontserrat>
-        </Animated.View>
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <TextOpenSans fontSize={20} style={{paddingTop: 10}}>
+              Hello
+            </TextOpenSans>
+            <TextMontserrat fontSize={28} style={{paddingBottom: 10}}>
+              {user?.callsign}
+            </TextMontserrat>
+          </Animated.View>
+        ) : null}
+
         {!props.selectedVehicle ? (
           <View
             style={{
+              flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              flex: 1,
             }}>
             <MaterialCommunityIcons
               name="garage-open"
@@ -99,9 +102,10 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
 
             <TextMontserrat
               fontSize={24}
-              weight="semibold"
+              weight="medium"
               style={{
                 textAlign: 'center',
+                letterSpacing: 0.33,
                 color: Colors.default_grey,
               }}>
               Empty Garage
@@ -115,7 +119,9 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                 letterSpacing: 0.8,
                 color: Colors.default_grey,
               }}>
-              Your Garage is empty, Add a vehicle and give it a purpose
+              {`
+Hey ${user?.callsign}
+You need to add atleast one vehicle`}
             </TextMontserrat>
             <SquareButton
               title="ADD VEHICLE"
