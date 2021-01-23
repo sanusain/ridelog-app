@@ -224,11 +224,8 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                       size={40}
                     />
                   </View>
-
-                  <View style={{width: 28}} />
                 </View>
-
-                <View style={{flex: 2}}>
+                <View style={{flex: 2, justifyContent: 'center'}}>
                   <TextMontserrat
                     fontSize={20}
                     weight="medium"
@@ -263,12 +260,12 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                       }
                     </TextOpenSans>
                   </View>
-
                   <View
                     style={{
+                      flex: 1,
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                      margin: 10,
+                      marginVertical: 10,
                     }}>
                     <View
                       style={{
@@ -281,15 +278,13 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         borderRadius: 10,
                         margin: 2,
                       }}>
-                      <MaterialCommunityIcons
-                        name="currency-usd"
-                        color={Colors.imperialRed}
-                        size={25}
-                      />
                       <TextMontserrat
                         fontSize={18}
                         weight="semibold"
-                        fontColor={Colors.imperialRed}>
+                        fontColor={Colors.imperialRed}
+                        // style={{paddingHorizontal: 10}}
+                      >
+                        $
                         {
                           // @ts-ignore
                           props.selectedVehicle.refuelLogs[
@@ -370,8 +365,6 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         size={40}
                       />
                     </View>
-
-                    <View style={{width: 28}} />
                   </View>
 
                   <View style={{flex: 2}}>
@@ -503,7 +496,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                     style={{
                       flexDirection: 'row',
                       flex: 1,
-                      justifyContent: 'space-around',
+                      justifyContent: 'center',
                       marginVertical: 5,
                     }}>
                     <View
@@ -512,8 +505,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         borderColor: Colors.imperialRed,
                         borderWidth: 1,
                         borderRadius: 10,
-                        marginHorizontal: 15,
-                        padding: 15,
+                        justifyContent: 'center',
                       }}>
                       <View
                         style={{
@@ -521,7 +513,7 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                           justifyContent: 'center',
                         }}>
                         <TextMontserrat fontSize={24} weight="regular">
-                          Fuel
+                          Refuel
                         </TextMontserrat>
                         <TextOpenSans
                           fontSize={18}
@@ -543,14 +535,14 @@ const DashBoard: React.FunctionComponent<Props> = (props: Props) => {
                         </TextOpenSans>
                       </View>
                     </View>
+                    <View style={{width: 10}} />
                     <View
                       style={{
                         flex: 1,
                         borderColor: Colors.imperialRed,
                         borderWidth: 1,
                         borderRadius: 10,
-                        marginHorizontal: 15,
-                        padding: 15,
+                        justifyContent: 'center',
                       }}>
                       <View
                         style={{
