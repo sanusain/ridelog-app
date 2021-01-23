@@ -9,16 +9,21 @@ import TextMontserrat from '../../Components/TextMontserrat'
 import TextOpenSans from '../../Components/TextOpenSans'
 import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
+import {getRealmInstance} from '../../Database'
 import {AccountsNavigationProps} from '../../Navigation/types'
 import {dispatchHandler} from '../../State-management'
 
 type Props = {navigation: AccountsNavigationProps}
 
 const Accounts: React.FunctionComponent<Props> = (props: Props) => {
+  const realm = getRealmInstance()
   const {logout} = useContext(AuthContext)
   // const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
   // const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
   const handleLogout = () => {
+    realm.write(() => {
+      realm.deleteAll()
+    })
     logout()
   }
 

@@ -32,18 +32,18 @@ export async function dbAddUser(user: User): Promise<any> {
   return new Error(`User not of type User,${user}`)
 }
 
-export async function dbRemoveUser(user: User): Promise<any> {
-  if (user)
-    try {
-      realm.write(() => {
-        const delUser = realm.objectForPrimaryKey('User', user._id)
-        realm.delete(delUser)
-      })
-    } catch (error) {
-      console.error('dbuser not deleted', error)
-    }
-  console.info('DB user delete:No user!')
-}
+// export async function dbRemoveUser(user: User): Promise<any> {
+//   if (user)
+//     try {
+//       realm.write(() => {
+//         const delUser = realm.objectForPrimaryKey('User', user._id)
+//         realm.delete(delUser)
+//       })
+//     } catch (error) {
+//       console.error('dbuser not deleted', error)
+//     }
+//   console.info('DB user delete:No user!')
+// }
 
 export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
   try {

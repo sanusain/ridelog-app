@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, {useState} from 'react'
-import {dbRemoveUser} from '../Database/jobs'
 
 export type User = {
   _id: string
@@ -45,7 +44,6 @@ export const AuthProvider: React.FunctionComponent<Props> = (props) => {
         logout: async () => {
           setUser(null)
           await AsyncStorage.removeItem('user')
-          await dbRemoveUser(user)
         },
       }}>
       {props.children}
