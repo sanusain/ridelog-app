@@ -98,6 +98,11 @@ export type AddServiceLogNavigationProps = StackNavigationProp<
 >
 export type FaqNavigationProps = StackNavigationProp<AppStackParamsList, 'faq'>
 
+export type UpdatePasswordNavigationProps = StackNavigationProp<
+  AppStackParamsList,
+  'updatePassword'
+>
+
 // ################## ROUTE PROPS ###################
 // MAIN SCREENS
 export type DashboardRouteProp = RouteProp<AppStackParamsList, 'dashboard'>

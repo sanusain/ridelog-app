@@ -9,40 +9,28 @@ import TextMontserrat from '../../Components/TextMontserrat'
 import TextOpenSans from '../../Components/TextOpenSans'
 import Colors from '../../Config/Colors'
 import {AuthContext} from '../../Contexts/AuthProvider'
-import {getRealmInstance} from '../../Database'
 import {AccountsNavigationProps} from '../../Navigation/types'
 import {dispatchHandler} from '../../State-management'
 
 type Props = {navigation: AccountsNavigationProps}
 
 const Accounts: React.FunctionComponent<Props> = (props: Props) => {
-  const realm = getRealmInstance()
+  const contactUsEmail = 'admin@ridelogg.io'
+
   const {logout} = useContext(AuthContext)
   // const [pushNotificationToggler, setPushNotificationToggler] = useState(true)
   // const [SMSNotificationToggler, setSMSNotificationToggler] = useState(true)
-  const handleLogout = () => {
-    realm.write(() => {
-      realm.deleteAll()
-    })
-    logout()
-  }
+  const handleLogout = () => logout()
 
-  const handleProfileInfo = () => {
-    props.navigation.navigate('profileUpdate')
-  }
+  const handleProfileInfo = () => props.navigation.navigate('profileUpdate')
 
-  const handleUpdatePassword = () => {
-    console.log('update password')
-    props.navigation.navigate('updatePassword')
-  }
+  const handleUpdatePassword = () => props.navigation.navigate('updatePassword')
 
   const handleRateUs = () => console.log('leave a 5 star rating')
 
   const handleFAQs = () => props.navigation.navigate('faq')
 
-  const handleContactUs = () => {
-    Linking.openURL('mailto:work.sanwar.hussain@gmail.com')
-  }
+  const handleContactUs = () => Linking.openURL(`mailto:${contactUsEmail}`)
 
   return (
     <ScrollView style={{backgroundColor: Colors.white}}>
