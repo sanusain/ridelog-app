@@ -8,7 +8,9 @@ type Props = {question: string; answer: string}
 const QuestionBox: React.FunctionComponent<Props> = (props) => {
   return (
     <View style={{marginVertical: 10}}>
-      <TextMontserrat fontSize={18}>{props.question}</TextMontserrat>
+      <TextMontserrat fontSize={18} weight="medium">
+        {props.question}
+      </TextMontserrat>
       <TextOpenSans
         fontSize={14}
         style={{
