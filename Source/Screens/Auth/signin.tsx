@@ -14,8 +14,8 @@ import {signinUserFromCloudToDb} from './jobs'
 type Props = {navigation: any}
 
 const SignIn: React.FunctionComponent<Props> = (props: Props) => {
-  const [inputEmail, setInputEmail] = useState('test@ridelogg.io')
-  const [inputPassword, setInputPassword] = useState('test1234')
+  const [inputEmail, setInputEmail] = useState('')
+  const [inputPassword, setInputPassword] = useState('')
   const [loginSpinner, setLoginSpinner] = useState(false)
   const {user, login} = useContext(AuthContext)
 
