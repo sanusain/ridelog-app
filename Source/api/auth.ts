@@ -8,12 +8,12 @@ let BASE_URL = getServer()
 
 export async function apiSignUpUser(newUser: User): Promise<any> {
   const URL = `${BASE_URL}/api/signup`
-  try {
-    const result = await Axios.post(URL, newUser)
-    return result.data
-  } catch (error) {
-    return console.log('axios error', error)
-  }
+  // try {
+  const result = await Axios.post(URL, newUser)
+  return result.data
+  // } catch (error) {
+  //   return console.log('axios error', error)
+  // }
 }
 
 export async function apiSignInUser(

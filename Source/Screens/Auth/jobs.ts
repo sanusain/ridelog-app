@@ -18,7 +18,7 @@ export async function signupUserToDbAndCloud(
     login(user)
     return user._id
   } catch (error) {
-    return console.info('Could not add user to db', error)
+    return console.info('Could not add user to db', error.response.data)
   }
 }
 

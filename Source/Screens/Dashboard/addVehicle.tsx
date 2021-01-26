@@ -1,6 +1,6 @@
 import ObjectID from 'bson-objectid'
 import {Formik} from 'formik'
-import React, {useContext} from 'react'
+import React from 'react'
 import {Alert, View} from 'react-native'
 import {ScrollView} from 'react-native-gesture-handler'
 import * as yup from 'yup'
@@ -9,7 +9,6 @@ import LightTextInput from '../../Components/LightTextInput'
 import SquareButton from '../../Components/SquareButton'
 import TextMontserrat from '../../Components/TextMontserrat'
 import Colors from '../../Config/Colors'
-import {AuthContext} from '../../Contexts/AuthProvider'
 import {AddVehicleNavigationProp} from '../../Navigation/types'
 import {VehicleInfo} from '../../Types'
 import {addVehicleToDb} from './job'
@@ -33,8 +32,6 @@ const addVehicleSchema = yup.object({
 })
 
 const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
-  const {user} = useContext(AuthContext)
-
   const handleSubmit = async (inputValues: {
     vcallsign: string
     year: string
@@ -53,43 +50,7 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
       odo: inputValues.odo,
       plate: inputValues.plate,
       vin: inputValues.vin,
-      images: [
-        {
-          _id: new ObjectID().str,
-          url:
-            'https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg',
-          height: 1200,
-          width: 600,
-        },
-        {
-          _id: new ObjectID().str,
-          url:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png',
-          height: 1200,
-          width: 600,
-        },
-        {
-          _id: new ObjectID().str,
-          url:
-            'https://stat.overdrive.in/wp-content/odgallery/2018/05/42109_Kawasaki-Ninja-H2R_009.jpg',
-          height: 1200,
-          width: 600,
-        },
-        {
-          _id: new ObjectID().str,
-          url:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png',
-          height: 1200,
-          width: 600,
-        },
-        {
-          _id: new ObjectID().str,
-          url:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/330px-BMW.svg.png',
-          height: 1200,
-          width: 600,
-        },
-      ],
+      images: [],
     }
 
     const isVehicleAdded = await addVehicleToDb(validatedInputData)
@@ -114,13 +75,13 @@ const AddVehicle: React.FunctionComponent<Props> = (props: Props) => {
       <ScreenHeader title="Add New Vehicle" enableBack />
       <Formik
         initialValues={{
-          vcallsign: 'myvehicle',
-          year: '2020',
-          maker: 'ghost',
-          model: 'phantom',
-          odo: '2300',
-          plate: 'dontpanick',
-          vin: 'afdsafadf32423',
+          vcallsign: '',
+          year: '',
+          maker: '',
+          model: '',
+          odo: '',
+          plate: '',
+          vin: '',
         }}
         onSubmit={(values, actions) => {
           handleSubmit(values)
