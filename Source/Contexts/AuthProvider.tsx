@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, {useState} from 'react'
-import {dbRemoveUser} from '../Database/jobs'
+import {getRealmInstance} from '../Database'
 
 export type User = {
   _id: string
@@ -30,6 +30,7 @@ export const AuthContext = React.createContext<{
 type Props = {children: any}
 
 export const AuthProvider: React.FunctionComponent<Props> = (props) => {
+  const realm = getRealmInstance()
   const [user, setUser] = useState<User>(null)
   globalUser = user
   return (
@@ -44,8 +45,10 @@ export const AuthProvider: React.FunctionComponent<Props> = (props) => {
         },
         logout: async () => {
           setUser(null)
+          realm.write(() => {
+            realm.deleteAll()
+          })
           await AsyncStorage.removeItem('user')
-          await dbRemoveUser(user)
         },
       }}>
       {props.children}
@@ -56,4 +59,9 @@ export const AuthProvider: React.FunctionComponent<Props> = (props) => {
 export function getAuthToken(): string | undefined {
   if (globalUser) return globalUser.authToken
   return undefined
+}
+
+export function getAuthUserId(): string | null {
+  if (globalUser) return globalUser._id
+  return null
 }
