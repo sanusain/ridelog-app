@@ -39,8 +39,6 @@ export async function hydrateVehicleState(): Promise<any> {
   try {
     // @ts-ignore
     const {vehicles, firstLaunch} = realm.objects('User')[0]
-    vehicles.removeAllListeners()
-    vehicles.addListener(vehicleListener)
     if (!vehicles.length && firstLaunch) {
       getRemoteVehiclesToDb()
       return
@@ -53,7 +51,7 @@ export async function hydrateVehicleState(): Promise<any> {
   }
 }
 // changes contains the index of the item added,deleted or modified
-const vehicleListener = (
+export const vehicleListener = (
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   vehicles: any,
   changes: CollectionChangeSet,
