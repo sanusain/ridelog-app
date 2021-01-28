@@ -195,147 +195,8 @@ You need to add atleast one vehicle`}
                   </TextOpenSans>
                 </View>
               </View>
-              <TouchableOpacity
-                style={{
-                  flex: 3,
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  paddingVertical: 15,
-                  paddingHorizontal: 15,
-                  borderRadius: 20,
-                  zIndex: 100,
-                  marginHorizontal: 15,
-                  marginVertical: 5,
-                  borderColor: Colors.imperialRed,
-                  borderWidth: 1,
-                }}
-                onPress={() => props.navigation.navigate('refuel')}>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                  }}>
-                  <View
-                    style={{
-                      borderColor: Colors.default_grey,
-                      borderRadius: 10,
-                      padding: 15,
-                      borderWidth: 1,
-                    }}>
-                    <SimpleLineIcons
-                      name="drop"
-                      color={Colors.default_red}
-                      size={40}
-                    />
-                  </View>
-                </View>
-                <View style={{flex: 2, justifyContent: 'center'}}>
-                  <TextMontserrat
-                    fontSize={20}
-                    weight="medium"
-                    style={{alignSelf: 'center', margin: 2}}>
-                    Last Refuel
-                  </TextMontserrat>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-around',
-                    }}>
-                    <Fontisto
-                      name="date"
-                      color={Colors.default_red}
-                      size={20}
-                    />
-                    <TextOpenSans
-                      fontSize={20}
-                      style={{
-                        letterSpacing: 0.2,
-                        alignSelf: 'center',
-                        margin: 2,
-                      }}>
-                      {
-                        // @ts-ignore
-                        props.selectedVehicle.refuelLogs[
-                          // @ts-ignore
-                          props.selectedVehicle.refuelLogs?.length - 1
-                          // @ts-ignore
-                        ].date.toDateString()
-                      }
-                    </TextOpenSans>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      marginVertical: 10,
-                    }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderColor: Colors.imperialRed,
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        margin: 2,
-                      }}>
-                      <TextMontserrat
-                        fontSize={18}
-                        weight="semibold"
-                        fontColor={Colors.imperialRed}>
-                        ₹{' '}
-                        {Math.trunc(
-                          // @ts-ignore
-                          props.selectedVehicle.refuelLogs[
-                            // @ts-ignore
-                            props.selectedVehicle.refuelLogs?.length - 1
-                          ].totalCost,
-                        )}
-                      </TextMontserrat>
-                    </View>
-                    <View style={{width: 10}} />
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                        alignItems: 'center',
-                        borderColor: Colors.imperialRed,
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        margin: 2,
-                        paddingVertical: 10,
-                      }}>
-                      <Feather
-                        name="droplet"
-                        color={Colors.imperialRed}
-                        size={20}
-                      />
-                      <TextMontserrat
-                        fontSize={18}
-                        weight="semibold"
-                        fontColor={Colors.imperialRed}>
-                        {Math.trunc(
-                          // @ts-ignore
-                          props.selectedVehicle.refuelLogs[
-                            // @ts-ignore
-                            props.selectedVehicle.refuelLogs?.length - 1
-                          ].quantity,
-                        )}{' '}
-                        L
-                      </TextMontserrat>
-                    </View>
-                  </View>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('service')}>
-                <View
+              {props.selectedVehicle.refuelLogs?.length ? (
+                <TouchableOpacity
                   style={{
                     flex: 3,
                     flexDirection: 'row',
@@ -347,9 +208,10 @@ You need to add atleast one vehicle`}
                     zIndex: 100,
                     marginHorizontal: 15,
                     marginVertical: 5,
-                    borderWidth: 1,
                     borderColor: Colors.imperialRed,
-                  }}>
+                    borderWidth: 1,
+                  }}
+                  onPress={() => props.navigation.navigate('refuel')}>
                   <View
                     style={{
                       flex: 1,
@@ -363,20 +225,19 @@ You need to add atleast one vehicle`}
                         padding: 15,
                         borderWidth: 1,
                       }}>
-                      <EvilIcons
-                        name="gear"
+                      <SimpleLineIcons
+                        name="drop"
                         color={Colors.default_red}
                         size={40}
                       />
                     </View>
                   </View>
-
-                  <View style={{flex: 2}}>
+                  <View style={{flex: 2, justifyContent: 'center'}}>
                     <TextMontserrat
                       fontSize={20}
                       weight="medium"
                       style={{alignSelf: 'center', margin: 2}}>
-                      Last Service
+                      Last Refuel
                     </TextMontserrat>
                     <View
                       style={{
@@ -398,20 +259,20 @@ You need to add atleast one vehicle`}
                         }}>
                         {
                           // @ts-ignore
-                          props.selectedVehicle.serviceLogs[
+                          props.selectedVehicle.refuelLogs[
                             // @ts-ignore
-                            props.selectedVehicle.serviceLogs?.length - 1
+                            props.selectedVehicle.refuelLogs?.length - 1
                             // @ts-ignore
                           ].date.toDateString()
                         }
                       </TextOpenSans>
                     </View>
-
                     <View
                       style={{
+                        flex: 1,
                         flexDirection: 'row',
                         justifyContent: 'space-between',
-                        margin: 10,
+                        marginVertical: 10,
                       }}>
                       <View
                         style={{
@@ -419,7 +280,6 @@ You need to add atleast one vehicle`}
                           flexDirection: 'row',
                           justifyContent: 'center',
                           alignItems: 'center',
-                          backgroundColor: Colors.white,
                           borderColor: Colors.imperialRed,
                           borderWidth: 1,
                           borderRadius: 10,
@@ -430,13 +290,13 @@ You need to add atleast one vehicle`}
                           weight="semibold"
                           fontColor={Colors.imperialRed}>
                           ₹{' '}
-                          {
+                          {Math.trunc(
                             // @ts-ignore
-                            props.selectedVehicle.serviceLogs[
+                            props.selectedVehicle.refuelLogs[
                               // @ts-ignore
-                              props.selectedVehicle.serviceLogs?.length - 1
-                            ].totalCost
-                          }
+                              props.selectedVehicle.refuelLogs?.length - 1
+                            ].totalCost,
+                          )}
                         </TextMontserrat>
                       </View>
                       <View style={{width: 10}} />
@@ -444,37 +304,181 @@ You need to add atleast one vehicle`}
                         style={{
                           flex: 1,
                           flexDirection: 'row',
-                          justifyContent: 'center',
+                          justifyContent: 'space-around',
                           alignItems: 'center',
-                          borderWidth: 1,
                           borderColor: Colors.imperialRed,
+                          borderWidth: 1,
                           borderRadius: 10,
                           margin: 2,
                           paddingVertical: 10,
                         }}>
                         <Feather
-                          name="repeat"
+                          name="droplet"
                           color={Colors.imperialRed}
                           size={20}
                         />
                         <TextMontserrat
                           fontSize={18}
                           weight="semibold"
-                          fontColor={Colors.imperialRed}
-                          style={{marginLeft: 10}}>
+                          fontColor={Colors.imperialRed}>
+                          {Math.trunc(
+                            // @ts-ignore
+                            props.selectedVehicle.refuelLogs[
+                              // @ts-ignore
+                              props.selectedVehicle.refuelLogs?.length - 1
+                            ].quantity,
+                          )}{' '}
+                          L
+                        </TextMontserrat>
+                      </View>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ) : null}
+              {props.selectedVehicle.serviceLogs?.length ? (
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate('service')}>
+                  <View
+                    style={{
+                      flex: 3,
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                      alignItems: 'center',
+                      paddingVertical: 15,
+                      paddingHorizontal: 15,
+                      borderRadius: 20,
+                      zIndex: 100,
+                      marginHorizontal: 15,
+                      marginVertical: 5,
+                      borderWidth: 1,
+                      borderColor: Colors.imperialRed,
+                    }}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                      }}>
+                      <View
+                        style={{
+                          borderColor: Colors.default_grey,
+                          borderRadius: 10,
+                          padding: 15,
+                          borderWidth: 1,
+                        }}>
+                        <EvilIcons
+                          name="gear"
+                          color={Colors.default_red}
+                          size={40}
+                        />
+                      </View>
+                    </View>
+
+                    <View style={{flex: 2}}>
+                      <TextMontserrat
+                        fontSize={20}
+                        weight="medium"
+                        style={{alignSelf: 'center', margin: 2}}>
+                        Last Service
+                      </TextMontserrat>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-around',
+                        }}>
+                        <Fontisto
+                          name="date"
+                          color={Colors.default_red}
+                          size={20}
+                        />
+                        <TextOpenSans
+                          fontSize={20}
+                          style={{
+                            letterSpacing: 0.2,
+                            alignSelf: 'center',
+                            margin: 2,
+                          }}>
                           {
                             // @ts-ignore
                             props.selectedVehicle.serviceLogs[
                               // @ts-ignore
                               props.selectedVehicle.serviceLogs?.length - 1
-                            ].serviceCount
+                              // @ts-ignore
+                            ].date.toDateString()
                           }
-                        </TextMontserrat>
+                        </TextOpenSans>
+                      </View>
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          margin: 10,
+                        }}>
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: Colors.white,
+                            borderColor: Colors.imperialRed,
+                            borderWidth: 1,
+                            borderRadius: 10,
+                            margin: 2,
+                          }}>
+                          <TextMontserrat
+                            fontSize={18}
+                            weight="semibold"
+                            fontColor={Colors.imperialRed}>
+                            ₹{' '}
+                            {
+                              // @ts-ignore
+                              props.selectedVehicle.serviceLogs[
+                                // @ts-ignore
+                                props.selectedVehicle.serviceLogs?.length - 1
+                              ].totalCost
+                            }
+                          </TextMontserrat>
+                        </View>
+                        <View style={{width: 10}} />
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderWidth: 1,
+                            borderColor: Colors.imperialRed,
+                            borderRadius: 10,
+                            margin: 2,
+                            paddingVertical: 10,
+                          }}>
+                          <Feather
+                            name="repeat"
+                            color={Colors.imperialRed}
+                            size={20}
+                          />
+                          <TextMontserrat
+                            fontSize={18}
+                            weight="semibold"
+                            fontColor={Colors.imperialRed}
+                            style={{marginLeft: 10}}>
+                            {
+                              // @ts-ignore
+                              props.selectedVehicle.serviceLogs[
+                                // @ts-ignore
+                                props.selectedVehicle.serviceLogs?.length - 1
+                              ].serviceCount
+                            }
+                          </TextMontserrat>
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              ) : null}
               <View style={{marginTop: 5}}>
                 <View
                   style={{
@@ -512,7 +516,10 @@ You need to add atleast one vehicle`}
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>
-                        <TextMontserrat fontSize={24} weight="regular">
+                        <TextMontserrat
+                          fontSize={24}
+                          weight="regular"
+                          style={{marginTop: 5}}>
                           Refuel
                         </TextMontserrat>
                         <TextOpenSans
@@ -549,7 +556,10 @@ You need to add atleast one vehicle`}
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>
-                        <TextMontserrat fontSize={24} weight="regular">
+                        <TextMontserrat
+                          fontSize={24}
+                          weight="regular"
+                          style={{marginTop: 5}}>
                           Service
                         </TextMontserrat>
                         <TextOpenSans
