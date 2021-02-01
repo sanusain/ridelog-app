@@ -33,11 +33,11 @@ export async function addCloudServiceLog(log: ServiceLog): Promise<any> {
   }
 }
 
-export async function removeCloudServiceLog(log: ServiceLog): Promise<any> {
+export async function removeCloudServiceLog(log: any): Promise<any> {
   try {
     const authToken = getAuthToken()
     if (!authToken) throw new Error('authToken Missing!')
-    const URL = `${BASE_URL}/api/servicelog/:${log.vehicleId}/:${log._id}`
+    const URL = `${BASE_URL}/api/servicelog/${log.vehicleId}/${log._id}`
     const result = await Axios.delete(URL, {
       headers: {'x-auth-token': authToken},
     })

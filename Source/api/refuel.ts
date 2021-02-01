@@ -33,17 +33,17 @@ export async function addCloudRefuelLog(log: RefuelLog): Promise<any> {
   }
 }
 
-export async function removeCloudRefuelLog(log: RefuelLog): Promise<any> {
+export async function removeCloudRefuelLog(log: any): Promise<any> {
   try {
     const authToken = getAuthToken()
     if (!authToken) throw new Error('authToken Missing!')
-    const URL = `${BASE_URL}/api/refuellog/:${log.vehicleId}/:${log._id}`
+    const URL = `${BASE_URL}/api/refuellog/${log.vehicleId}/${log._id}`
     const result = await Axios.delete(URL, {
       headers: {'x-auth-token': authToken},
     })
     if (result.status !== 200) throw new Error('201_NOT_CREATED')
     return console.info('REMOVED_REFUEL_LOG_FROM_SERVER')
   } catch (error) {
-    return console.info('ERROR_IN_removeCloudRefuelLog', error.message)
+    return console.info('ERROR_IN_removeCloudRefuelLog', error.response.data)
   }
 }
