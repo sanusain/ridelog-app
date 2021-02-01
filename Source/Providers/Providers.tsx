@@ -13,6 +13,7 @@ import {dispatchHandler, getStore} from '../State-management'
 import {
   hydrateVehicleState,
   uploadTrackerListener,
+  vehicleListener,
 } from '../State-management/hydration'
 
 const store = getStore()
@@ -28,7 +29,9 @@ export default function Providers(): JSX.Element {
     if (user) {
       hydrateVehicleState()
       // @ts-ignore
-      const {uploadTracker} = realm.objects('User')[0]
+      const {uploadTracker, vehicles} = realm.objects('User')[0]
+      vehicles.removeAllListeners()
+      vehicles.addListener(vehicleListener)
       uploadTracker.removeAllListeners()
       uploadTracker.addListener(uploadTrackerListener)
     } else getUser()

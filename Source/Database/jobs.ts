@@ -60,6 +60,7 @@ export async function addvehicleToDb(vehicle: VehicleInfo): Promise<any> {
         user.uploadTracker.push({
           _id: new ObjectID().str,
           logId: vehicle._id,
+          vehicleId: '',
           logType: VEHICLE,
           uploaded: vehicle.uploaded,
           uploadType: UPLOAD_TYPE_ADD,
@@ -111,6 +112,7 @@ export async function addRefuelLogToDb(log: RefuelLog): Promise<any> {
           user.uploadTracker.push({
             _id: new ObjectID().str,
             logId: log._id,
+            vehicleId: log.vehicleId,
             logType: REFUEL,
             uploaded: log.uploaded,
             uploadType: UPLOAD_TYPE_ADD,
@@ -132,6 +134,7 @@ export async function removeRefuelLogFromDb(log: RefuelLog): Promise<any> {
         uploadTracker.push({
           _id: new ObjectID().str,
           logId: log._id,
+          vehicleId: log.vehicleId,
           logType: REFUEL,
           uploaded: log.uploaded,
           uploadType: UPLOAD_TYPE_REMOVE,
@@ -160,6 +163,7 @@ export async function addServiceLogToDb(log: ServiceLog): Promise<any> {
           user.uploadTracker.push({
             _id: new ObjectID().str,
             logId: log._id,
+            vehicleId: log.vehicleId,
             logType: SERVICE,
             uploaded: log.uploaded,
             uploadType: UPLOAD_TYPE_ADD,
@@ -182,6 +186,7 @@ export async function removeServiceLogFromDb(log: ServiceLog): Promise<any> {
         uploadTracker.push({
           _id: new ObjectID().str,
           logId: log._id,
+          vehicleId: log.vehicleId,
           logType: SERVICE,
           uploaded: log.uploaded,
           uploadType: UPLOAD_TYPE_REMOVE,

@@ -12,7 +12,6 @@ import {addCloudServiceLog, removeCloudServiceLog} from '../../api/service'
 import {deleteVehicle, getVehicles, uploadVehicle} from '../../api/vehicle'
 import {getRealmInstance} from '../../Database/index'
 import {addvehicleToDb} from '../../Database/jobs'
-import {UploadTrackerSchema} from '../../Database/schema'
 import {dispatch} from '../../Providers/Providers'
 import {ServiceLog} from '../../Types'
 import {ActionAddVehicles} from './actions'
@@ -39,8 +38,6 @@ export async function hydrateVehicleState(): Promise<any> {
   try {
     // @ts-ignore
     const {vehicles, firstLaunch} = realm.objects('User')[0]
-    vehicles.removeAllListeners()
-    vehicles.addListener(vehicleListener)
     if (!vehicles.length && firstLaunch) {
       getRemoteVehiclesToDb()
       return
@@ -53,7 +50,7 @@ export async function hydrateVehicleState(): Promise<any> {
   }
 }
 // changes contains the index of the item added,deleted or modified
-const vehicleListener = (
+export const vehicleListener = (
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   vehicles: any,
   changes: CollectionChangeSet,
@@ -69,7 +66,7 @@ const vehicleListener = (
 }
 
 export const uploadTrackerListener = (
-  uploadTrackers: Array<typeof UploadTrackerSchema.properties>,
+  uploadTrackers: Array<any>,
   changes: CollectionChangeSet,
 ): void => {
   /**
@@ -78,7 +75,7 @@ export const uploadTrackerListener = (
    */
   if (uploadTrackers.length) {
     // if (changes.insertions.length) {
-    uploadTrackers.forEach((ut: typeof UploadTrackerSchema.properties) => {
+    uploadTrackers.forEach((ut) => {
       if (ut.uploaded) {
         realm.write(() => {
           realm.delete(ut)
@@ -137,6 +134,29 @@ export const uploadTrackerListener = (
               'RefuelLog',
               ut.logId,
             )
+            /**
+             * On deleting the refuel log is deleted from realm first,
+             * hence its not found when queried, and delete api call fails
+             * Thats why It has been moved out of the query
+             */
+            if (ut.uploadType === UPLOAD_TYPE_REMOVE) {
+              const refuelLogIds = {
+                _id: ut.logId,
+                vehicleId: ut.vehicleId,
+              }
+              removeCloudRefuelLog(refuelLogIds)
+                .then(() => {
+                  realm.write(() => {
+                    realm.delete(ut)
+                    console.info('REFUELLOG_REMOVE_TASK_REQUESTED', ut)
+                  })
+                })
+                .catch((error) => {
+                  console.info('ERROR_IN_CASE_REFUEL_REMOVE', error)
+                })
+              return
+            }
+
             if (refuelLog) {
               switch (ut.uploadType) {
                 case UPLOAD_TYPE_ADD:
@@ -151,18 +171,6 @@ export const uploadTrackerListener = (
                       console.info('ERROR_IN_CASE_REFUEL_ADD', error)
                     })
                   break
-                case UPLOAD_TYPE_REMOVE:
-                  removeCloudRefuelLog(refuelLog)
-                    .then(() => {
-                      realm.write(() => {
-                        realm.delete(ut)
-                        console.info('REFUELLOG_REMOVE_TASK_REQUESTED', ut)
-                      })
-                    })
-                    .catch((error) => {
-                      console.info('ERROR_IN_CASE_REFUEL_REMOVE', error)
-                    })
-                  break
                 case UPLOAD_TYPE_MODIFIED:
                   // implemented later
                   break
@@ -170,11 +178,30 @@ export const uploadTrackerListener = (
                 default:
                   console.info('refuel uploadType mismatch')
               }
+            } else {
+              console.info('NO_LOG_FOUND')
             }
           }
           break
         case SERVICE:
           {
+            if (ut.uploadType === UPLOAD_TYPE_REMOVE) {
+              const serviceLogIds = {
+                _id: ut.logId,
+                vehicleId: ut.vehicleId,
+              }
+              removeCloudServiceLog(serviceLogIds)
+                .then(() => {
+                  console.info('SERVICELOG_REMOVE_TASK_REQUESTED', ut)
+                  realm.write(() => {
+                    realm.delete(ut)
+                  })
+                })
+                .catch((error) => {
+                  console.info('ERROR_IN_CASE_SERVICE_REMOVE', error)
+                })
+              return
+            }
             // @ts-ignore
             const serviceLog: ServiceLog = realm.objectForPrimaryKey(
               'ServiceLog',

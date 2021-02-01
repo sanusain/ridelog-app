@@ -89,6 +89,7 @@ export const UploadTrackerSchema: Realm.ObjectSchema = {
   properties: {
     _id: 'string',
     logId: 'string',
+    vehicleId: 'string',
     logType: 'string',
     uploaded: {type: 'bool', default: false},
     uploadType: 'string',
